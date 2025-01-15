@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { createStore } from "./store.factory";
 
 type ResponseState = {
     response: ResponseData[];
@@ -6,7 +6,7 @@ type ResponseState = {
     clearResponse: () => void;
 };
 
-export const useResponseStore = create<ResponseState>()((set) => ({
+export const useResponseStore = createStore<ResponseState>("Response", (set) => ({
     response: [],
     setResponse: (response) => set({ response }),
     clearResponse: () => set({ response: [] })

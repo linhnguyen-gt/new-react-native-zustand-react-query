@@ -4,8 +4,8 @@ import React from "react";
 import { object, string } from "yup";
 
 import { RootNavigator } from "@/data";
-import { Errors, RouteName } from "@/enums";
 import { LoginPage } from "@/presentation/screens";
+import { Errors, RouteName } from "@/shared";
 
 jest.mock("@/services", () => ({
     RootNavigator: {

@@ -1,11 +1,10 @@
 import { CommonActions, createNavigationContainerRef } from "@react-navigation/native";
 
-import { NavigatorParamsType } from "@/model";
-
 import { INavigationService } from "./INavigationService";
 import { NavigationLogger } from "./NavigationLogger";
+import { NavigatorParamsType } from "./NavigatorParamsType";
 
-import { RouteName } from "@/enums";
+import { RouteName } from "@/shared";
 
 class RootNavigator implements INavigationService {
     private static instance: RootNavigator;

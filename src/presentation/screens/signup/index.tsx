@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import React from "react";
 import { Keyboard } from "react-native";
+import * as Yup from "yup";
 import { object, string } from "yup";
 
 import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "../../components";
@@ -48,25 +49,31 @@ const RNLogo = () => (
     </Box>
 );
 
-const Login = () => {
+const SignUp = () => {
     const formik = useFormik({
         initialValues: {
-            email: "test@test.com",
-            password: "123456"
+            fullName: "",
+            email: "",
+            password: "",
+            confirmPassword: ""
         },
         validationSchema: object().shape({
+            fullName: string().required(Errors.REQUIRED_FULLNAME_INPUT),
             email: string()
                 .email(Errors.EMAIL_INVALID)
                 .required(Errors.REQUIRED_EMAIL_INPUT)
                 .test("is-com-email", Errors.IS_NOT_EMAIL, (value) => (value ? value.endsWith(".com") : true)),
-            password: string().required(Errors.REQUIRED_PASSWORD_INPUT)
+            password: string().min(6, Errors.PASSWORD_MIN_LENGTH).required(Errors.REQUIRED_PASSWORD_INPUT),
+            confirmPassword: string()
+                .oneOf([Yup.ref("password")], Errors.PASSWORD_NOT_MATCH)
+                .required(Errors.REQUIRED_CONFIRM_PASSWORD_INPUT)
         }),
         onSubmit: () => {
             RootNavigator.replaceName(RouteName.Main);
         }
     });
 
-    const handleLogin = React.useCallback(() => {
+    const handleSignUp = React.useCallback(() => {
         Keyboard.dismiss();
         formik.handleSubmit();
     }, [formik]);
@@ -78,14 +85,23 @@ const Login = () => {
                     <VStack alignItems="center" marginBottom={40} space="md">
                         <RNLogo />
                         <Text size="3xl" fontWeight="bold" color="#0f172a" marginTop={16}>
-                            Welcome Back
+                            Create Account
                         </Text>
                         <Text size="md" color="#64748b">
-                            Please sign in to your account
+                            Sign up to get started
                         </Text>
                     </VStack>
 
                     <VStack space="xl">
+                        <Input
+                            placeholder="Full Name"
+                            fieldName="fullName"
+                            error={formik.touched.fullName && formik.errors.fullName}
+                            value={formik.values.fullName}
+                            onChangeValue={formik.setFieldValue}
+                            testID="fullname-input"
+                        />
+
                         <Input
                             placeholder="Email"
                             fieldName="email"
@@ -105,15 +121,17 @@ const Login = () => {
                             testID="password-input"
                         />
 
-                        <Box alignItems="flex-end">
-                            <MyTouchable onPress={() => {}}>
-                                <Text color="#2563eb" fontWeight="bold">
-                                    Forgot Password?
-                                </Text>
-                            </MyTouchable>
-                        </Box>
+                        <Input
+                            placeholder="Confirm Password"
+                            isPassword
+                            fieldName="confirmPassword"
+                            error={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                            value={formik.values.confirmPassword}
+                            onChangeValue={formik.setFieldValue}
+                            testID="confirm-password-input"
+                        />
 
-                        <MyTouchable onPress={handleLogin} testID="login-button">
+                        <MyTouchable onPress={handleSignUp} testID="signup-button">
                             <Box
                                 backgroundColor="#2563eb"
                                 padding={16}
@@ -126,18 +144,18 @@ const Login = () => {
                                 elevation={5}
                                 marginTop={8}>
                                 <Text size="xl" fontWeight="bold" color="white">
-                                    Sign In
+                                    Sign Up
                                 </Text>
                             </Box>
                         </MyTouchable>
 
                         <Box flexDirection="row" justifyContent="center" marginTop={16}>
                             <Text color="#64748b" marginRight={4}>
-                                Don&apos;t have an account?
+                                Already have an account?
                             </Text>
-                            <MyTouchable onPress={() => RootNavigator.navigate(RouteName.SignUp)}>
+                            <MyTouchable onPress={() => RootNavigator.goBack()}>
                                 <Text color="#2563eb" fontWeight="bold">
-                                    Sign Up
+                                    Sign In
                                 </Text>
                             </MyTouchable>
                         </Box>
@@ -148,4 +166,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;

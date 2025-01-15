@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>🚀 New React Native Project</h1>
-  <p>A powerful React Native boilerplate with production-ready configurations and best practices</p>
+  <h1>🚀 React Native Clean Architecture</h1>
+  <p>A modern React Native boilerplate with Clean Architecture, Zustand, React Query and best practices</p>
 
   <p align="center">
     <a href="https://reactnative.dev/" target="_blank">
@@ -22,8 +22,8 @@
 ### State Management & API
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Redux_Toolkit-v2.4.0-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="redux" />
-    <img src="https://img.shields.io/badge/Redux_Saga-v1.3.0-89D96D?style=for-the-badge&logo=redux-saga&logoColor=white" alt="redux-saga" />
+    <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
+    <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
     <img src="https://img.shields.io/badge/Axios-v1.7.9-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
@@ -77,7 +77,13 @@
 
 - 🏗️ Built with TypeScript for type safety
 - 📱 Cross-platform (iOS & Android) support
-- 🔄 Redux + Redux Saga for state management
+- 🎯 Clean Architecture pattern
+    - 📱 Presentation Layer (UI)
+    - 💼 Domain Layer (Business Logic)
+    - 🗄️ Data Layer (API/Storage)
+- 🔄 State Management
+    - 📊 Zustand for client state
+    - 🌐 React Query for server state
 - 🎨 NativeWind for styling with Tailwind CSS
 - 🛠️ Reactotron integration for debugging
 - 🌐 Multi-environment support (Development, Staging, Production)
@@ -400,28 +406,29 @@ The setup automatically manages app versions based on environment files:
 
 ```
 src/
-├── App.tsx          # Main App component
-├── Root.tsx         # Root component with Redux Provider
-├── apis/            # API integration
-├── components/      # Reusable UI components
-├── constants/       # Constants Keys
-├── enums/           # TypeScript enums
-├── helper/          # Helper functions
-├── hooks/           # Custom React hooks
-├── models/          # Models related to API
-└── redux/           # Redux store configuration
-    ├── actions/     # Redux actions
-    ├── reducers/    # Redux reducers
-    ├── sagas/       # Redux sagas
-    └── selectors/   # Redux selectors
-├── screens/         # Screen components
-├── services/        # Business logic and services
-    └── reactotron/  # Reactotron configuration
-    └── navigation/  # Navigation configuration
-    └── httpClient/  # Base API client configuration
-└── store/           # Redux store configuration
-└── types/           # TypeScript types
-
+├── app/                    # Application Layer
+│   ├── providers/         # App-wide providers
+│   └── store/            # Zustand stores
+│
+├── core/                  # Domain Layer
+│   ├── entities/         # Business objects/models
+│   ├── repositories/     # Repository interfaces
+│   └── useCases/        # Business logic/use cases
+│
+├── data/                 # Data Layer
+│   ├── repositories/     # Repository implementations
+│   └── services/        # API/External services
+│
+├── presentation/         # UI Layer
+│   ├── components/      # Reusable UI components
+│   ├── hooks/          # Custom hooks
+│   ├── screens/        # Screen components
+│   └── navigation/     # Navigation setup
+│
+└── shared/             # Shared utilities
+    ├── constants/
+    ├── types/
+    └── utils/
 ```
 
 ## 🛠️ Development Tools
