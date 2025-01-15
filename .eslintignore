@@ -1,0 +1,11 @@
+# Coverage
+coverage/
+coverage/**/*
+__mocks__/
+
+# Other common ignores
+node_modules/
+dist/
+build/
+*.d.ts 
+scripts/

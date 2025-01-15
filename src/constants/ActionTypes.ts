@@ -1,0 +1,11 @@
+enum ActionTypes {
+    INCREMENT = "INCREMENT",
+    SET_INCREMENT = "SET_INCREMENT",
+    DECREMENT = "DECREMENT",
+    SET_DECREMENT = "SET_DECREMENT",
+
+    GET_RESPONSE = "GET_RESPONSE",
+    SET_RESPONSE = "SET_RESPONSE"
+}
+
+export default ActionTypes;
