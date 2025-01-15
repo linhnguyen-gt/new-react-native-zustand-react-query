@@ -1,13 +1,12 @@
 import React from "react";
-import { Provider } from "react-redux";
 
 import App from "@/App";
-import { Store } from "@/store";
+import { QueryProvider } from "@/app/providers";
 
 const Root = () => (
-    <Provider store={Store}>
+    <QueryProvider>
         <App />
-    </Provider>
+    </QueryProvider>
 );
 
 export default Root;

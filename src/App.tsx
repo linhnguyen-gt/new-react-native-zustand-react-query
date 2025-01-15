@@ -9,14 +9,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
-import { GluestackUIProvider, KeyboardViewSpacer } from "@/components";
-
-import { RootNavigator } from "@/services";
-
 import { screenOptions } from "@/helper";
 
+import { RootNavigator } from "@/data";
 import { RouteName } from "@/enums";
-import { LoginPage, MainPage } from "@/screens";
+import { GluestackUIProvider, KeyboardViewSpacer } from "@/presentation";
+import { LoginPage, MainPage } from "@/presentation/screens";
 
 import "../global.css";
 
