@@ -73,24 +73,78 @@
   </p>
 </div>
 
-## ✨ Features
+## 🎯 Key Features
 
-- 🏗️ Built with TypeScript for type safety
-- 📱 Cross-platform (iOS & Android) support
-- 🎯 Clean Architecture pattern
-    - 📱 Presentation Layer (UI)
-    - 💼 Domain Layer (Business Logic)
-    - 🗄️ Data Layer (API/Storage)
-- 🔄 State Management
-    - 📊 Zustand for client state
-    - 🌐 React Query for server state
-- 🎨 NativeWind for styling with Tailwind CSS
-- 🛠️ Reactotron integration for debugging
-- 🌐 Multi-environment support (Development, Staging, Production)
-- 📦 Pre-configured folder structure
-- 🔍 ESLint + Prettier for code quality
+### Architecture & State Management
+
+- **Clean Architecture** implementation with 4 distinct layers:
+    - 📱 Presentation Layer (UI/Screens)
+    - 💼 Application Layer (Use Cases)
+    - 🏗️ Domain Layer (Business Logic)
+    - 📡 Data Layer (API/Storage)
+- **Modern State Management**
+    - 🔄 Zustand for client-side state
+    - 🌐 React Query for server-side state
+    - 📦 Async Storage for persistence
+
+### Development Experience
+
+- 🛠️ TypeScript for type safety
+- 📱 Cross-platform (iOS & Android)
+- 🎨 NativeWind & Tailwind CSS for styling
+- 🧪 Jest setup for testing
+- 🔍 ESLint & Prettier configuration
+
+### UI & Components
+
 - 🎯 Gluestack UI components
-- 🔐 Environment-specific configurations
+- 📱 Responsive design patterns
+- 🎨 Custom hooks and components
+- 🔄 Form handling with Formik & Yup
+
+### Environment & Configuration
+
+- 🌍 Multi-environment support (Dev/Staging/Prod)
+- 🔐 Environment variable management
+- 📱 Flavor/Scheme based builds
+- 🔄 Version management system
+
+## 🏗️ Architecture Overview
+
+The project follows Clean Architecture principles to maintain:
+
+- 🎯 Separation of concerns
+- 🔄 Dependency inversion
+- 📦 Modularity
+- 🧪 Testability
+
+### Layer Responsibilities
+
+1. **Presentation Layer** (`src/presentation/`)
+
+    - UI Components
+    - Screens
+    - Navigation
+    - Hooks for data access
+
+2. **Application Layer** (`src/app/`)
+
+    - State Management (Zustand stores)
+    - Application-wide providers
+    - Use case implementations
+
+3. **Domain Layer** (`src/core/`)
+
+    - Business logic
+    - Entity definitions
+    - Repository interfaces
+    - Use case definitions
+
+4. **Data Layer** (`src/data/`)
+    - API implementations
+    - Local storage
+    - Repository implementations
+    - External service integrations
 
 ## 🚀 Quick Start
 
@@ -111,8 +165,8 @@ Make sure you have the following installed:
 ### Clone the repository\*\*
 
 ```bash
-git clone https://github.com/linhnguyen-gt/new-react-native
-cd new-react-native
+git clone https://github.com/linhnguyen-gt/new-react-native-zustand-react-query
+cd new-react-native-zustand-react-query
 ```
 
 ## 🔧 Environment Configuration

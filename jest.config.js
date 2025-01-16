@@ -34,6 +34,9 @@ module.exports = {
     setupFilesAfterEnv: ["@testing-library/jest-native/extend-expect"],
     testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.history/"],
     globals: {
-        __DEV__: true
+        __DEV__: true,
+        "process.env": {
+            NODE_ENV: "test"
+        }
     }
 };

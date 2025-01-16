@@ -7,11 +7,13 @@ import { RootNavigator } from "@/data";
 import { LoginPage } from "@/presentation/screens";
 import { Errors, RouteName } from "@/shared";
 
-jest.mock("@/services", () => ({
+jest.mock("@/data", () => ({
     RootNavigator: {
-        navigate: jest.fn()
+        replaceName: jest.fn()
     }
 }));
+
+jest.mock("@react-native-vector-icons/entypo", () => "Icon");
 
 describe("<LoginPage />", () => {
     beforeEach(() => {
@@ -34,7 +36,7 @@ describe("<LoginPage />", () => {
         });
 
         await waitFor(() => {
-            expect(RootNavigator.navigate).toHaveBeenCalledWith(RouteName.Main);
+            expect(RootNavigator.replaceName).toHaveBeenCalledWith(RouteName.Main);
         });
     });
 

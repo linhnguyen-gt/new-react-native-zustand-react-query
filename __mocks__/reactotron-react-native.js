@@ -1,12 +1,15 @@
-const reactotron = {
-    configure: () => reactotron,
-    useReactNative: () => reactotron,
-    use: () => reactotron,
-    connect: () => reactotron,
-    clear: () => null,
-    createEnhancer: () => () => (next) => (reducer) => next(reducer),
-    createSagaMonitor: () => ({}),
-    setAsyncStorageHandler: () => reactotron
+export const reactotron = {
+    zustand: {
+        enhancer: (storeName, config) => config
+    },
+    query: {
+        client: {
+            getQueryCache: () => ({
+                subscribe: () => {}
+            })
+        }
+    },
+    api: {
+        logRequest: () => {}
+    }
 };
-
-export default reactotron;
