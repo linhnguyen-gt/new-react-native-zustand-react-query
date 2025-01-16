@@ -7,17 +7,17 @@ import { object, string } from "yup";
 import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "../../components";
 
 import { RootNavigator } from "@/data";
-import { Errors, RouteName } from "@/shared";
+import { Colors, Errors, RouteName } from "@/shared";
 
 const RNLogo = () => (
     <Box
         width={120}
         height={120}
-        backgroundColor="#2563eb"
+        backgroundColor={Colors.primaryColor}
         borderRadius={30}
         alignItems="center"
         justifyContent="center"
-        shadowColor="#2563eb"
+        shadowColor={Colors.primaryColor}
         shadowOffset={{ width: 0, height: 8 }}
         shadowOpacity={0.4}
         shadowRadius={12}
@@ -133,11 +133,11 @@ const SignUp = () => {
 
                         <MyTouchable onPress={handleSignUp} testID="signup-button">
                             <Box
-                                backgroundColor="#2563eb"
+                                backgroundColor={Colors.primaryColor}
                                 padding={16}
                                 borderRadius={16}
                                 alignItems="center"
-                                shadowColor="#2563eb"
+                                shadowColor={Colors.primaryColor}
                                 shadowOffset={{ width: 0, height: 4 }}
                                 shadowOpacity={0.3}
                                 shadowRadius={8}
@@ -154,7 +154,7 @@ const SignUp = () => {
                                 Already have an account?
                             </Text>
                             <MyTouchable onPress={() => RootNavigator.goBack()}>
-                                <Text color="#2563eb" fontWeight="bold">
+                                <Text color={Colors.primaryColor} fontWeight="bold">
                                     Sign In
                                 </Text>
                             </MyTouchable>

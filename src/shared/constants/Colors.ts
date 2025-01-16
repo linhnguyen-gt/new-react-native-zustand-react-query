@@ -1,3 +1,4 @@
 export default {
-    textColor: "black"
+    textColor: "black",
+    primaryColor: "#6366f1"
 };

@@ -1,12 +1,11 @@
 import React from "react";
-import { FlatList, StatusBar, useColorScheme } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { StatusBar, useColorScheme } from "react-native";
 
 import { Box, Loading, MyTouchable, ScrollView, Text, VStack } from "../../components";
 import { useResponse } from "../../hooks";
 
 import { environment, RootNavigator } from "@/data";
-import { RouteName } from "@/shared";
+import { Colors, RouteName } from "@/shared";
 
 const ItemSeparator = () => <Box height={16} />;
 
@@ -14,26 +13,26 @@ const MainPage = () => {
     const { response, isLoading, error } = useResponse();
     const isDarkMode = useColorScheme() === "dark";
 
-    const renderItem = ({ item }: { item: (typeof response)[0] }) => (
+    const renderItem = ({ item }: { item: ResponseData }) => (
         <Box
             backgroundColor="white"
             padding={20}
             borderRadius={24}
             marginBottom={16}
-            shadowColor="#6366f1"
+            shadowColor={Colors.primaryColor}
             shadowOffset={{ width: 0, height: 8 }}
             shadowOpacity={0.15}
             shadowRadius={24}
             elevation={8}>
             <Box flexDirection="row" alignItems="center" marginBottom={16}>
                 <Box
-                    backgroundColor="#818cf8"
+                    backgroundColor={Colors.primaryColor}
                     width={56}
                     height={56}
                     borderRadius={28}
                     justifyContent="center"
                     alignItems="center"
-                    shadowColor="#818cf8"
+                    shadowColor={Colors.primaryColor}
                     shadowOffset={{ width: 0, height: 4 }}
                     shadowOpacity={0.3}
                     shadowRadius={8}>
@@ -118,7 +117,7 @@ const MainPage = () => {
     }
 
     return (
-        <Box flex={1} backgroundColor={isDarkMode ? Colors.darker : Colors.lighter}>
+        <Box flex={1}>
             <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
 
             <ScrollView flex={1}>
@@ -260,7 +259,7 @@ const MainPage = () => {
                     paddingTop={32}
                     borderTopLeftRadius={32}
                     borderTopRightRadius={32}
-                    shadowColor="#6366f1"
+                    shadowColor={Colors.primaryColor}
                     shadowOffset={{ width: 0, height: -8 }}
                     shadowOpacity={0.1}
                     shadowRadius={24}
@@ -274,17 +273,16 @@ const MainPage = () => {
                         </Text>
                     </Box>
 
-                    <FlatList
-                        data={response}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => `${item["ID State"]}-${item.Year}`}
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{
-                            paddingHorizontal: 24,
-                            paddingBottom: 32
-                        }}
-                        ItemSeparatorComponent={ItemSeparator}
-                    />
+                    {response?.length > 0 ? (
+                        response.map((item) => (
+                            <Box key={item.State} paddingHorizontal={24}>
+                                {renderItem({ item })}
+                                <ItemSeparator />
+                            </Box>
+                        ))
+                    ) : (
+                        <Text>No data</Text>
+                    )}
                 </Box>
             </ScrollView>
 

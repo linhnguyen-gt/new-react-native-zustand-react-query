@@ -6,17 +6,17 @@ import { object, string } from "yup";
 import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "../../components";
 
 import { RootNavigator } from "@/data";
-import { Errors, RouteName } from "@/shared";
+import { Colors, Errors, RouteName } from "@/shared";
 
 const RNLogo = () => (
     <Box
         width={120}
         height={120}
-        backgroundColor="#2563eb"
+        backgroundColor={Colors.primaryColor}
         borderRadius={30}
         alignItems="center"
         justifyContent="center"
-        shadowColor="#2563eb"
+        shadowColor={Colors.primaryColor}
         shadowOffset={{ width: 0, height: 8 }}
         shadowOpacity={0.4}
         shadowRadius={12}
@@ -107,7 +107,7 @@ const Login = () => {
 
                         <Box alignItems="flex-end">
                             <MyTouchable onPress={() => {}}>
-                                <Text color="#2563eb" fontWeight="bold">
+                                <Text color={Colors.primaryColor} fontWeight="bold">
                                     Forgot Password?
                                 </Text>
                             </MyTouchable>
@@ -115,11 +115,11 @@ const Login = () => {
 
                         <MyTouchable onPress={handleLogin} testID="login-button">
                             <Box
-                                backgroundColor="#2563eb"
+                                backgroundColor={Colors.primaryColor}
                                 padding={16}
                                 borderRadius={16}
                                 alignItems="center"
-                                shadowColor="#2563eb"
+                                shadowColor={Colors.primaryColor}
                                 shadowOffset={{ width: 0, height: 4 }}
                                 shadowOpacity={0.3}
                                 shadowRadius={8}
@@ -136,7 +136,7 @@ const Login = () => {
                                 Don&apos;t have an account?
                             </Text>
                             <MyTouchable onPress={() => RootNavigator.navigate(RouteName.SignUp)}>
-                                <Text color="#2563eb" fontWeight="bold">
+                                <Text color={Colors.primaryColor} fontWeight="bold">
                                     Sign Up
                                 </Text>
                             </MyTouchable>
