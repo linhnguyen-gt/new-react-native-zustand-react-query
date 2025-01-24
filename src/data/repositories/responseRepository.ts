@@ -1,4 +1,4 @@
-import { ApiMethod, HttpClient } from "..";
+import { ApiMethod, HttpClient } from "../services/httpClient";
 
 import { IResponseRepository } from "@/core";
 

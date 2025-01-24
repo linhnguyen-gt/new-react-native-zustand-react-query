@@ -2,7 +2,7 @@ import React from "react";
 import { ColorValue, DimensionValue, FlexAlignType, GestureResponderEvent } from "react-native";
 import { TouchableWithoutFeedbackProps } from "react-native/Libraries/Components/Touchable/TouchableWithoutFeedback";
 
-import { Touchable } from "..";
+import { Touchable } from "../ui";
 
 type MyTouchableProps = TouchableWithoutFeedbackProps & {
     children: React.ReactNode;

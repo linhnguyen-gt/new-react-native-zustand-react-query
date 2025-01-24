@@ -1,10 +1,9 @@
 import React from "react";
 import { StatusBar, useColorScheme } from "react-native";
 
-import { Box, Loading, MyTouchable, ScrollView, Text, VStack } from "../../components";
-import { useResponse } from "../../hooks";
-
 import { environment, RootNavigator } from "@/data";
+import { Box, Loading, MyTouchable, ScrollView, Text, VStack } from "@/presentation/components";
+import { useResponse } from "@/presentation/hooks";
 import { Colors, RouteName } from "@/shared";
 
 const ItemSeparator = () => <Box height={16} />;

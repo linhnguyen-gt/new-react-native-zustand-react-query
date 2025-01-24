@@ -1,8 +1,7 @@
 import React from "react";
 
-import { Box, HStack, MyTouchable, Text, VStack } from "../../components";
-
 import { useCounterStore } from "@/app/store";
+import { Box, HStack, MyTouchable, Text, VStack } from "@/presentation/components";
 
 const Counter = () => {
     const { count, increment, decrement, reset } = useCounterStore();

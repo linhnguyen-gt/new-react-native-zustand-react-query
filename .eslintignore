@@ -9,3 +9,4 @@ dist/
 build/
 *.d.ts 
 scripts/
+*.js

@@ -3,9 +3,8 @@ import React from "react";
 import { Keyboard } from "react-native";
 import { object, string } from "yup";
 
-import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "../../components";
-
 import { RootNavigator } from "@/data";
+import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "@/presentation/components";
 import { Colors, Errors, RouteName } from "@/shared";
 
 const RNLogo = () => (
