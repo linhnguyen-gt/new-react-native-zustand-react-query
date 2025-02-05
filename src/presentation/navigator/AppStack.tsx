@@ -8,7 +8,7 @@ import { Counter, LoginPage, MainPage, SignUpPage } from "../screens";
 import { RootNavigator } from "@/data";
 import { RouteName, screenOptions } from "@/shared";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
     return (

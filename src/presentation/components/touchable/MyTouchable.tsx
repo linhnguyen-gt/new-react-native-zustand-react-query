@@ -16,6 +16,7 @@ type MyTouchableProps = TouchableWithoutFeedbackProps & {
     activeOpacity?: number;
     borderWidth?: number;
     height?: number;
+    throttleTime?: number;
 };
 
 const MyTouchable: React.FC<MyTouchableProps> = ({
@@ -30,20 +31,25 @@ const MyTouchable: React.FC<MyTouchableProps> = ({
     borderWidth,
     flex,
     height,
+    throttleTime = 500,
     ...rest
 }) => {
-    const [isButtonDisabled, setButtonDisabled] = React.useState(false);
+    const isButtonDisabledRef = React.useRef(false);
+
     const handleOnPress = React.useCallback(
         (event: GestureResponderEvent) => {
-            if (isButtonDisabled) return;
-            setButtonDisabled(true);
+            if (isButtonDisabledRef.current) return;
+
+            isButtonDisabledRef.current = true;
             rest.onPress?.(event);
+
             setTimeout(() => {
-                setButtonDisabled(false);
-            }, 100);
+                isButtonDisabledRef.current = false;
+            }, throttleTime);
         },
-        [isButtonDisabled, rest]
+        [rest, throttleTime]
     );
+
     return (
         <Touchable
             {...rest}
