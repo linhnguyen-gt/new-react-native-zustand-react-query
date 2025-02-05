@@ -83,7 +83,7 @@ android {
 
     namespace 'com.newreactnative'
     defaultConfig {
-        applicationId 'com.newreactnative'
+        applicationId 'com.newreactnative.zustand.reactquery'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
@@ -119,7 +119,7 @@ android {
     productFlavors {
         prod {
             dimension 'default'
-            applicationId 'com.newreactnative'
+            applicationId 'com.newreactnative.zustand.reactquery'
             resValue 'string', 'build_config_package', 'com.newreactnative'
 
             def envFile = new File("${project.rootDir.parentFile}/.env")
@@ -132,7 +132,7 @@ android {
 
         staging {
             dimension 'default'
-            applicationId 'com.newreactnative.stg'
+            applicationId 'com.newreactnative.zustand.reactquery.stg'
             resValue 'string', 'build_config_package', 'com.newreactnative'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.staging")
@@ -144,7 +144,7 @@ android {
         }
         production {
             dimension 'default'
-            applicationId 'com.newreactnative.production'
+            applicationId 'com.newreactnative.zustand.reactquery.production'
             resValue 'string', 'build_config_package', 'com.newreactnative'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.production")

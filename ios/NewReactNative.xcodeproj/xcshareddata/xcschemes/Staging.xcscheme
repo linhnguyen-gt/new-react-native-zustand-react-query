@@ -73,7 +73,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Staging.Release"
-      customArchiveName = "NewReactNative Staging"
+      customArchiveName = "NewReactNative ZRQ Staging"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

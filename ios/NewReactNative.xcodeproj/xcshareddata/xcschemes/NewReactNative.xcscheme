@@ -83,6 +83,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "NewReactNative ZRQ"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
