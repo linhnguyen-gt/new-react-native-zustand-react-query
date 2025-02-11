@@ -1,16 +1,11 @@
-import axios, {
-    AxiosError,
-    AxiosInstance,
-    AxiosRequestConfig,
-    AxiosResponse,
-    HttpStatusCode,
-    InternalAxiosRequestConfig
-} from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import { environment } from "../environment";
 
 import ApiMethod from "./ApiMethod";
-import { apiProblem } from "./HttpProblem";
+import { IHttpClient } from "./interfaces/IHttpClient";
+import { ErrorHandler, IErrorHandler } from "./services/ErrorHandler";
+import { ITokenService, TokenService } from "./services/TokenService";
 
 const DEFAULT_API_CONFIG = {
     baseURL: environment.apiBaseUrl
@@ -18,23 +13,28 @@ const DEFAULT_API_CONFIG = {
 
 const _methodRes = [ApiMethod.GET, ApiMethod.DELETE];
 
-class HttpClient {
+class HttpClient implements IHttpClient {
     private static _instance: HttpClient;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     private readonly INSTANCE: AxiosInstance;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    private TOKEN?: string;
+    private readonly tokenService: ITokenService;
+    private readonly errorHandler: IErrorHandler;
 
-    private constructor() {
+    private constructor(
+        tokenService: ITokenService = new TokenService(),
+        errorHandler: IErrorHandler = new ErrorHandler()
+    ) {
         this.INSTANCE = axios.create({
             baseURL: DEFAULT_API_CONFIG.baseURL
         });
+        this.tokenService = tokenService;
+        this.errorHandler = errorHandler;
         this.setInterceptors();
     }
 
-    static getInstance(): HttpClient {
+    static getInstance(tokenService?: ITokenService, errorHandler?: IErrorHandler): HttpClient {
         if (!HttpClient._instance) {
-            HttpClient._instance = new HttpClient();
+            HttpClient._instance = new HttpClient(tokenService, errorHandler);
         }
         return HttpClient._instance;
     }
@@ -86,11 +86,11 @@ class HttpClient {
         }
     }
 
-    private requestInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-        this.TOKEN = "token"; // Consider implementing proper token management
-        if (this.TOKEN) {
+    private async requestInterceptor(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+        const token = await this.tokenService.getToken();
+        if (token) {
             config.headers = config.headers || {};
-            config.headers.Authorization = `Bearer ${this.TOKEN}`;
+            config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
     }
@@ -104,26 +104,13 @@ class HttpClient {
             error.response.data.message === "Unauthorized"
         ) {
             try {
-                await this.refreshToken();
+                await this.tokenService.refreshToken();
                 return this.INSTANCE.request(error.config!);
             } catch (refreshError) {
-                return Promise.reject(new Error(JSON.stringify(this.extractErrorData(refreshError))));
+                return this.errorHandler.handleError(refreshError as AxiosError);
             }
         }
-        return Promise.reject(new Error(JSON.stringify(this.extractErrorData(error))));
-    }
-
-    private extractErrorData(error: AxiosError): Error {
-        const errorResponse: ErrorResponse<Data> = {
-            ok: false,
-            data: error.response?.data,
-            status: error.response?.status || HttpStatusCode.InternalServerError
-        };
-        return new Error(JSON.stringify(apiProblem(errorResponse)));
-    }
-
-    private async refreshToken(): Promise<void> {
-        // Implement token refresh logic
+        return this.errorHandler.handleError(error);
     }
 }
 
