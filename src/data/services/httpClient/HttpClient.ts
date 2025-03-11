@@ -49,7 +49,7 @@ class HttpClient implements IHttpClient {
         apiConfig: ApiClientConfig<Body, Params, Method>,
         config?: AxiosRequestConfig
     ): Promise<BaseResponse<Data>> {
-        const { method, params, body } = apiConfig;
+        const { method, params, body, headers } = apiConfig;
 
         try {
             const res = await this.INSTANCE.request<Data>({
@@ -57,7 +57,11 @@ class HttpClient implements IHttpClient {
                 url: endpoint,
                 params: _methodRes.includes(method) ? params : undefined,
                 data: !_methodRes.includes(method) ? body : undefined,
-                ...config
+                ...config,
+                headers: {
+                    ...headers,
+                    ...config?.headers
+                }
             });
 
             return {
@@ -121,6 +125,7 @@ declare global {
         method: M;
         params?: P;
         body?: B;
+        headers?: Record<string, string>;
     };
 
     type ApiClientConfig<B, P, M extends ApiMethod> = M extends ApiMethod.GET | ApiMethod.DELETE
