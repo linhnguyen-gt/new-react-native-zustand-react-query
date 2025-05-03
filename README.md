@@ -79,14 +79,14 @@
 ### Architecture & State Management
 
 - **Well-organized Architecture** with clear separation of concerns:
-  - 📱 Presentation Layer (UI/Screens/Hooks)
-  - 🏗️ Application Layer (State Management)
-  - 📡 Data Layer (API/Storage)
-  - 🔧 Shared (Models/Utilities)
+    - 📱 Presentation Layer (UI/Screens/Hooks)
+    - 🏗️ Application Layer (State Management)
+    - 📡 Data Layer (API/Storage)
+    - 🔧 Shared (Models/Utilities)
 - **Modern State Management**
-  - 🔄 Zustand for client-side state
-  - 🌐 React Query for server-side state
-  - 📦 Async Storage for persistence
+    - 🔄 Zustand for client-side state
+    - 🌐 React Query for server-side state
+    - 📦 Async Storage for persistence
 
 ### Development Experience
 
@@ -309,20 +309,20 @@ APP_NAME=""
 # Try to read from env file if it exists
 if [ -f "$ENV_FILE" ]; then
     echo "Reading from env file..."
-    
+
     # Read VERSION_CODE
     VERSION_CODE_LINE=$(grep "^VERSION_CODE=" "$ENV_FILE" || echo "")
     if [ ! -z "$VERSION_CODE_LINE" ]; then
         VERSION_CODE=$(echo "$VERSION_CODE_LINE" | cut -d'=' -f2 | tr -d '"' | tr -d ' ')
     fi
-    
+
     # Read VERSION_NAME
     VERSION_NAME_LINE=$(grep "^VERSION_NAME=" "$ENV_FILE" || echo "")
     if [ ! -z "$VERSION_NAME_LINE" ]; then
         VERSION_NAME=$(echo "$VERSION_NAME_LINE" | cut -d'=' -f2 | tr -d '"' | tr -d ' ')
     fi
 
-    # Read APP_NAME 
+    # Read APP_NAME
     APP_NAME_LINE=$(grep "^APP_NAME=" "$ENV_FILE" || echo "")
     if [ ! -z "$APP_NAME_LINE" ]; then
         APP_NAME=$(echo "$APP_NAME_LINE" | sed 's/^APP_NAME=//' | sed 's/^"//' | sed 's/"$//')
@@ -345,7 +345,7 @@ if [ -f "$INFO_PLIST" ]; then
     echo "Info.plist update completed"
 else
     echo "Warning: Info.plist not found at $INFO_PLIST"
-fi 
+fi
 ```
 
 4. **Setup Steps for iOS**
@@ -480,14 +480,17 @@ src/
 │   └── store/           # Zustand stores
 │
 ├── data/                 # Data Layer
-│   └── services/        # API and Services
-│       ├── api/         # API services
+│   ├── api/             # Raw API functions
+│   ├── queries/         # React Query hooks
+│   │   ├── queryKeys.ts # Centralized query keys
+│   │   └── ...          # Domain-specific query hooks
+│   └── services/        # Infrastructure services
 │       ├── httpClient/  # HTTP client configuration
 │       └── ...          # Other services
 │
 ├── presentation/         # UI Layer
 │   ├── components/      # Reusable UI components
-│   ├── hooks/          # Custom hooks
+│   ├── hooks/          # UI-related custom hooks
 │   ├── screens/        # Screen components
 │   └── navigation/     # Navigation setup
 │

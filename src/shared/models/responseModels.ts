@@ -1,8 +1,5 @@
 import * as z from "zod";
 
-/**
- * Schema for response data validation
- */
 export const ResponseSchema = z.object({
     "ID State": z.string(),
     "ID Year": z.number(),
@@ -12,7 +9,11 @@ export const ResponseSchema = z.object({
     Year: z.string()
 });
 
-/**
- * Type definition for response data
- */
-export type ResponseData = z.infer<typeof ResponseSchema>;
+declare global {
+    type ResponseData = z.infer<typeof ResponseSchema>;
+
+    export type ResponseStateData = {
+        response: ResponseData[];
+        responseDetail: ResponseData | null;
+    };
+}

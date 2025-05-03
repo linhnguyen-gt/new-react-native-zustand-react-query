@@ -1,22 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
-
 import { useResponseStore } from "@/app/store";
-import { responseApi } from "@/data/api";
+import { useResponsesQuery } from "@/data/queries";
 
 export const useResponse = () => {
-    const { response, setResponse } = useResponseStore();
-
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["response-data"],
-        queryFn: responseApi.getResponseData
-    });
-
-    React.useEffect(() => {
-        if (data?.ok) {
-            setResponse(data?.data ?? []);
-        }
-    }, [data, setResponse]);
+    const { response } = useResponseStore();
+    const { isLoading, error, data } = useResponsesQuery();
 
     return {
         response,

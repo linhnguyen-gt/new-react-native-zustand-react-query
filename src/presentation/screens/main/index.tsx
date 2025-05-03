@@ -7,7 +7,6 @@ import { MyTouchable } from "@/presentation/components/touchable";
 import { Box, ScrollView, Text, VStack } from "@/presentation/components/ui";
 import { useResponse } from "@/presentation/hooks";
 import { Colors, RouteName } from "@/shared/constants";
-import { ResponseData } from "@/shared/models";
 
 const ItemSeparator = () => <Box height={16} />;
 
