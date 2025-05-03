@@ -5825,9 +5825,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"NewReactNativeZustandRNQZustandRNQ@workspace:.":
+"NewReactNativeZustandRNQ@workspace:.":
   version: 0.0.0-use.local
-  resolution: "NewReactNativeZustandRNQZustandRNQ@workspace:."
+  resolution: "NewReactNativeZustandRNQ@workspace:."
   dependencies:
     "@babel/core": "npm:^7.25.2"
     "@babel/preset-env": "npm:^7.25.3"
