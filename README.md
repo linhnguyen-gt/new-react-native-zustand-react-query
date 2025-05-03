@@ -3,7 +3,6 @@
   <p>A modern React Native boilerplate with Zustand, React Query and best practices</p>
   <p><strong>Create a new project using our CLI: <a href="https://github.com/linhnguyen-gt/create-rn-project">create-rn-project</a></strong></p>
 
-
   <p align="center">
     <a href="https://reactnative.dev/" target="_blank">
       <img src="https://img.shields.io/badge/React_Native-v0.79.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
@@ -80,14 +79,14 @@
 ### Architecture & State Management
 
 - **Well-organized Architecture** with clear separation of concerns:
-    - 📱 Presentation Layer (UI/Screens/Hooks)
-    - 🏗️ Application Layer (State Management)
-    - 📡 Data Layer (API/Storage)
-    - 🔧 Shared (Models/Utilities)
+  - 📱 Presentation Layer (UI/Screens/Hooks)
+  - 🏗️ Application Layer (State Management)
+  - 📡 Data Layer (API/Storage)
+  - 🔧 Shared (Models/Utilities)
 - **Modern State Management**
-    - 🔄 Zustand for client-side state
-    - 🌐 React Query for server-side state
-    - 📦 Async Storage for persistence
+  - 🔄 Zustand for client-side state
+  - 🌐 React Query for server-side state
+  - 📦 Async Storage for persistence
 
 ### Development Experience
 
@@ -234,16 +233,14 @@ yarn ios:pro
    Add this configuration block to your Podfile:
 
 ```ruby
-# Configuration name environment mapping
-project 'NewReactNative', {
-    'Debug' => :debug,
-    'Dev.Debug' => :debug,
-    'Dev.Release' => :release,
-    'Release' => :release,
-    'Staging.Debug' => :debug,
-    'Staging.Release' => :release,
-    'Product.Debug' => :debug,
-    'Product.Release' => :release
+# configuration name environment
+project 'NewReactNativeZustandRNQ',{
+        'Debug' => :debug,
+        'Release' => :release,
+        'Staging.Debug' => :debug,
+        'Staging.Release' => :release,
+        'Product.Debug' => :debug,
+        'Product.Release' => :release,
 }
 ```
 
@@ -307,37 +304,48 @@ echo "Info.plist path: ${INFO_PLIST}"
 # Default values in case env file is missing
 VERSION_CODE="1"
 VERSION_NAME="1.0.0"
+APP_NAME=""
 
 # Try to read from env file if it exists
 if [ -f "$ENV_FILE" ]; then
     echo "Reading from env file..."
-
+    
     # Read VERSION_CODE
     VERSION_CODE_LINE=$(grep "^VERSION_CODE=" "$ENV_FILE" || echo "")
     if [ ! -z "$VERSION_CODE_LINE" ]; then
         VERSION_CODE=$(echo "$VERSION_CODE_LINE" | cut -d'=' -f2 | tr -d '"' | tr -d ' ')
     fi
-
+    
     # Read VERSION_NAME
     VERSION_NAME_LINE=$(grep "^VERSION_NAME=" "$ENV_FILE" || echo "")
     if [ ! -z "$VERSION_NAME_LINE" ]; then
         VERSION_NAME=$(echo "$VERSION_NAME_LINE" | cut -d'=' -f2 | tr -d '"' | tr -d ' ')
     fi
+
+    # Read APP_NAME 
+    APP_NAME_LINE=$(grep "^APP_NAME=" "$ENV_FILE" || echo "")
+    if [ ! -z "$APP_NAME_LINE" ]; then
+        APP_NAME=$(echo "$APP_NAME_LINE" | sed 's/^APP_NAME=//' | sed 's/^"//' | sed 's/"$//')
+    fi
+
 else
     echo "Warning: Environment file not found, using default values"
 fi
 
-echo "Using versions - Code: $VERSION_CODE, Name: $VERSION_NAME"
+echo "Using versions - Code: $VERSION_CODE, Name: $VERSION_NAME, App Name: $APP_NAME"
 
 # Update Info.plist if it exists
 if [ -f "$INFO_PLIST" ]; then
     echo "Updating Info.plist..."
     /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION_CODE" "$INFO_PLIST" || true
     /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION_NAME" "$INFO_PLIST" || true
+    if [ ! -z "$APP_NAME" ]; then
+        /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $APP_NAME" "$INFO_PLIST" || true
+    fi
     echo "Info.plist update completed"
 else
     echo "Warning: Info.plist not found at $INFO_PLIST"
-fi
+fi 
 ```
 
 4. **Setup Steps for iOS**
@@ -356,62 +364,68 @@ fi
 ```gradle
     flavorDimensions 'default'
     productFlavors {
-        prod {
+        dev {
             dimension 'default'
-            applicationId 'com.newreactnative'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
 
         staging {
             dimension 'default'
-            applicationId 'com.newreactnative.stg'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq.stg'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.staging")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
         production {
             dimension 'default'
-            applicationId 'com.newreactnative.production'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq.production'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.production")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
     }
 
 def getVersionFromEnv(File envFile) {
-    def versionCode = "1"
-    def versionName = "1.0.0"
+    def versionCode = '1'
+    def versionName = '1.0.0'
+    def appName = ''
 
     envFile.eachLine { line ->
         if (line.contains('=')) {
             def (key, value) = line.split('=', 2)
-            if (key == "VERSION_CODE") versionCode = value?.trim()?.replaceAll('"', '')
-            if (key == "VERSION_NAME") versionName = value?.trim()?.replaceAll('"', '')
+            if (key == 'VERSION_CODE') versionCode = value?.trim()?.replaceAll('"', '')
+            if (key == 'VERSION_NAME') versionName = value?.trim()?.replaceAll('"', '')
+            if (key == 'APP_NAME') appName = value?.trim()?.replaceAll('"', '')
         }
     }
 
     println "Reading from ${envFile.path}"
     println "VERSION_CODE: ${versionCode}"
     println "VERSION_NAME: ${versionName}"
+    println "APP_NAME: ${appName}"
 
-    return [code: versionCode, name: versionName]
+    return [code: versionCode, name: versionName, appName: appName]
 }
 ```
 
@@ -420,12 +434,12 @@ def getVersionFromEnv(File envFile) {
 ```json
 {
     "scripts": {
-        "android": "cd android && ENVFILE=.env && ./gradlew clean && cd .. && react-native run-android --mode=prodDebug --appId=com.newreactnative",
-        "android:stg": "APP_ENV=staging && cd android && ENVFILE=.env.staging && ./gradlew clean && cd .. && react-native run-android --mode=stagingDebug --appId=com.newreactnative.stg",
-        "android:pro": "APP_ENV=production && cd android && ENVFILE=.env.production && ./gradlew clean && cd .. && react-native run-android --mode=productionDebug --appId=com.newreactnative.production",
-        "ios": "react-native run-ios",
-        "ios:stg": "APP_ENV=staging react-native run-ios --scheme Staging --mode Staging.Debug",
-        "ios:pro": "APP_ENV=production react-native run-ios --scheme Pro --mode Product.Debug"
+        "android": "npx expo run:android --device --variant devDebug --app-id com.newreactnativezustandrnq",
+        "android:stg": "APP_ENV=staging && npx expo run:android --device --variant stagingDebug --app-id com.newreactnativezustandrnq.stg",
+        "android:pro": "APP_ENV=production && npx expo run:android --device --variant productionDebug --app-id com.newreactnativezustandrnq.production",
+        "ios": "npx expo run:ios --device",
+        "ios:stg": "APP_ENV=staging npx expo run:ios --device --scheme Staging",
+        "ios:pro": "APP_ENV=production npx expo run:ios --device --scheme Product"
     }
 }
 ```
