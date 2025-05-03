@@ -37,33 +37,30 @@ export const queryPlugin = (core: ReactotronCore) => {
 
     if (__DEV__) {
         client.getQueryCache().subscribe(({ type, query }) => {
-            // Lấy tên của query dễ đọc từ queryKey
             const queryName = Array.isArray(query.queryKey)
                 ? query.queryKey.join(" / ")
                 : JSON.stringify(query.queryKey);
 
-            // Sử dụng màu sắc tương ứng với trạng thái query
-            let color = "#3498db"; // Default blue
+            let color = "#3498db";
             let emoji = "🔄";
             let isImportant = false;
 
             switch (query.state.status) {
                 case "success":
-                    color = "#2ecc71"; // Green
+                    color = "#2ecc71";
                     emoji = "✅";
                     break;
                 case "error":
-                    color = "#e74c3c"; // Red
+                    color = "#e74c3c";
                     emoji = "❌";
                     isImportant = true;
                     break;
                 case "pending":
-                    color = "#f39c12"; // Orange
+                    color = "#f39c12";
                     emoji = "⏳";
                     break;
             }
 
-            // Chuẩn bị thông tin chi tiết để log với proper typing
             const details: QueryDetails = {
                 queryKey: query.queryKey,
                 status: query.state.status,
@@ -73,12 +70,10 @@ export const queryPlugin = (core: ReactotronCore) => {
                 data: query.state.data
             };
 
-            // Thêm thông tin lỗi nếu có
             if (query.state.status === "error" && query.state.error) {
                 details.error = formatError(query.state.error);
             }
 
-            // Thêm thông tin về số lần fetch và retry
             if (query.state.fetchStatus !== "idle") {
                 details.fetchStatus = query.state.fetchStatus;
             }
@@ -90,7 +85,6 @@ export const queryPlugin = (core: ReactotronCore) => {
             const isInitialLoad = type === "added" || (type === "updated" && query.state.fetchStatus === "fetching");
             const isPending = type === "updated" && query.state.status === "pending";
 
-            // Differentiate between initial load and other updates
             let preview = `${query.state.status} (${type})`;
             if (isInitialLoad) {
                 preview = "Loading...";
@@ -102,7 +96,6 @@ export const queryPlugin = (core: ReactotronCore) => {
                 preview = "Success";
             }
 
-            // Chỉ log khi có sự thay đổi đáng quan tâm
             if (
                 type === "added" ||
                 type === "removed" ||
@@ -122,7 +115,6 @@ export const queryPlugin = (core: ReactotronCore) => {
             }
         });
 
-        // Theo dõi mutations
         client.getMutationCache().subscribe(({ mutation, type }) => {
             if (!mutation) return;
 
@@ -132,28 +124,28 @@ export const queryPlugin = (core: ReactotronCore) => {
                     : JSON.stringify(mutation.options.mutationKey)
                 : String(mutation.mutationId).substring(0, 8); // Convert to string before using substring
 
-            let color = "#9b59b6"; // Purple default for mutations
+            let color = "#9b59b6";
             let emoji = "🔄";
             let isImportant = false;
 
             switch (mutation.state.status) {
                 case "success":
-                    color = "#2ecc71"; // Green
+                    color = "#2ecc71";
                     emoji = "✅";
                     break;
                 case "error":
-                    color = "#e74c3c"; // Red
+                    color = "#e74c3c";
                     emoji = "❌";
                     isImportant = true;
                     break;
                 case "pending":
-                    color = "#f39c12"; // Orange
+                    color = "#f39c12";
                     emoji = "⏳";
                     break;
             }
 
             const details: MutationDetails = {
-                id: String(mutation.mutationId), // Also convert to string here
+                id: String(mutation.mutationId),
                 status: mutation.state.status,
                 variables: mutation.state.variables,
                 data: mutation.state.data,
@@ -185,7 +177,6 @@ export const queryPlugin = (core: ReactotronCore) => {
     return { client };
 };
 
-// Helper function to format errors
 function formatError(error: unknown): any {
     if (!error) return "Unknown error";
 

@@ -57,8 +57,6 @@ export class ReactotronCore {
 
     public log(payload: LogPayload): void {
         if (__DEV__) {
-            const emoji = this.getEmojiForType(payload.type);
-
             const prefix = payload.important ? "‼️ IMPORTANT - " : "";
 
             let formattedValue = payload.value;
@@ -67,7 +65,7 @@ export class ReactotronCore {
             }
 
             this.tron.display({
-                name: `${emoji} ${prefix}${payload.name}`,
+                name: `${prefix}${payload.name}`,
                 preview: payload.preview,
                 value: formattedValue
             });
@@ -160,22 +158,5 @@ export class ReactotronCore {
             value: { props, state, renderTime },
             color: "#1abc9c"
         });
-    }
-
-    private getEmojiForType(type: LogType): string {
-        const emojiMap: Record<LogType, string> = {
-            ZUSTAND: "🏪",
-            QUERY: "🔍",
-            API: "🌐",
-            INFO: "ℹ️",
-            SUCCESS: "✅",
-            WARNING: "⚠️",
-            ERROR: "❌",
-            NETWORK: "🔄",
-            ACTION: "⚡",
-            EVENT: "📢",
-            COMPONENT: "🧩"
-        };
-        return emojiMap[type] || "📝";
     }
 }
