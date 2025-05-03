@@ -3,7 +3,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXConstants (17.1.5):
     - ExpoModulesCore
-  - Expo (53.0.5):
+  - Expo (53.0.6):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -34,7 +34,7 @@ PODS:
     - ExpoModulesCore
   - ExpoFileSystem (18.1.8):
     - ExpoModulesCore
-  - ExpoFont (13.3.0):
+  - ExpoFont (13.3.1):
     - ExpoModulesCore
   - ExpoKeepAwake (14.1.4):
     - ExpoModulesCore
@@ -2384,10 +2384,10 @@ SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   EXConstants: 26f334022fc0b454b7ecdc7c12d36ffa68c7c397
-  Expo: 5058e64e340f0bc2280d97e02e7acf0c57b1743d
+  Expo: c2eabd66da95a18cc7c631b5410fe167283023c2
   ExpoAsset: cac9909bd4c502b54b87b4e7495121c1194b3c5b
   ExpoFileSystem: 3bd7e34a164a9093c23b5a7b690efab8138ebf8e
-  ExpoFont: bee4b78bcec8f68b6b9bee74ed1bf4fb0515d4b4
+  ExpoFont: 312c73403bbd4f98e1d6a5330641a56292583cd2
   ExpoKeepAwake: e8dedc115d9f6f24b153ccd2d1d8efcdfd68a527
   ExpoModulesCore: 0bf5158ae9fb71e575582a8a48dbd26ced42f306
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
