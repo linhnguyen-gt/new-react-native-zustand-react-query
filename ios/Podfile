@@ -10,7 +10,7 @@ platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
 # configuration name environment
-project 'NewReactNative',{
+project 'NewReactNativeZustandRNQ',{
         'Debug' => :debug,
         'Release' => :release,
         'Staging.Debug' => :debug,
@@ -25,7 +25,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'NewReactNative' do
+target 'NewReactNativeZustandRNQ' do
   use_expo_modules!
 
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
@@ -51,11 +51,6 @@ target 'NewReactNative' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'NewReactNativeTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
@@ -64,5 +59,16 @@ target 'NewReactNative' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Set permission for set_version.sh
+    system("chmod +x #{Pod::Config.instance.installation_root}/scripts/set_version.sh")
+    
+    # Add build phase
+    installer.pods_project.targets.each do |target|
+      if target.name == 'NewReactNativeZustandRNQ'
+        phase = target.new_shell_script_build_phase('Set Version')
+        phase.shell_script = "\"#{Pod::Config.instance.installation_root}/scripts/set_version.sh\""
+      end
+    end
   end
 end

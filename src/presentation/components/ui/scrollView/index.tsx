@@ -28,7 +28,7 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
     return Object.fromEntries(styleKeys.map((key) => [key, props[key as keyof StyleProps]])) as ViewStyle;
 };
 
-const ScrollView = React.forwardRef<React.ElementRef<typeof UIScrollView>, IScrollViewProps>(
+const ScrollView = React.forwardRef<React.ComponentRef<typeof UIScrollView>, IScrollViewProps>(
     (
         {
             className,
@@ -48,7 +48,7 @@ const ScrollView = React.forwardRef<React.ElementRef<typeof UIScrollView>, IScro
             space &&
                 scrollViewStyle({ space })
                     .split(" ")
-                    .find((cls) => cls.startsWith("gap-"))
+                    .find((cls: string) => cls.startsWith("gap-"))
         ]
             .filter(Boolean)
             .join(" ");

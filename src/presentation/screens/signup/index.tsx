@@ -4,9 +4,11 @@ import { Keyboard } from "react-native";
 import * as Yup from "yup";
 import { object, string } from "yup";
 
-import { RootNavigator } from "@/data";
-import { Box, Input, MyTouchable, ScrollView, Text, VStack } from "@/presentation/components";
-import { Colors, Errors, RouteName } from "@/shared";
+import { RootNavigator } from "@/data/services";
+import { Input } from "@/presentation/components/input";
+import { MyTouchable } from "@/presentation/components/touchable";
+import { Box, ScrollView, Text, VStack } from "@/presentation/components/ui";
+import { Colors, Errors, RouteName } from "@/shared/constants";
 
 const RNLogo = () => (
     <Box

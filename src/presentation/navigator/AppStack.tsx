@@ -2,11 +2,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
-import { KeyboardViewSpacer } from "../components";
+import { KeyboardViewSpacer } from "../components/keyboardSpace";
 import { Counter, LoginPage, MainPage, SignUpPage } from "../screens";
 
-import { RootNavigator } from "@/data";
-import { RouteName, screenOptions } from "@/shared";
+import { RootNavigator } from "@/data/services";
+import { RouteName } from "@/shared/constants";
+import { screenOptions } from "@/shared/helper";
 
 const Stack = createStackNavigator<RootStackParamList>();
 

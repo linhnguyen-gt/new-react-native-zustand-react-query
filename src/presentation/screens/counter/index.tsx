@@ -1,7 +1,8 @@
 import React from "react";
 
 import { useCounterStore } from "@/app/store";
-import { Box, HStack, MyTouchable, Text, VStack } from "@/presentation/components";
+import { MyTouchable } from "@/presentation/components/touchable";
+import { Box, HStack, Text, VStack } from "@/presentation/components/ui";
 
 const Counter = () => {
     const { count, increment, decrement, reset } = useCounterStore();
@@ -26,7 +27,7 @@ const Counter = () => {
                         width={80}
                         height={44}
                         alignItems="center"
-                        bg="white"
+                        backgroundColor="white"
                         onPress={decrement}>
                         <Text size="2xl" fontWeight="bold">
                             -
@@ -39,7 +40,7 @@ const Counter = () => {
                         width={80}
                         height={44}
                         alignItems="center"
-                        bg="white"
+                        backgroundColor="white"
                         onPress={increment}>
                         <Text size="2xl" fontWeight="bold">
                             +
@@ -52,7 +53,7 @@ const Counter = () => {
                         width={80}
                         height={44}
                         alignItems="center"
-                        bg="white"
+                        backgroundColor="white"
                         onPress={reset}>
                         <Text size="xl" fontWeight="bold">
                             Reset

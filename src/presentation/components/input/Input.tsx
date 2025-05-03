@@ -1,12 +1,12 @@
-import Icon from "@react-native-vector-icons/entypo";
 import React from "react";
 import { Animated, TextInput, TextInputProps } from "react-native";
 
-import { getColor } from "../../hooks";
 import { MyTouchable } from "../touchable";
-import { Box, HStack, Text, VStack } from "../ui";
+import { Box, HStack, IconComponent, Text, VStack } from "../ui";
 
 import useShakeView from "./Input.Hook";
+
+import { getColor } from "@/presentation/hooks";
 
 export type InputProps = TextInputProps & {
     prefixIcon?: React.ReactNode;
@@ -17,7 +17,7 @@ export type InputProps = TextInputProps & {
     isPassword?: boolean;
     enable?: boolean;
     title?: string;
-    error?: string | boolean | undefined;
+    error?: string | boolean;
     isLoading?: boolean;
     height?: number;
     testID?: string;
@@ -52,7 +52,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
         const _renderShowPassword = React.useMemo(
             () => (
                 <MyTouchable onPress={_handleSecure}>
-                    <Icon name={isShowPassword ? "eye-with-line" : "eye"} size={16} />
+                    <IconComponent font="entypo" name={isShowPassword ? "eye-with-line" : "eye"} size={16} />
                 </MyTouchable>
             ),
             [_handleSecure, isShowPassword]

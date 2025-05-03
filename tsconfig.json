@@ -34,7 +34,7 @@
         "gesture-handler.native.js",
         "jest.setup.js",
         "jest.config.js",
-        "app.config.ts",
-        "__mocks__/entypo.ts"
-    ]
+        "app.config.ts"
+    ],
+    "extends": "expo/tsconfig.base"
 }

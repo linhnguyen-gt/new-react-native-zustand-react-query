@@ -7,9 +7,9 @@
 
 import React from "react";
 
-import { AppStack, GluestackUIProvider } from "@/presentation";
-
 import "../global.css";
+import { GluestackUIProvider } from "./presentation/components/ui";
+import { AppStack } from "./presentation/navigator";
 
 const App = () => {
     return (

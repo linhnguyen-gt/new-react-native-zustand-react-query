@@ -26,7 +26,7 @@ const loadEnvFile = (path: string) => {
 };
 
 const validateEnvConfig = (env: Record<string, any>) => {
-    const coreRequiredVars = ["APP_FLAVOR", "VERSION_CODE", "VERSION_NAME", "API_URL"];
+    const coreRequiredVars = ["APP_FLAVOR", "VERSION_CODE", "VERSION_NAME", "API_URL", "APP_NAME"];
 
     const missingVars = coreRequiredVars.filter((key) => !env[key]);
     if (missingVars.length > 0) {

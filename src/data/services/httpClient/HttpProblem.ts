@@ -1,6 +1,8 @@
 import { HttpStatusCode } from "axios";
 import { Alert } from "react-native";
 
+import { Logger } from "@/shared/helper";
+
 export const apiProblem = <T extends Data>(response: ErrorResponse<T>): ErrorResponse<T> => {
     try {
         const errorResponse: ErrorResponse<Data> = {
@@ -12,7 +14,7 @@ export const apiProblem = <T extends Data>(response: ErrorResponse<T>): ErrorRes
         return errorResponse;
     } catch (error) {
         if (__DEV__) {
-            console.error("Unexpected error in apiProblem:", error);
+            Logger.error("ApiProblem", "Unexpected error:", error);
         }
         const unexpectedErrorResponse: ErrorResponse<Data> = {
             ok: false,
@@ -25,29 +27,34 @@ export const apiProblem = <T extends Data>(response: ErrorResponse<T>): ErrorRes
 };
 
 const showErrorDialog = <T extends Data>(errorResponse: ErrorResponse<T>) => {
-    if (__DEV__) {
-        console.error("Error occurred:", errorResponse.data);
-    }
+    Logger.error("ApiError", {
+        status: errorResponse.status,
+        data: errorResponse.data,
+        timestamp: new Date().toISOString()
+    });
 
     let errorMessage = "An unexpected error occurred";
 
-    if (errorResponse.data) {
-        if (typeof errorResponse.data === "string") {
-            errorMessage = errorResponse.data;
-        } else if (typeof errorResponse.data === "object" && "message" in errorResponse.data) {
-            errorMessage = errorResponse.data.message as string;
+    if (errorResponse.data && typeof errorResponse.data === "object") {
+        const errorData = errorResponse.data as { message?: string; error?: string };
+        if (errorData.message) {
+            errorMessage = errorData.message;
+        } else if (errorData.error) {
+            errorMessage = errorData.error;
         }
+    } else if (typeof errorResponse.data === "string") {
+        errorMessage = errorResponse.data;
     }
 
-    Alert.alert("Error", errorMessage, [{ text: "OK", onPress: () => {} }], { cancelable: false });
+    Alert.alert("Error", errorMessage, [{ text: "Close", onPress: () => {} }], { cancelable: false });
 };
 
 declare global {
-    type Data = Record<string, any>;
+    type Data = Record<string, any> | string;
 
     type SuccessfulResponse<D extends Data, S = HttpStatusCode> = {
         ok: true;
-        data: D;
+        data?: D;
         status?: S;
     };
 

@@ -1,86 +1,89 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 import { environment } from "../environment";
 
 import ApiMethod from "./ApiMethod";
-import { IHttpClient } from "./interfaces/IHttpClient";
-import { ErrorHandler, IErrorHandler } from "./services/ErrorHandler";
-import { ITokenService, TokenService } from "./services/TokenService";
+import { HttpRequestConfig, HttpResponse, IHttpClient } from "./interfaces/IHttpClient";
+import { ErrorHandler } from "./services/ErrorHandler";
+import { RequestInterceptor } from "./services/RequestInterceptor";
+import { TokenService } from "./services/TokenService";
 
 const DEFAULT_API_CONFIG = {
-    baseURL: environment.apiBaseUrl
+    baseURL: environment.apiBaseUrl,
+    timeout: 30000
 } as const;
 
-const _methodRes = [ApiMethod.GET, ApiMethod.DELETE];
-
-class HttpClient implements IHttpClient {
+export class HttpClient implements IHttpClient {
     private static _instance: HttpClient;
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     private readonly INSTANCE: AxiosInstance;
-    private readonly tokenService: ITokenService;
-    private readonly errorHandler: IErrorHandler;
+
+    private readonly tokenService: TokenService;
+
+    private readonly errorHandler: ErrorHandler;
+
+    private readonly requestInterceptor: RequestInterceptor;
+
+    private timeoutId: number | null = null;
 
     private constructor(
-        tokenService: ITokenService = new TokenService(),
-        errorHandler: IErrorHandler = new ErrorHandler()
+        tokenService?: TokenService,
+        errorHandler?: ErrorHandler,
+        config: Partial<AxiosRequestConfig> = {}
     ) {
         this.INSTANCE = axios.create({
-            baseURL: DEFAULT_API_CONFIG.baseURL
+            baseURL: DEFAULT_API_CONFIG.baseURL,
+            timeout: DEFAULT_API_CONFIG.timeout,
+            // TODO: Uncomment this when the backend is ready to receive cookies
+            // withCredentials: true,
+            ...config
         });
-        this.tokenService = tokenService;
-        this.errorHandler = errorHandler;
-        this.setInterceptors();
+        this.errorHandler = errorHandler ?? new ErrorHandler();
+        this.tokenService = tokenService ?? new TokenService(this);
+        this.requestInterceptor = new RequestInterceptor(this.INSTANCE, this.tokenService);
+        this.requestInterceptor.setupInterceptors();
     }
 
-    static getInstance(tokenService?: ITokenService, errorHandler?: IErrorHandler): HttpClient {
+    static getInstance(tokenService?: TokenService, errorHandler?: ErrorHandler): HttpClient {
         if (!HttpClient._instance) {
             HttpClient._instance = new HttpClient(tokenService, errorHandler);
         }
         return HttpClient._instance;
     }
 
-    async request<
-        Data extends Record<string, any>,
-        Method extends ApiMethod,
-        Body = Record<string, any>,
-        Params = Record<string, any>
-    >(
-        endpoint: string,
-        apiConfig: ApiClientConfig<Body, Params, Method>,
-        config?: AxiosRequestConfig
-    ): Promise<BaseResponse<Data>> {
-        const { method, params, body, headers } = apiConfig;
-
+    async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T> | undefined> {
         try {
-            const res = await this.INSTANCE.request<Data>({
-                method: method.toLowerCase(),
-                url: endpoint,
-                params: _methodRes.includes(method) ? params : undefined,
-                data: !_methodRes.includes(method) ? body : undefined,
-                ...config,
-                headers: {
-                    ...headers,
-                    ...config?.headers
-                }
+            const headers = { ...config.headers };
+
+            const response = await this.INSTANCE.request<T>({
+                url: config.endpoint,
+                method: config.method.toLowerCase(),
+                params: this.shouldIncludeParams(config.method) ? config.params : undefined,
+                data: this.shouldIncludeBody(config.method) ? config.body : undefined,
+                headers
             });
 
             return {
                 ok: true,
-                data: res.data,
-                status: res.status
+                data: response.data,
+                status: response.status,
+                headers: response.headers
             };
         } catch (e) {
+            this.errorHandler.handleError(e);
             return;
         }
     }
 
-    private setInterceptors(): void {
-        this.INSTANCE.interceptors.request.use(this.requestInterceptor.bind(this));
-
-        this.INSTANCE.interceptors.response.use((response) => response, this.responseErrorInterceptor.bind(this));
+    private shouldIncludeParams(method: ApiMethod): boolean {
+        return [ApiMethod.GET].includes(method);
     }
 
-    // update headers if needed
+    private shouldIncludeBody(method: ApiMethod): boolean {
+        return !this.shouldIncludeParams(method);
+    }
+
     updateHeaders(newHeaders: Record<string, string>): void {
         if (this.INSTANCE) {
             this.INSTANCE.defaults.headers = {
@@ -90,31 +93,31 @@ class HttpClient implements IHttpClient {
         }
     }
 
-    private async requestInterceptor(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
-        const token = await this.tokenService.getToken();
-        if (token) {
-            config.headers = config.headers || {};
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
+    clearSession(): void {
+        delete this.INSTANCE.defaults.headers.Authorization;
     }
 
-    private async responseErrorInterceptor(error: AxiosError): Promise<AxiosResponse> {
-        if (
-            error.response?.status === 401 &&
-            error.response.data &&
-            typeof error.response.data === "object" &&
-            "message" in error.response.data &&
-            error.response.data.message === "Unauthorized"
-        ) {
-            try {
-                await this.tokenService.refreshToken();
-                return this.INSTANCE.request(error.config!);
-            } catch (refreshError) {
-                return this.errorHandler.handleError(refreshError as AxiosError);
-            }
+    clearRefreshTokenTimeout(): void {
+        if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
         }
-        return this.errorHandler.handleError(error);
+    }
+
+    setRefreshTokenTimeout(timeoutId: number): void {
+        this.timeoutId = timeoutId;
+    }
+
+    public getTokenService(): TokenService {
+        return this.tokenService;
+    }
+
+    public setAccessToken(accessToken?: string): void {
+        this.INSTANCE.defaults.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    public getInstance(): AxiosInstance {
+        return this.INSTANCE;
     }
 }
 

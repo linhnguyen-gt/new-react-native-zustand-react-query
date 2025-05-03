@@ -1,22 +1,22 @@
 <div align="center">
-  <h1>🚀 React Native Clean Architecture</h1>
-  <p>A modern React Native boilerplate with Clean Architecture, Zustand, React Query and best practices</p>
+  <h1>🚀 React Native Modern Architecture</h1>
+  <p>A modern React Native boilerplate with Zustand, React Query and best practices</p>
 
   <p align="center">
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.77.0-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.79.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="https://img.shields.io/badge/TypeScript-v5.5.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+      <img src="https://img.shields.io/badge/TypeScript-v5.8.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
     </a>
   </p>
 
 ### Core Libraries
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Expo-v52.0.30-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
-    <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.65-1B1B1F?style=for-the-badge" alt="gluestack" />
-    <img src="https://img.shields.io/badge/React_Navigation-v7.0.14-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
+    <img src="https://img.shields.io/badge/Expo-v53.0.0-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
+    <img src="https://img.shields.io/badge/React_Navigation-v7.1.6-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
 ### State Management & API
@@ -24,7 +24,7 @@
   <p align="center">
     <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
     <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
-    <img src="https://img.shields.io/badge/Axios-v1.7.9-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
+    <img src="https://img.shields.io/badge/Axios-v1.9.0-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
 ### UI & Styling
@@ -40,7 +40,7 @@
   <p align="center">
     <img src="https://img.shields.io/badge/Formik-v2.4.6-0744AE?style=for-the-badge" alt="formik" />
     <img src="https://img.shields.io/badge/Yup-v1.6.1-32CD32?style=for-the-badge" alt="yup" />
-    <img src="https://img.shields.io/badge/Zod-v3.24.1-3068B7?style=for-the-badge" alt="zod" />
+    <img src="https://img.shields.io/badge/Zod-v3.24.3-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
 ### Development & Testing
@@ -54,15 +54,15 @@
 ### Environment & Storage
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Dotenv-v16.4.7-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
-    <img src="https://img.shields.io/badge/Async_Storage-v2.1.1-3B82F6?style=for-the-badge" alt="async-storage" />
+    <img src="https://img.shields.io/badge/Dotenv-v16.5.0-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
+    <img src="https://img.shields.io/badge/Async_Storage-v2.1.2-3B82F6?style=for-the-badge" alt="async-storage" />
   </p>
 
 ### Development Tools
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Reactotron-v5.1.12-7B61FF?style=for-the-badge" alt="reactotron" />
-    <img src="https://img.shields.io/badge/React_Native_Reanimated-v3.16.7-FF4154?style=for-the-badge" alt="reanimated" />
+    <img src="https://img.shields.io/badge/Reactotron-v5.1.13-7B61FF?style=for-the-badge" alt="reactotron" />
+    <img src="https://img.shields.io/badge/React_Native_Reanimated-v3.17.4-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
 ### Environment Support
@@ -77,11 +77,11 @@
 
 ### Architecture & State Management
 
-- **Clean Architecture** implementation with 4 distinct layers:
-    - 📱 Presentation Layer (UI/Screens)
-    - 💼 Application Layer (Use Cases)
-    - 🏗️ Domain Layer (Business Logic)
+- **Well-organized Architecture** with clear separation of concerns:
+    - 📱 Presentation Layer (UI/Screens/Hooks)
+    - 🏗️ Application Layer (State Management)
     - 📡 Data Layer (API/Storage)
+    - 🔧 Shared (Models/Utilities)
 - **Modern State Management**
     - 🔄 Zustand for client-side state
     - 🌐 React Query for server-side state
@@ -111,12 +111,12 @@
 
 ## 🏗️ Architecture Overview
 
-The project follows Clean Architecture principles to maintain:
+The project follows a simplified but well-organized architecture to maintain:
 
 - 🎯 Separation of concerns
-- 🔄 Dependency inversion
 - 📦 Modularity
 - 🧪 Testability
+- 🔄 Maintainability
 
 ### Layer Responsibilities
 
@@ -131,20 +131,19 @@ The project follows Clean Architecture principles to maintain:
 
     - State Management (Zustand stores)
     - Application-wide providers
-    - Use case implementations
 
-3. **Domain Layer** (`src/core/`)
+3. **Data Layer** (`src/data/`)
 
-    - Business logic
-    - Entity definitions
-    - Repository interfaces
-    - Use case definitions
-
-4. **Data Layer** (`src/data/`)
-    - API implementations
-    - Local storage
-    - Repository implementations
+    - API services
+    - HTTP client
+    - Storage services
     - External service integrations
+
+4. **Shared Layer** (`src/shared/`)
+    - Models
+    - Types
+    - Constants
+    - Utility functions
 
 ## 🚀 Quick Start
 
@@ -460,18 +459,15 @@ The setup automatically manages app versions based on environment files:
 
 ```
 src/
-├── app/                    # Application Layer
-│   ├── providers/         # App-wide providers
-│   └── store/            # Zustand stores
-│
-├── core/                  # Domain Layer
-│   ├── entities/         # Business objects/models
-│   ├── repositories/     # Repository interfaces
-│   └── useCases/        # Business logic/use cases
+├── app/                   # Application Layer
+│   ├── providers/        # App-wide providers
+│   └── store/           # Zustand stores
 │
 ├── data/                 # Data Layer
-│   ├── repositories/     # Repository implementations
-│   └── services/        # API/External services
+│   └── services/        # API and Services
+│       ├── api/         # API services
+│       ├── httpClient/  # HTTP client configuration
+│       └── ...          # Other services
 │
 ├── presentation/         # UI Layer
 │   ├── components/      # Reusable UI components
@@ -479,10 +475,11 @@ src/
 │   ├── screens/        # Screen components
 │   └── navigation/     # Navigation setup
 │
-└── shared/             # Shared utilities
-    ├── constants/
-    ├── types/
-    └── utils/
+└── shared/              # Shared utilities
+    ├── constants/      # Application constants
+    ├── models/         # Data models
+    ├── types/          # Type definitions
+    └── utils/          # Utility functions
 ```
 
 ## 🛠️ Development Tools

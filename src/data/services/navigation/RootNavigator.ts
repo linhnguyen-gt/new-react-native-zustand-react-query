@@ -2,22 +2,13 @@ import { CommonActions, createNavigationContainerRef } from "@react-navigation/n
 
 import { INavigationService } from "./INavigationService";
 import { NavigationLogger } from "./NavigationLogger";
-import { NavigatorParamsType } from "./NavigatorParamsType";
 
-import { RouteName } from "@/shared";
+import { RouteName } from "@/shared/constants";
+
+export interface NavigatorParamsType {}
 
 class RootNavigator implements INavigationService {
-    private static instance: RootNavigator;
     public readonly navigationRef = createNavigationContainerRef();
-
-    private constructor() {}
-
-    static getInstance(): RootNavigator {
-        if (!RootNavigator.instance) {
-            RootNavigator.instance = new RootNavigator();
-        }
-        return RootNavigator.instance;
-    }
 
     async navigate<RouteName extends keyof RootStackParamList, Param extends RootStackParamList[RouteName]>(
         route: RouteName,
@@ -27,12 +18,7 @@ class RootNavigator implements INavigationService {
 
         NavigationLogger.logNavigation(route as string);
 
-        return this.navigationRef.current?.dispatch(
-            CommonActions.navigate({
-                name: route,
-                params: params
-            })
-        );
+        return this.navigationRef.current?.dispatch(CommonActions.navigate(route, params));
     }
 
     goBack(): void {
@@ -58,7 +44,7 @@ class RootNavigator implements INavigationService {
     }
 }
 
-export default RootNavigator.getInstance();
+export default new RootNavigator();
 
 declare global {
     type DefaultStackParamList = Record<keyof typeof RouteName, NavigatorParamsType>;

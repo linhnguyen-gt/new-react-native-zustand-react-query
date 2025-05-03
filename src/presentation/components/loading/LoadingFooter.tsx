@@ -1,18 +1,15 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { Box } from "../ui";
+import { LoadingBox } from "../ui";
 
-type LoadingFooterProps = {
-    isLoading?: boolean;
-};
+import type { LoadingBoxProps } from "../ui/box/LoadingBox";
 
-const LoadingFooter: React.FC<LoadingFooterProps> = ({ isLoading }) => {
-    if (!isLoading) return null;
+const LoadingFooter: React.FC<LoadingBoxProps> = (props) => {
     return (
-        <Box>
+        <LoadingBox {...props}>
             <ActivityIndicator size="small" color="black" />
-        </Box>
+        </LoadingBox>
     );
 };
 

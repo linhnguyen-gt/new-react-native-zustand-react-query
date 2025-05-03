@@ -1,7 +1,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 
-import { reactotron } from "@/data";
+import { reactotron } from "@/data/services";
 
 const QueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return <QueryClientProvider client={reactotron.query.client}>{children}</QueryClientProvider>;

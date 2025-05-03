@@ -1,4 +1,5 @@
 "use client";
+
 import { createImage } from "@gluestack-ui/image";
 import { tva } from "@gluestack-ui/nativewind-utils/tva";
 import { cssInterop } from "nativewind";
@@ -39,7 +40,7 @@ const createStyleFromProps = (props: StyleProps): ImageStyle => {
     return Object.fromEntries(styleKeys.map((key) => [key, props[key as keyof StyleProps]])) as ImageStyle;
 };
 
-const Image = React.forwardRef<React.ElementRef<typeof UIImage>, ImageProps>(
+const Image = React.forwardRef<React.ComponentRef<typeof UIImage>, ImageProps>(
     ({ size = "md", className, style, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 
@@ -48,8 +49,7 @@ const Image = React.forwardRef<React.ElementRef<typeof UIImage>, ImageProps>(
                 className={imageStyle({ size, class: className })}
                 style={[
                     styleProps,
-                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    //@ts-expect-error
+                    // @ts-expect-error : web only
                     Platform.OS === "web" ? { height: "revert-layer", width: "revert-layer" } : undefined,
                     style
                 ]}

@@ -1,6 +1,6 @@
 import { StateCreator, create } from "zustand";
 
-import { reactotron } from "@/data";
+import { reactotron } from "@/data/services";
 
 export const createStore = <T extends object>(storeName: string, storeCreator: StateCreator<T>) => {
     if (process.env.NODE_ENV === "test") {

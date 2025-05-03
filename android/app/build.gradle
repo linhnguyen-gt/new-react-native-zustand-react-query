@@ -1,17 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'com.facebook.react'
-
-project.ext.vectoricons = [
-        iconFontNames: ['AntDesign.ttf', 'Entypo.ttf', 'EvilIcons.ttf', 'Feather.ttf',
-                        'FontAwesome.ttf', '>FontAwesome5_Brands.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Solid.ttf', 'Foundation.ttf',
-                        'Ionicons.ttf', 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf', 'SimpleLineIcons.ttf', 'Octicons.ttf',
-                        'Zocial.ttf', 'Fontisto.ttf'] // Specify font files
-]
-
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
 /**
  * This is the configuration block to customize your React Native Android app.
- * By default you don't need to apply any configuration, just uncomment the lines you need.*/
+ * By default you don't need to apply any configuration, just uncomment the lines you need.
+ */
 react {
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '../..'
@@ -61,32 +54,34 @@ react {
 }
 
 /**
- * Set this to true to Run Proguard on Release builds to minify the Java bytecode.*/
+ * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ */
 def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
  *
  * For example, to use the international variant, you can use:
- * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ * `def jscFlavor = io.github.react-native-community:jsc-android-intl:2026004.+`
  *
  * The international variant includes ICU i18n library and necessary data
  * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
  * give correct results when using with locales other than en-US. Note that
- * this variant is about 6MiB larger per architecture than default.*/
-def jscFlavor = 'org.webkit:android-jsc:+'
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.newreactnative'
+    namespace "com.newreactnativezustandrnq"
     defaultConfig {
-        applicationId 'com.newreactnative.zustand.reactquery'
+        applicationId "com.newreactnativezustandrnq"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-
+        
         def envFile = new File("${project.rootDir.parentFile}/.env")
         if (envFile.exists()) {
             def versionProps = getVersionFromEnv(envFile)
@@ -117,41 +112,44 @@ android {
 
     flavorDimensions 'default'
     productFlavors {
-        prod {
+        dev {
             dimension 'default'
-            applicationId 'com.newreactnative.zustand.reactquery'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
 
         staging {
             dimension 'default'
-            applicationId 'com.newreactnative.zustand.reactquery.stg'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq.stg'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.staging")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
         production {
             dimension 'default'
-            applicationId 'com.newreactnative.zustand.reactquery.production'
-            resValue 'string', 'build_config_package', 'com.newreactnative'
+            applicationId 'com.newreactnativezustandrnq.production'
+            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
 
             def envFile = new File("${project.rootDir.parentFile}/.env.production")
             if (envFile.exists()) {
-                def versionProps = getVersionFromEnv(envFile)
-                versionCode versionProps.code.toInteger()
-                versionName versionProps.name
+                def props = getVersionFromEnv(envFile)
+                versionCode props.code.toInteger()
+                versionName props.name
+                resValue "string", "app_name", props.appName
             }
         }
     }
@@ -170,27 +168,31 @@ android {
 def getVersionFromEnv(File envFile) {
     def versionCode = '1'
     def versionName = '1.0.0'
+    def appName = ''
 
     envFile.eachLine { line ->
         if (line.contains('=')) {
             def (key, value) = line.split('=', 2)
             if (key == 'VERSION_CODE') versionCode = value?.trim()?.replaceAll('"', '')
             if (key == 'VERSION_NAME') versionName = value?.trim()?.replaceAll('"', '')
+            if (key == 'APP_NAME') appName = value?.trim()?.replaceAll('"', '')
         }
     }
 
     println "Reading from ${envFile.path}"
     println "VERSION_CODE: ${versionCode}"
     println "VERSION_NAME: ${versionName}"
+    println "APP_NAME: ${appName}"
 
-    return [code: versionCode, name: versionName]
+    return [code: versionCode, name: versionName, appName: appName]
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
-    implementation('com.facebook.react:react-android')
+    implementation("com.facebook.react:react-android")
+
     if (hermesEnabled.toBoolean()) {
-        implementation('com.facebook.react:hermes-android')
+        implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
     }

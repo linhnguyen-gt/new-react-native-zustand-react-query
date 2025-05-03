@@ -18,7 +18,7 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
     return Object.fromEntries(styleKeys.map((key) => [key, props[key as keyof StyleProps]])) as ViewStyle;
 };
 
-const HStack = React.forwardRef<React.ElementRef<typeof View>, IHStackProps>(
+const HStack = React.forwardRef<React.ComponentRef<typeof View>, IHStackProps>(
     ({ className, space, reversed, style, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 

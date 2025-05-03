@@ -2,7 +2,8 @@ module.exports = {
     root: true,
     parser: "@typescript-eslint/parser",
     parserOptions: {
-        project: "./tsconfig.json"
+        project: "./tsconfig.json",
+        warnOnUnsupportedTypeScriptVersion: false
     },
     env: {
         es6: true
@@ -104,7 +105,7 @@ module.exports = {
                         position: "before"
                     },
                     {
-                        pattern: "@/api",
+                        pattern: "@/apis",
                         group: "internal",
                         position: "before"
                     },
@@ -124,22 +125,17 @@ module.exports = {
                         position: "before"
                     },
                     {
-                        pattern: "@/httpClient",
-                        group: "internal",
-                        position: "before"
-                    },
-                    {
                         pattern: "@/helper",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/views",
+                        pattern: "@/screens",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/config",
+                        pattern: "@/store",
                         group: "internal",
                         position: "before"
                     }

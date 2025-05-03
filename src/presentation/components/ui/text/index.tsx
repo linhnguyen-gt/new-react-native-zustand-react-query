@@ -18,7 +18,7 @@ const createStyleFromProps = (props: StyleProps): TextStyle => {
     return Object.fromEntries(styleKeys.map((key) => [key, props[key as keyof StyleProps]])) as TextStyle;
 };
 
-const Text = React.forwardRef<React.ElementRef<typeof RNText>, ITextProps>(
+const Text = React.forwardRef<React.ComponentRef<typeof RNText>, ITextProps>(
     (
         {
             className,

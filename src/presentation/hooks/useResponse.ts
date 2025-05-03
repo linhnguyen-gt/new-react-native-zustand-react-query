@@ -2,22 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
 import { useResponseStore } from "@/app/store";
-import { ResponseUseCase } from "@/core";
-import { ResponseRepository } from "@/data";
+import { responseApi } from "@/data/api";
 
 export const useResponse = () => {
     const { response, setResponse } = useResponseStore();
-    const responseRepository = new ResponseRepository();
-    const responseUseCase = new ResponseUseCase(responseRepository);
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["response-data"],
-        queryFn: () => responseUseCase.execute()
+        queryFn: responseApi.getResponseData
     });
 
     React.useEffect(() => {
         if (data?.ok) {
-            setResponse(data.data);
+            setResponse(data?.data ?? []);
         }
     }, [data, setResponse]);
 
@@ -25,6 +22,6 @@ export const useResponse = () => {
         response,
         isLoading,
         error,
-        data: data
+        data
     };
 };

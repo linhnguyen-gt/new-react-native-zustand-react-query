@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import React from "react";
 import { object, string } from "yup";
 
-import { RootNavigator } from "@/data";
+import { RootNavigator } from "@/data/services";
 import { LoginPage } from "@/presentation/screens";
-import { Errors, RouteName } from "@/shared";
+import { Errors, RouteName } from "@/shared/constants";
 
 jest.mock("@/data", () => ({
     RootNavigator: {

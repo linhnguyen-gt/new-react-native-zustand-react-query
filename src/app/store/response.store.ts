@@ -1,5 +1,7 @@
 import { createStore } from "./store.factory";
 
+import { ResponseData } from "@/shared/models";
+
 type ResponseState = {
     response: ResponseData[];
     setResponse: (response: ResponseData[]) => void;
