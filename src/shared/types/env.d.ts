@@ -4,7 +4,8 @@ declare module "@env" {
             APP_FLAVOR: "development" | "staging" | "production";
             VERSION_CODE: string;
             VERSION_NAME: string;
-            API_BASE_URL: string;
+            API_URL: string;
+            APP_NAME: string;
         };
     }
 }
