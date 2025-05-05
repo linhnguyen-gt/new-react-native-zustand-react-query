@@ -1,11 +1,29 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
+const path = require("path");
 const readline = require("readline").createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-const ENVIRONMENTS = ["development", "staging", "production"];
+const getPackageName = () => {
+    try {
+        const packageJsonPath = path.join(process.cwd(), "package.json");
+        if (fs.existsSync(packageJsonPath)) {
+            const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+            return packageJson.name || "MyApp";
+        }
+    } catch (error) {
+        console.warn("Failed to read package.json:", error);
+    }
+    return "MyApp";
+};
+
+const ENVIRONMENTS = [
+    { key: "development", displayName: "Dev" },
+    { key: "staging", displayName: "Staging" },
+    { key: "production", displayName: "Production" }
+];
 
 const runCommand = (command) => {
     try {
@@ -21,9 +39,10 @@ const question = (query) => new Promise((resolve) => readline.question(query, re
 
 const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {}) => {
     let envVars = { ...envVarsFromVault };
-    const envFileName = environment === "development" ? ".env" : `.env.${environment}`;
+    const envKey = environment.key;
+    const envDisplayName = environment.displayName;
+    const envFileName = envKey === "development" ? ".env" : `.env.${envKey}`;
 
-    let fileExists = false;
     if (fs.existsSync(envFileName)) {
         try {
             const content = fs.readFileSync(envFileName, "utf8");
@@ -38,11 +57,11 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
         } catch (error) {}
     }
 
-    console.log(`\n📝 Setting up ${environment} environment in ${envFileName}...`);
+    console.log(`\n📝 Setting up ${envDisplayName} environment in ${envFileName}...`);
 
-    let envContent = environment === "development" ? "# development\n" : `# ${environment}\n`;
+    let envContent = envKey === "development" ? "# development\n" : `# ${envKey}\n`;
 
-    envVars.APP_FLAVOR = environment;
+    envVars.APP_FLAVOR = envDisplayName;
 
     if (vaultKey) {
         envVars.DOTENV_VAULT = vaultKey;
@@ -53,9 +72,9 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
             development: "http://localhost:3000",
             staging: "https://api-staging.example.com",
             production: "https://api.example.com"
-        }[environment];
+        }[envKey];
 
-        const apiUrl = await question(`Enter API_URL for ${environment} (default: ${defaultUrl}): `);
+        const apiUrl = await question(`Enter API_URL for ${envDisplayName} (default: ${defaultUrl}): `);
         envVars.API_URL = apiUrl || defaultUrl;
     }
 
@@ -67,8 +86,10 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
     }
 
     if (!envVars.APP_NAME) {
-        const appName = await question(`Enter APP_NAME (default: MyApp): `);
-        envVars.APP_NAME = appName || "MyApp";
+        const baseAppName = getPackageName();
+        const defaultAppName = baseAppName + " " + envDisplayName;
+        const appName = await question(`Enter APP_NAME for ${envDisplayName} (default: ${defaultAppName}): `);
+        envVars.APP_NAME = appName || defaultAppName;
     }
 
     console.log("\nCurrent environment variables:");
@@ -81,7 +102,7 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
     let addMore = true;
     while (addMore) {
         const answer = await question(
-            `\nWould you like to add another environment variable for ${environment}? (y/n): `
+            `\nWould you like to add another environment variable for ${envDisplayName}? (y/n): `
         );
         if (answer.toLowerCase() === "y") {
             const newVar = await question("Enter variable name: ");
@@ -141,7 +162,7 @@ const createEnvExample = (envVars) => {
 # Copy this file to .env, .env.staging, or .env.production and update the values
 
 # Environment
-APP_FLAVOR=development # (development|staging|production)
+APP_FLAVOR=Dev # (Dev|Staging|Production)
 
 # App Configuration
 APP_NAME=MyApp
@@ -377,11 +398,13 @@ const main = async () => {
     }
 
     console.log("\n📝 Creating environment files...");
+    const envVarsResults = {};
     for (const env of ENVIRONMENTS) {
         const envVars = await createEnvFiles(env, vaultKey, envVarsFromVault);
         if (!envVars) {
             process.exit(1);
         }
+        envVarsResults[env.key] = envVars;
     }
 
     if (isNewVault) {
@@ -412,7 +435,7 @@ const main = async () => {
         process.exit(1);
     }
 
-    if (!createEnvExample(envVarsFromVault)) {
+    if (!createEnvExample(envVarsResults.development || {})) {
         process.exit(1);
     }
 
@@ -420,8 +443,8 @@ const main = async () => {
     console.log("\n📝 Next steps:");
     console.log("1. Review your environment files:");
     ENVIRONMENTS.forEach((env) => {
-        const fileName = env === "development" ? ".env" : `.env.${env}`;
-        console.log(`   - ${fileName}`);
+        const fileName = env.key === "development" ? ".env" : `.env.${env.key}`;
+        console.log(`   - ${fileName} (${env.displayName})`);
     });
     if (useVault) {
         console.log("2. Commit the .env.vault file");
