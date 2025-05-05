@@ -1,4 +1,4 @@
-package com.example.appzustandrnq
+package com.newreactnativezustandrnq
 import expo.modules.ReactActivityDelegateWrapper
 
 import com.facebook.react.ReactActivity
