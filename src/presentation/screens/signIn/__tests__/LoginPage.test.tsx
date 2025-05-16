@@ -1,18 +1,32 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
-import { useFormik } from "formik";
 import React from "react";
-import { object, string } from "yup";
+import { FormProvider, useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { RootNavigator } from "@/data/services";
 
 import { LoginPage } from "../..";
 
-import { RootNavigator } from "@/data/services";
 import { Errors, RouteName } from "@/shared/constants";
 
-jest.mock("@/data/services", () => ({
+jest.mock("@/services", () => ({
     RootNavigator: {
         replaceName: jest.fn()
     }
 }));
+
+// Define test schema that matches the one in the component
+const mockLoginSchema = z.object({
+    email: z
+        .string()
+        .min(1, Errors.REQUIRED_EMAIL_INPUT)
+        .email(Errors.EMAIL_INVALID)
+        .refine((value) => value.endsWith(".com"), {
+            message: Errors.IS_NOT_EMAIL
+        }),
+    password: z.string().min(1, Errors.REQUIRED_PASSWORD_INPUT)
+});
 
 describe("<LoginPage />", () => {
     beforeEach(() => {
@@ -38,89 +52,98 @@ describe("<LoginPage />", () => {
     });
 
     it("shows validation error for invalid email", async () => {
-        let formikBag: any;
+        let formState: any;
 
         const TestComponent = () => {
-            const formik = useFormik({
-                initialValues: { email: "invalid-email", password: "123456" },
-                onSubmit: () => {},
-                validationSchema: object().shape({
-                    email: string().email(Errors.EMAIL_INVALID).required(Errors.REQUIRED_EMAIL_INPUT),
-                    password: string().required(Errors.REQUIRED_PASSWORD_INPUT)
-                })
+            const methods = useForm({
+                defaultValues: { email: "invalid-email", password: "123456" },
+                resolver: zodResolver(mockLoginSchema),
+                mode: "onChange"
             });
-            formikBag = formik;
-            return <LoginPage />;
+            formState = methods.formState;
+
+            React.useEffect(() => {
+                methods.trigger();
+            }, [methods]);
+
+            return (
+                <FormProvider {...methods}>
+                    <LoginPage />
+                </FormProvider>
+            );
         };
 
         render(<TestComponent />);
 
-        await waitFor(async () => {
-            formikBag.setFieldTouched("email", true);
-            await formikBag.validateForm();
-            expect(formikBag.errors).toBeDefined();
+        await waitFor(() => {
+            expect(formState.errors).toBeDefined();
+            expect(formState.errors.email).toBeDefined();
         });
 
-        expect(formikBag.errors.email).toBe(Errors.EMAIL_INVALID);
+        expect(formState.errors.email.message).toBe(Errors.EMAIL_INVALID);
     });
 
     it("shows validation error for non .com email", async () => {
-        let formikBag: any;
+        let formState: any;
 
         const TestComponent = () => {
-            const formik = useFormik({
-                initialValues: { email: "test@test.org", password: "123456" },
-                onSubmit: () => {},
-                validationSchema: object().shape({
-                    email: string()
-                        .email(Errors.EMAIL_INVALID)
-                        .required(Errors.REQUIRED_EMAIL_INPUT)
-                        .test("is-com-email", Errors.IS_NOT_EMAIL, (value) => (value ? value.endsWith(".com") : true)),
-                    password: string().required(Errors.REQUIRED_PASSWORD_INPUT)
-                })
+            const methods = useForm({
+                defaultValues: { email: "test@test.org", password: "123456" },
+                resolver: zodResolver(mockLoginSchema),
+                mode: "onChange"
             });
-            formikBag = formik;
-            return <LoginPage />;
+            formState = methods.formState;
+
+            React.useEffect(() => {
+                methods.trigger();
+            }, [methods]);
+
+            return (
+                <FormProvider {...methods}>
+                    <LoginPage />
+                </FormProvider>
+            );
         };
 
         render(<TestComponent />);
 
-        await waitFor(async () => {
-            formikBag.setFieldTouched("email", true);
-            await formikBag.validateForm();
-            expect(formikBag.errors).toBeDefined();
+        await waitFor(() => {
+            expect(formState.errors).toBeDefined();
+            expect(formState.errors.email).toBeDefined();
         });
 
-        expect(formikBag.errors.email).toBe(Errors.IS_NOT_EMAIL);
+        expect(formState.errors.email.message).toBe(Errors.IS_NOT_EMAIL);
     });
 
     it("shows validation error for missing password", async () => {
-        let formikBag: any;
+        let formState: any;
 
         const TestComponent = () => {
-            const formik = useFormik({
-                initialValues: { email: "test@test.com", password: "" },
-                onSubmit: () => {},
-                validationSchema: object().shape({
-                    email: string()
-                        .email(Errors.EMAIL_INVALID)
-                        .required(Errors.REQUIRED_EMAIL_INPUT)
-                        .test("is-com-email", Errors.IS_NOT_EMAIL, (value) => (value ? value.endsWith(".com") : true)),
-                    password: string().required(Errors.REQUIRED_PASSWORD_INPUT)
-                })
+            const methods = useForm({
+                defaultValues: { email: "test@test.com", password: "" },
+                resolver: zodResolver(mockLoginSchema),
+                mode: "onChange"
             });
-            formikBag = formik;
-            return <LoginPage />;
+            formState = methods.formState;
+
+            React.useEffect(() => {
+                methods.trigger();
+            }, [methods]);
+
+            return (
+                <FormProvider {...methods}>
+                    <LoginPage />
+                </FormProvider>
+            );
         };
 
         render(<TestComponent />);
 
-        await waitFor(async () => {
-            formikBag.setFieldTouched("password", true);
-            await formikBag.validateForm();
-            expect(formikBag.errors).toBeDefined();
+        await waitFor(() => {
+            expect(formState.errors).toBeDefined();
+            expect(formState.errors.password).toBeDefined();
         });
 
-        expect(formikBag.errors.password).toBe(Errors.REQUIRED_PASSWORD_INPUT);
+        expect(formState.errors.password.message).toBe(Errors.REQUIRED_PASSWORD_INPUT);
     });
 });

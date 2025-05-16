@@ -8,7 +8,7 @@ import React from "react";
 
 import { MyTouchable } from "../../touchable";
 
-import { getColor } from "@/presentation/hooks";
+import { getColor } from "@/presentation/hooks/useThemeColor";
 import {
     type AntDesignIconName,
     type EntypoIconName,

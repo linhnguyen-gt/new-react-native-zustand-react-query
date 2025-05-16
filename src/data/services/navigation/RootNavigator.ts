@@ -22,9 +22,7 @@ class RootNavigator implements INavigationService {
     }
 
     goBack(): void {
-        if (this.navigationRef.isReady()) {
-            this.navigationRef.current?.dispatch(CommonActions.goBack());
-        }
+        this.navigationRef?.current?.dispatch(CommonActions.goBack());
     }
 
     async replaceName<RouteName extends keyof RootStackParamList, Param extends RootStackParamList[RouteName]>(

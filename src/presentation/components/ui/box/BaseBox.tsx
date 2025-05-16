@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { boxStyle } from "./styles";
 

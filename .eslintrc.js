@@ -90,52 +90,67 @@ module.exports = {
                 },
                 pathGroups: [
                     {
-                        pattern: "@/components",
+                        pattern: "@/app",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/redux",
+                        pattern: "@/app/providers",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/constants",
+                        pattern: "@/app/store",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/apis",
+                        pattern: "@/data",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/services",
+                        pattern: "@/data/api",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/model",
+                        pattern: "@/data/queries",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/hooks",
+                        pattern: "@/data/services",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/helper",
+                        pattern: "@/presentation",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/screens",
+                        pattern: "@/presentation/components",
                         group: "internal",
                         position: "before"
                     },
                     {
-                        pattern: "@/store",
+                        pattern: "@/presentation/hooks",
+                        group: "internal",
+                        position: "before"
+                    },
+                    {
+                        pattern: "@/presentation/navigator",
+                        group: "internal",
+                        position: "before"
+                    },
+                    {
+                        pattern: "@/presentation/screens",
+                        group: "internal",
+                        position: "before"
+                    },
+                    {
+                        pattern: "@/shared",
                         group: "internal",
                         position: "before"
                     }

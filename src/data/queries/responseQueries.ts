@@ -1,12 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 
-import { queryKeys } from "./queryKeys";
-
 import { useResponseStore } from "@/app/store";
+
 import { responseApi } from "@/data/api";
 
-export const useResponsesQuery = () => {
+import { queryKeys } from "./queryKeys";
+
+export const useResponsesQueries = () => {
     const { setResponse } = useResponseStore();
 
     const result = useQuery({
@@ -23,7 +24,7 @@ export const useResponsesQuery = () => {
     return result;
 };
 
-export const useResponseDetailQuery = () => {
+export const useResponseDetailQueries = () => {
     const { setResponseDetail } = useResponseStore();
 
     const mutation = useMutation({

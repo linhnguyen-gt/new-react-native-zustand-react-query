@@ -1,10 +1,12 @@
-import { useFormik } from "formik";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { Keyboard } from "react-native";
-import { object, string } from "yup";
+import * as z from "zod";
 
 import { RootNavigator } from "@/data/services";
-import { Input } from "@/presentation/components/input";
+
+import { ControlledInput } from "@/presentation/components/input";
 import { MyTouchable } from "@/presentation/components/touchable";
 import { Box, ScrollView, Text, VStack } from "@/presentation/components/ui";
 import { Colors, Errors, RouteName } from "@/shared/constants";
@@ -49,28 +51,32 @@ const RNLogo = () => (
     </Box>
 );
 
+const loginSchema = z.object({
+    email: z
+        .string()
+        .min(1, Errors.REQUIRED_EMAIL_INPUT)
+        .email(Errors.EMAIL_INVALID)
+        .refine((value) => value.endsWith(".com"), {
+            message: Errors.IS_NOT_EMAIL
+        }),
+    password: z.string().min(1, Errors.REQUIRED_PASSWORD_INPUT)
+});
+
 const Login = () => {
-    const formik = useFormik({
-        initialValues: {
+    const { control, handleSubmit } = useForm({
+        defaultValues: {
             email: "test@test.com",
             password: "123456"
         },
-        validationSchema: object().shape({
-            email: string()
-                .email(Errors.EMAIL_INVALID)
-                .required(Errors.REQUIRED_EMAIL_INPUT)
-                .test("is-com-email", Errors.IS_NOT_EMAIL, (value) => (value ? value.endsWith(".com") : true)),
-            password: string().required(Errors.REQUIRED_PASSWORD_INPUT)
-        }),
-        onSubmit: () => {
-            RootNavigator.replaceName(RouteName.Main);
-        }
+        resolver: zodResolver(loginSchema)
     });
 
     const handleLogin = React.useCallback(() => {
         Keyboard.dismiss();
-        formik.handleSubmit();
-    }, [formik]);
+        handleSubmit((_values) => {
+            RootNavigator.replaceName(RouteName.Main);
+        })();
+    }, [handleSubmit]);
 
     return (
         <Box flex={1} safeArea backgroundColor="white">
@@ -87,22 +93,20 @@ const Login = () => {
                     </VStack>
 
                     <VStack space="xl">
-                        <Input
+                        <ControlledInput
+                            control={control}
+                            name="email"
                             placeholder="Email"
-                            fieldName="email"
-                            error={formik.touched.email && formik.errors.email}
-                            value={formik.values.email}
-                            onChangeValue={formik.setFieldValue}
+                            shouldUseFieldError={true}
                             testID="email-input"
                         />
 
-                        <Input
+                        <ControlledInput
+                            control={control}
+                            name="password"
                             placeholder="Password"
                             isPassword
-                            fieldName="password"
-                            error={formik.touched.password && formik.errors.password}
-                            value={formik.values.password}
-                            onChangeValue={formik.setFieldValue}
+                            shouldUseFieldError={true}
                             testID="password-input"
                         />
 

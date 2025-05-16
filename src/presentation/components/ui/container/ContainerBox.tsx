@@ -6,21 +6,17 @@ import LoadingBox from "../box/LoadingBox";
 
 type ContainerBoxProps = BaseBoxProps & {
     isLoading?: boolean;
-    safeAreaTop?: boolean;
-    safeAreaBottom?: boolean;
     safeArea?: boolean;
 };
 
 const ContainerBox = React.forwardRef<React.ComponentRef<typeof View>, ContainerBoxProps>(
-    ({ backgroundColor = "white", isLoading = false, safeAreaTop, safeAreaBottom, safeArea, ...props }, ref) => {
+    ({ backgroundColor = "white", safeArea, ...props }, ref) => {
         return (
-            <BaseBox
-                className={`${safeAreaTop ? "mt-safe" : ""} ${safeAreaBottom ? "mb-safe" : ""} ${safeArea ? "mt-safe mb-safe" : ""}`}
-                flex={1}>
+            <BaseBox safeArea={safeArea} flex={1} backgroundColor={backgroundColor}>
                 <BaseBox flex={1} backgroundColor={backgroundColor} {...props} ref={ref}>
                     {props.children}
                 </BaseBox>
-                {isLoading && <LoadingBox />}
+                <LoadingBox isLoading={props.isLoading} />
             </BaseBox>
         );
     }

@@ -1,6 +1,8 @@
 import React from "react";
 import { View, ViewStyle } from "react-native";
 
+import Touchable from "../touch";
+
 import { hstackStyle } from "./styles";
 
 import type { VariantProps } from "@gluestack-ui/nativewind-utils";
@@ -11,6 +13,7 @@ type IHStackProps = Omit<React.ComponentProps<typeof View>, keyof StyleProps> &
     StyleProps &
     VariantProps<typeof hstackStyle> & {
         className?: string;
+        onPress?: () => void;
     };
 
 const createStyleFromProps = (props: StyleProps): ViewStyle => {
@@ -19,11 +22,12 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
 };
 
 const HStack = React.forwardRef<React.ComponentRef<typeof View>, IHStackProps>(
-    ({ className, space, reversed, style, ...props }, ref) => {
+    ({ className, space, reversed, style, onPress, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 
         return (
-            <View
+            <Touchable
+                onPress={onPress}
                 className={hstackStyle({ space, reversed, class: className })}
                 style={[styleProps, style]}
                 {...props}

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useCounterStore } from "@/app/store";
+
 import { MyTouchable } from "@/presentation/components/touchable";
 import { Box, HStack, Text, VStack } from "@/presentation/components/ui";
 

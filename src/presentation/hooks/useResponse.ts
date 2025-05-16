@@ -1,9 +1,10 @@
 import { useResponseStore } from "@/app/store";
-import { useResponsesQuery } from "@/data/queries";
+
+import { useResponsesQueries } from "@/data/queries";
 
 export const useResponse = () => {
     const { response } = useResponseStore();
-    const { isLoading, error, data } = useResponsesQuery();
+    const { isLoading, error, data } = useResponsesQueries();
 
     return {
         response,

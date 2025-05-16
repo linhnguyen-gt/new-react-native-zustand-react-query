@@ -2,9 +2,9 @@ import { FlashList, FlashListProps, ListRenderItem } from "@shopify/flash-list";
 import React from "react";
 import { DimensionValue, RefreshControl } from "react-native";
 
-import { LoadingFooter } from "../loading";
-
 import { useRefresh } from "@/presentation/hooks";
+
+import { LoadingFooter } from "../loading";
 
 type Data = Record<string, any>;
 
