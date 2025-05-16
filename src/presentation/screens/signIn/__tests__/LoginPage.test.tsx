@@ -10,7 +10,7 @@ import { LoginPage } from "../..";
 
 import { Errors, RouteName } from "@/shared/constants";
 
-jest.mock("@/services", () => ({
+jest.mock("@/data/services", () => ({
     RootNavigator: {
         replaceName: jest.fn()
     }

@@ -3,3 +3,5 @@ declare global {
         count: number;
     };
 }
+
+export {};

@@ -25,6 +25,8 @@ const TouchableComponent = React.forwardRef<React.ComponentRef<typeof TouchableO
 
         return (
             <TouchableOpacity
+                activeOpacity={0.5}
+                disabled={props.disabled || !props.onPress}
                 className={touchableStyle({ class: className })}
                 style={[styleProps, style]}
                 {...props}
