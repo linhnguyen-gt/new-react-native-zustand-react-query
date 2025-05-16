@@ -39,8 +39,7 @@
 ### Form & Validation
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Formik-v2.4.6-0744AE?style=for-the-badge" alt="formik" />
-    <img src="https://img.shields.io/badge/Yup-v1.6.1-32CD32?style=for-the-badge" alt="yup" />
+    <img src="https://img.shields.io/badge/React_Hook_Form-v7.56.3-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
     <img src="https://img.shields.io/badge/Zod-v3.24.3-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
