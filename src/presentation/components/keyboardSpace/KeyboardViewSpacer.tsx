@@ -14,7 +14,7 @@ const KeyboardViewSpacer: React.FC<KeyboardViewSpacerProps> = ({ children, useNa
             Animated.parallel([
                 Animated.timing(keyboardHeight, {
                     duration: event.duration,
-                    toValue: event.endCoordinates.height - 30,
+                    toValue: event.endCoordinates.height + 10,
                     useNativeDriver
                 })
             ]).start();

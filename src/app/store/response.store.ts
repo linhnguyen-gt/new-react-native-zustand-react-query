@@ -12,14 +12,10 @@ const initialState: ResponseStateData = {
     responseDetail: null
 };
 
-export const useResponseStore = createStore<ResponseState>(
-    "Response",
-    (set) => ({
-        ...initialState,
-        setResponse: (response) => set({ response }),
-        setResponseDetail: (detail) => set({ responseDetail: detail }),
-        clearResponse: () => set({ response: [] }),
-        clearResponseDetail: () => set({ responseDetail: null })
-    }),
-    { initialState }
-);
+export const useResponseStore = createStore<ResponseState>("Response", (set) => ({
+    ...initialState,
+    setResponse: (response) => set({ response }),
+    setResponseDetail: (detail) => set({ responseDetail: detail }),
+    clearResponse: () => set({ response: [] }),
+    clearResponseDetail: () => set({ responseDetail: null })
+}));
