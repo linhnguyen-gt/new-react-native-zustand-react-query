@@ -470,7 +470,7 @@ The setup automatically manages app versions based on environment files:
 - Always commit `.env.example` and `.env.vault` (if using dotenv-vault)
 - Share vault credentials with your team members if using dotenv-vault
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
