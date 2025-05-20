@@ -1,6 +1,5 @@
 import React from "react";
 import { View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { boxStyle } from "./styles";
 
@@ -23,10 +22,14 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
 const BaseBox = React.forwardRef<React.ComponentRef<typeof View>, BaseBoxProps>(
     ({ className, style, safeArea, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
-        const Component = safeArea ? SafeAreaView : View;
 
         return (
-            <Component className={boxStyle({ class: className })} style={[styleProps, style]} {...props} ref={ref} />
+            <View
+                className={boxStyle({ class: `${className} ${safeArea ? "pt-safe" : ""}` })}
+                style={[styleProps, style]}
+                {...props}
+                ref={ref}
+            />
         );
     }
 );
