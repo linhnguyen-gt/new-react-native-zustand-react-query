@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 import { environment } from "../environment";
 
@@ -27,17 +27,12 @@ export class HttpClient implements IHttpClient {
 
     private timeoutId: number | null = null;
 
-    private constructor(
-        tokenService?: TokenService,
-        errorHandler?: ErrorHandler,
-        config: Partial<AxiosRequestConfig> = {}
-    ) {
+    private constructor(tokenService?: TokenService, errorHandler?: ErrorHandler) {
         this.INSTANCE = axios.create({
             baseURL: DEFAULT_API_CONFIG.baseURL,
-            timeout: DEFAULT_API_CONFIG.timeout,
+            timeout: DEFAULT_API_CONFIG.timeout
             // TODO: Uncomment this when the backend is ready to receive cookies
             // withCredentials: true,
-            ...config
         });
         this.errorHandler = errorHandler ?? new ErrorHandler();
         this.tokenService = tokenService ?? new TokenService(this);
@@ -114,10 +109,6 @@ export class HttpClient implements IHttpClient {
 
     public setAccessToken(accessToken?: string): void {
         this.INSTANCE.defaults.headers.Authorization = `Bearer ${accessToken}`;
-    }
-
-    public getInstance(): AxiosInstance {
-        return this.INSTANCE;
     }
 }
 

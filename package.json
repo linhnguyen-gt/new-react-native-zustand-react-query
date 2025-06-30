@@ -3,9 +3,9 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "android": "npx expo run:android --device --variant devDebug --app-id com.newreactnativezustandrnq",
-        "android:stg": "APP_ENV=staging && npx expo run:android --device --variant stagingDebug --app-id com.newreactnativezustandrnq.stg",
-        "android:pro": "APP_ENV=production && npx expo run:android --device --variant productionDebug --app-id com.newreactnativezustandrnq.production",
+        "android": "npx expo run:android --device --variant devDebug",
+        "android:stg": "APP_ENV=staging && npx expo run:android --device --variant stagingDebug",
+        "android:pro": "APP_ENV=production && npx expo run:android --device --variant productionDebug",
         "ios": "npx expo run:ios --device",
         "ios:stg": "APP_ENV=staging npx expo run:ios --device --scheme Staging",
         "ios:pro": "APP_ENV=production npx expo run:ios --device --scheme Product",
