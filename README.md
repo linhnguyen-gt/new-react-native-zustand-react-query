@@ -100,7 +100,7 @@
 - Gluestack UI components
 - Responsive design patterns
 - Custom hooks and components
-- Form handling with Formik & Yup
+- Form handling with react-hook-form & zod
 
 ### Environment & Configuration
 
