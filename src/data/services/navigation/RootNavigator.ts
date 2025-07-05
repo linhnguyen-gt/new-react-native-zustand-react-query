@@ -1,7 +1,7 @@
 import { CommonActions, createNavigationContainerRef } from "@react-navigation/native";
 
 import { INavigationService } from "./INavigationService";
-import { NavigationLogger } from "./NavigationLogger";
+import { NavigationLogger } from "./navigationLogger";
 
 import { RouteName } from "@/shared/constants";
 

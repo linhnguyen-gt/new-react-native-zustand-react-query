@@ -1,6 +1,6 @@
 import { AxiosError, HttpStatusCode } from "axios";
 
-import { apiProblem } from "../HttpProblem";
+import { apiProblem } from "../httpProblem";
 
 import { Logger } from "@/shared/helper";
 

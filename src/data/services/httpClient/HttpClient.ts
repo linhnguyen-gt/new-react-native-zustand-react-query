@@ -2,11 +2,11 @@ import axios, { AxiosInstance } from "axios";
 
 import { environment } from "../environment";
 
-import ApiMethod from "./ApiMethod";
+import ApiMethod from "./apiMethod";
 import { HttpRequestConfig, HttpResponse, IHttpClient } from "./interfaces/IHttpClient";
-import { ErrorHandler } from "./services/ErrorHandler";
-import { RequestInterceptor } from "./services/RequestInterceptor";
-import { TokenService } from "./services/TokenService";
+import { ErrorHandler } from "./services/errorHandler";
+import { RequestInterceptor } from "./services/requestInterceptor";
+import { TokenService } from "./services/tokenService";
 
 const DEFAULT_API_CONFIG = {
     baseURL: environment.apiBaseUrl,

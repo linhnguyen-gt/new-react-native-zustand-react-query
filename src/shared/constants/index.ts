@@ -1,3 +1,3 @@
-export { default as Colors } from "./Colors";
-export { default as Errors } from "./Errors";
-export { default as RouteName } from "./RouteName";
+export { default as Colors } from "./colors";
+export { default as Errors } from "./errors";
+export { default as RouteName } from "./routeName";

@@ -1,6 +1,6 @@
-import ApiMethod from "./ApiMethod";
-import HttpClient from "./HttpClient";
-import { apiProblem } from "./HttpProblem";
+import ApiMethod from "./apiMethod";
+import HttpClient from "./httpClient";
+import { apiProblem } from "./httpProblem";
 import { HttpResponse, IHttpClient, ITokenService } from "./interfaces/IHttpClient";
 
 export { ApiMethod, apiProblem, HttpClient };
