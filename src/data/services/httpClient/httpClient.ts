@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios";
 import { environment } from "../environment";
 
 import ApiMethod from "./apiMethod";
-import { HttpRequestConfig, HttpResponse, IHttpClient } from "./interfaces/IHttpClient";
+import { HttpRequestConfig, HttpResponse, IHttpClient } from "./interfaces/iHttpClient";
 import { ErrorHandler } from "./services/errorHandler";
 import { RequestInterceptor } from "./services/requestInterceptor";
 import { TokenService } from "./services/tokenService";
