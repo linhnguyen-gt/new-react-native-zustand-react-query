@@ -2,7 +2,9 @@
     "compilerOptions": {
         "target": "esnext",
         "module": "commonjs",
-        "lib": ["es2021"],
+        "lib": [
+            "es2021"
+        ],
         "allowJs": true,
         "jsx": "react-native",
         "noEmit": true,
@@ -16,7 +18,9 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": [
+                "src/*"
+            ]
         }
     },
     "include": [
@@ -35,6 +39,5 @@
         "jest.setup.js",
         "jest.config.js",
         "app.config.ts"
-    ],
-    "extends": "expo/tsconfig.base"
+    ]
 }
