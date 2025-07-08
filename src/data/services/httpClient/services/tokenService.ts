@@ -1,6 +1,6 @@
 import ApiMethod from "../apiMethod";
 import { HttpClient } from "../httpClient";
-import { ITokenService, Session } from "../interfaces/IHttpClient";
+import { ITokenService, Session } from "../interfaces/iHttpClient";
 
 import { clearToken, getToken, setToken } from "@/shared/helper";
 

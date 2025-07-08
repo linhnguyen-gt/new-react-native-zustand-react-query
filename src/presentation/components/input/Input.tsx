@@ -72,7 +72,9 @@ const Input = React.forwardRef<TextInput, InputProps>(
             return (
                 <HStack
                     style={{ height }}
-                    className={`items-center w-full rounded-2xl border ${!enable && "bg-inputDisable"} px-5 border-2 ${error ? "border-red" : "border-gray-100"} `}>
+                    className={`items-center w-full rounded-2xl border ${!enable && "bg-inputDisable"} px-5 border-2 ${
+                        error ? "border-red" : "border-gray-100"
+                    } `}>
                     <HStack className="items-center flex-1 h-full" space="md">
                         {prefixIcon}
                         <TextInput
