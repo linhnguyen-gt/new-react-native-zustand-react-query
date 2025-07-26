@@ -1,7 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enum TypeToken {
-    RefreshToken = "REFRESH_TOKEN"
+    RefreshToken = 'REFRESH_TOKEN',
 }
 
 /**

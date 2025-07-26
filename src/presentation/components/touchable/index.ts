@@ -1,1 +1,1 @@
-export { default as MyTouchable } from "./MyTouchable";
+export { default as MyTouchable } from './MyTouchable';

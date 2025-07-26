@@ -1,4 +1,4 @@
-import ApiMethod from "../apiMethod";
+import ApiMethod from '../apiMethod';
 
 export interface Session {
     accessToken?: string;

@@ -1,26 +1,26 @@
-import { cssInterop } from "nativewind";
-import React from "react";
-import { ScrollView as RNScrollView, ViewStyle } from "react-native";
+import { cssInterop } from 'nativewind';
+import React from 'react';
+import { ScrollView as RNScrollView, ViewStyle } from 'react-native';
 
-import { scrollViewStyle } from "./styles";
+import { scrollViewStyle } from './styles';
 
-import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
 const UIScrollView = RNScrollView;
 cssInterop(UIScrollView, {
-    className: "style",
-    contentContainerClassName: "contentContainerStyle"
+    className: 'style',
+    contentContainerClassName: 'contentContainerStyle',
 });
 
-type StyleProps = Omit<ViewStyle, "transform">;
-type ContentContainerStyleProps = Omit<ViewStyle, "transform">;
+type StyleProps = Omit<ViewStyle, 'transform'>;
+type ContentContainerStyleProps = Omit<ViewStyle, 'transform'>;
 
 export type IScrollViewProps = Omit<React.ComponentProps<typeof UIScrollView>, keyof StyleProps> &
     StyleProps & {
         contentContainerStyle?: ContentContainerStyleProps;
         className?: string;
         contentClassName?: string;
-        space?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+        space?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
     } & VariantProps<typeof scrollViewStyle>;
 
 const createStyleFromProps = (props: StyleProps): ViewStyle => {
@@ -47,11 +47,11 @@ const ScrollView = React.forwardRef<React.ComponentRef<typeof UIScrollView>, ISc
             contentClassName,
             space &&
                 scrollViewStyle({ space })
-                    .split(" ")
-                    .find((cls: string) => cls.startsWith("gap-"))
+                    .split(' ')
+                    .find((cls: string) => cls.startsWith('gap-')),
         ]
             .filter(Boolean)
-            .join(" ");
+            .join(' ');
 
         return (
             <UIScrollView
@@ -67,6 +67,6 @@ const ScrollView = React.forwardRef<React.ComponentRef<typeof UIScrollView>, ISc
     }
 );
 
-ScrollView.displayName = "ScrollView";
+ScrollView.displayName = 'ScrollView';
 
 export default ScrollView;

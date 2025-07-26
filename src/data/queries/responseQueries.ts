@@ -1,25 +1,24 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery } from '@tanstack/react-query';
+import React from 'react';
 
-import { useResponseStore } from "@/app/store";
+import { useResponseStore } from '@/app/store';
 
-import { responseApi } from "@/data/api";
-
-import { queryKeys } from "./queryKeys";
+import { responseApi } from '../api';
 
 export const useResponsesQueries = () => {
     const { setResponse } = useResponseStore();
 
     const result = useQuery({
-        queryKey: queryKeys.responses.list(),
-        queryFn: responseApi.getResponseData
+        queryKey: ['responses', 'list'],
+        queryFn: responseApi.getResponseData,
     });
 
     React.useEffect(() => {
         if (result.data?.ok) {
             setResponse(result.data.data ?? []);
         }
-    }, [result.data, setResponse]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [result.data]);
 
     return result;
 };
@@ -33,7 +32,7 @@ export const useResponseDetailQueries = () => {
             if (data?.ok) {
                 setResponseDetail(data.data);
             }
-        }
+        },
     });
 
     const getDetail = async (detailId: string) => {
@@ -43,7 +42,7 @@ export const useResponseDetailQueries = () => {
                 result.data;
             }
         } catch (error) {
-            console.error("Failed to fetch detail:", error);
+            console.error('Failed to fetch detail:', error);
         }
     };
 
@@ -51,6 +50,6 @@ export const useResponseDetailQueries = () => {
         data: mutation.data,
         isLoading: mutation.isPending,
         error: mutation.error,
-        getDetail
+        getDetail,
     };
 };

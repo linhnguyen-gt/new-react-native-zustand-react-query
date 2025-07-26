@@ -5,19 +5,19 @@
 
   <p>
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.79.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.80.1-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="https://img.shields.io/badge/TypeScript-v5.8.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+      <img src="https://img.shields.io/badge/TypeScript-v5.0.4-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
     </a>
   </p>
 
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v53.0.0-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.0-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
-    <img src="https://img.shields.io/badge/React_Navigation-v7.1.9-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
+    <img src="https://img.shields.io/badge/React_Navigation-v7.1.15-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
 ### State Management & API
@@ -25,7 +25,7 @@
   <p>
     <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
     <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
-    <img src="https://img.shields.io/badge/Axios-v1.9.0-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
+    <img src="https://img.shields.io/badge/Axios-v1.11.0-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
 ### UI & Styling
@@ -39,30 +39,30 @@
 ### Form & Validation
 
   <p>
-    <img src="https://img.shields.io/badge/React_Hook_Form-v7.56.3-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
-    <img src="https://img.shields.io/badge/Zod-v3.24.4-3068B7?style=for-the-badge" alt="zod" />
+    <img src="https://img.shields.io/badge/React_Hook_Form-v7.61.1-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
+    <img src="https://img.shields.io/badge/Zod-v4.0.10-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
 ### Development & Testing
 
   <p>
     <img src="https://img.shields.io/badge/ESLint-v8.19.0-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="eslint" />
-    <img src="https://img.shields.io/badge/Prettier-v3.3.3-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
-    <img src="https://img.shields.io/badge/Jest-v29.7.0-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
+    <img src="https://img.shields.io/badge/Prettier-v2.8.8-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
+    <img src="https://img.shields.io/badge/Jest-v29.6.3-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
   </p>
 
 ### Environment & Storage
 
   <p>
     <img src="https://img.shields.io/badge/Dotenv-v16.5.0-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
-    <img src="https://img.shields.io/badge/Async_Storage-v2.1.2-3B82F6?style=for-the-badge" alt="async-storage" />
+    <img src="https://img.shields.io/badge/Async_Storage-v2.2.0-3B82F6?style=for-the-badge" alt="async-storage" />
   </p>
 
 ### Development Tools
 
   <p>
-    <img src="https://img.shields.io/badge/Reactotron-v5.1.13-7B61FF?style=for-the-badge" alt="reactotron" />
-    <img src="https://img.shields.io/badge/React_Native_Reanimated-v3.17.4-FF4154?style=for-the-badge" alt="reanimated" />
+    <img src="https://img.shields.io/badge/Reactotron-v5.1.14-7B61FF?style=for-the-badge" alt="reactotron" />
+    <img src="https://img.shields.io/badge/React_Native_Reanimated-v3.18.0-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
 ### Environment Support
@@ -78,14 +78,14 @@
 ### Architecture & State Management
 
 - **Well-organized Architecture** with clear separation of concerns:
-    - Presentation Layer (UI/Screens/Hooks)
-    - Application Layer (State Management)
-    - Data Layer (API/Storage)
-    - Shared (Models/Utilities)
+  - Presentation Layer (UI/Screens/Hooks)
+  - Application Layer (State Management)
+  - Data Layer (API/Storage)
+  - Shared (Models/Utilities)
 - **Modern State Management**
-    - Zustand for client-side state
-    - React Query for server-side state
-    - Async Storage for persistence
+  - Zustand for client-side state
+  - React Query for server-side state
+  - Async Storage for persistence
 
 ### Development Experience
 

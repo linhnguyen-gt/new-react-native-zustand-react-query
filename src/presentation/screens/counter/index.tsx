@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { useCounterStore } from "@/app/store";
+import { useCounterStore } from '@/app/store';
 
-import { MyTouchable } from "@/presentation/components/touchable";
-import { Box, HStack, Text, VStack } from "@/presentation/components/ui";
+import { MyTouchable } from '@/presentation/components/touchable';
+import { Box, HStack, Text, VStack } from '@/presentation/components/ui';
 
 const Counter = () => {
     const { count, increment, decrement, reset } = useCounterStore();

@@ -1,20 +1,20 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Reactotron from "reactotron-react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Reactotron from 'reactotron-react-native';
 
-import { name as appName } from "../../../../app.json";
+import { name as appName } from '../../../../app.json';
 
 type LogType =
-    | "ZUSTAND"
-    | "QUERY"
-    | "API"
-    | "INFO"
-    | "SUCCESS"
-    | "WARNING"
-    | "ERROR"
-    | "NETWORK"
-    | "ACTION"
-    | "EVENT"
-    | "COMPONENT";
+    | 'ZUSTAND'
+    | 'QUERY'
+    | 'API'
+    | 'INFO'
+    | 'SUCCESS'
+    | 'WARNING'
+    | 'ERROR'
+    | 'NETWORK'
+    | 'ACTION'
+    | 'EVENT'
+    | 'COMPONENT';
 
 type LogPayload = {
     type: LogType;
@@ -32,14 +32,14 @@ export class ReactotronCore {
     private constructor() {
         this.tron = Reactotron.setAsyncStorageHandler(AsyncStorage)
             .configure({
-                name: appName
+                name: appName,
             })
             .useReactNative({
                 networking: true,
                 asyncStorage: true,
                 editor: true,
                 overlay: true,
-                errors: true
+                errors: true,
             })
             .connect();
 
@@ -57,49 +57,49 @@ export class ReactotronCore {
 
     public log(payload: LogPayload): void {
         if (__DEV__) {
-            const prefix = payload.important ? "‼️ IMPORTANT - " : "";
+            const prefix = payload.important ? '‼️ IMPORTANT - ' : '';
 
             let formattedValue = payload.value;
-            if (typeof payload.value === "string") {
+            if (typeof payload.value === 'string') {
                 formattedValue = { message: payload.value };
             }
 
             this.tron.display({
                 name: `${prefix}${payload.name}`,
                 preview: payload.preview,
-                value: formattedValue
+                value: formattedValue,
             });
         }
     }
 
     public logInfo(name: string, value: any, preview?: string): void {
         this.log({
-            type: "INFO",
+            type: 'INFO',
             name,
-            preview: preview || "Info",
+            preview: preview || 'Info',
             value,
-            color: "#3498db"
+            color: '#3498db',
         });
     }
 
     public logSuccess(name: string, value: any, preview?: string): void {
         this.log({
-            type: "SUCCESS",
+            type: 'SUCCESS',
             name,
-            preview: preview || "Success",
+            preview: preview || 'Success',
             value,
-            color: "#2ecc71"
+            color: '#2ecc71',
         });
     }
 
     public logWarning(name: string, value: any, preview?: string): void {
         this.log({
-            type: "WARNING",
+            type: 'WARNING',
             name,
-            preview: preview || "Warning",
+            preview: preview || 'Warning',
             value,
-            color: "#f39c12",
-            important: true
+            color: '#f39c12',
+            important: true,
         });
     }
 
@@ -111,52 +111,52 @@ export class ReactotronCore {
                 message: error.message,
                 stack: error.stack,
                 name: error.name,
-                ...(error as any)
+                ...(error as any),
             };
         } else {
             formattedError = error;
         }
 
         this.log({
-            type: "ERROR",
+            type: 'ERROR',
             name,
-            preview: preview || "Error Occurred",
+            preview: preview || 'Error Occurred',
             value: formattedError,
-            color: "#e74c3c",
-            important: true
+            color: '#e74c3c',
+            important: true,
         });
     }
 
     public logNetwork(name: string, request: any, response?: any): void {
         this.log({
-            type: "NETWORK",
+            type: 'NETWORK',
             name,
-            preview: response ? `${request.method || "GET"} ${response.status || ""}` : "Network Request",
+            preview: response ? `${request.method || 'GET'} ${response.status || ''}` : 'Network Request',
             value: {
                 request,
-                response: response || "Pending..."
+                response: response || 'Pending...',
             },
-            color: "#9b59b6"
+            color: '#9b59b6',
         });
     }
 
     public logAction(name: string, action: any, state?: any): void {
         this.log({
-            type: "ACTION",
+            type: 'ACTION',
             name,
             preview: `Action: ${name}`,
             value: { action, newState: state },
-            color: "#f1c40f"
+            color: '#f1c40f',
         });
     }
 
     public logComponent(name: string, props?: any, state?: any, renderTime?: number): void {
         this.log({
-            type: "COMPONENT",
+            type: 'COMPONENT',
             name,
-            preview: renderTime ? `Render time: ${renderTime}ms` : "Component",
+            preview: renderTime ? `Render time: ${renderTime}ms` : 'Component',
             value: { props, state, renderTime },
-            color: "#1abc9c"
+            color: '#1abc9c',
         });
     }
 }

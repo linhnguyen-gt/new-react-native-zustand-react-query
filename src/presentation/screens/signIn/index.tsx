@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { Keyboard } from "react-native";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Keyboard } from 'react-native';
+import * as z from 'zod';
 
-import { RootNavigator } from "@/data/services";
+import { RootNavigator } from '@/data/services';
 
-import { ControlledInput } from "@/presentation/components/input";
-import { MyTouchable } from "@/presentation/components/touchable";
-import { Box, ScrollView, Text, VStack } from "@/presentation/components/ui";
-import { Colors, Errors, RouteName } from "@/shared/constants";
+import { ControlledInput } from '@/presentation/components/input';
+import { MyTouchable } from '@/presentation/components/touchable';
+import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { Colors, Errors, RouteName } from '@/shared/constants';
 
 const RNLogo = () => (
     <Box
@@ -42,7 +42,7 @@ const RNLogo = () => (
                     fontSize={42}
                     style={{
                         includeFontPadding: false,
-                        lineHeight: 50
+                        lineHeight: 50,
                     }}>
                     RN
                 </Text>
@@ -55,20 +55,20 @@ const loginSchema = z.object({
     email: z
         .string()
         .min(1, Errors.REQUIRED_EMAIL_INPUT)
-        .email(Errors.EMAIL_INVALID)
-        .refine((value) => value.endsWith(".com"), {
-            message: Errors.IS_NOT_EMAIL
+        .pipe(z.email(Errors.EMAIL_INVALID))
+        .refine((value) => value.endsWith('.com'), {
+            message: Errors.IS_NOT_EMAIL,
         }),
-    password: z.string().min(1, Errors.REQUIRED_PASSWORD_INPUT)
+    password: z.string().min(1, Errors.REQUIRED_PASSWORD_INPUT),
 });
 
 const Login = () => {
     const { control, handleSubmit } = useForm({
         defaultValues: {
-            email: "test@test.com",
-            password: "123456"
+            email: 'test@test.com',
+            password: '123456',
         },
-        resolver: zodResolver(loginSchema)
+        resolver: zodResolver(loginSchema),
     });
 
     const handleLogin = React.useCallback(() => {

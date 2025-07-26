@@ -1,14 +1,15 @@
-import AntDesignIcon from "@react-native-vector-icons/ant-design";
-import EntypoIcon from "@react-native-vector-icons/entypo";
-import EvilIconsIcon from "@react-native-vector-icons/evil-icons";
-import FeatherIcon from "@react-native-vector-icons/feather";
-import IoniconsIcon from "@react-native-vector-icons/ionicons";
-import MaterialIconsIcon from "@react-native-vector-icons/material-icons";
-import React from "react";
+import AntDesignIcon from '@react-native-vector-icons/ant-design';
+import EntypoIcon from '@react-native-vector-icons/entypo';
+import EvilIconsIcon from '@react-native-vector-icons/evil-icons';
+import FeatherIcon from '@react-native-vector-icons/feather';
+import IoniconsIcon from '@react-native-vector-icons/ionicons';
+import MaterialIconsIcon from '@react-native-vector-icons/material-icons';
+import React from 'react';
 
-import { MyTouchable } from "../../touchable";
+import { getColor } from '@/presentation/hooks';
 
-import { getColor } from "@/presentation/hooks/useThemeColor";
+import { MyTouchable } from '../../touchable';
+
 import {
     type AntDesignIconName,
     type EntypoIconName,
@@ -17,8 +18,8 @@ import {
     type IconFont,
     type IconName,
     type IoniconsIconName,
-    type MaterialIconsIconName
-} from "@/shared/types/icon";
+    type MaterialIconsIconName,
+} from '@/shared/types/icon';
 
 interface IconProps {
     name: IconName;
@@ -34,22 +35,22 @@ interface IconProps {
 const IconComponent: React.FC<IconProps> = ({
     name,
     size = 16,
-    className = "",
+    className = '',
     color,
     focused = false,
-    font = "entypo",
+    font = 'entypo',
     onPress,
-    disabled = false
+    disabled = false,
 }) => {
     const getIconColor = () => {
         if (color) return color;
-        if (focused) return getColor("yellow");
-        return getColor("iconGrey");
+        if (focused) return getColor('yellow');
+        return getColor('iconGrey');
     };
 
     const renderIcon = () => {
         switch (font) {
-            case "ant-design":
+            case 'ant-design':
                 return (
                     <AntDesignIcon
                         name={name as AntDesignIconName}
@@ -58,7 +59,7 @@ const IconComponent: React.FC<IconProps> = ({
                         className={className}
                     />
                 );
-            case "ionicons":
+            case 'ionicons':
                 return (
                     <IoniconsIcon
                         name={name as IoniconsIconName}
@@ -67,7 +68,7 @@ const IconComponent: React.FC<IconProps> = ({
                         className={className}
                     />
                 );
-            case "feather":
+            case 'feather':
                 return (
                     <FeatherIcon
                         name={name as FeatherIconName}
@@ -76,7 +77,7 @@ const IconComponent: React.FC<IconProps> = ({
                         className={className}
                     />
                 );
-            case "material-icons":
+            case 'material-icons':
                 return (
                     <MaterialIconsIcon
                         name={name as MaterialIconsIconName}
@@ -85,7 +86,7 @@ const IconComponent: React.FC<IconProps> = ({
                         className={className}
                     />
                 );
-            case "evil-icons":
+            case 'evil-icons':
                 return (
                     <EvilIconsIcon
                         name={name as EvilIconsIconName}

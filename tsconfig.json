@@ -1,40 +1,54 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "commonjs",
-        "lib": ["es2021"],
-        "allowJs": true,
-        "jsx": "react-native",
-        "noEmit": true,
-        "isolatedModules": true,
-        "resolveJsonModule": true,
-        "strict": true,
-        "useUnknownInCatchVariables": false,
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["src/*"]
-        }
-    },
-    "include": [
-        ".prettierrc.js",
-        ".eslintrc.js",
-        "babel.config.js",
-        "metro.config.js",
-        "jest.config.js",
-        "index.js",
-        "src",
-        "__tests__/App.test.tsx",
-        "tailwind.config.js",
-        "nativewind-env.d.ts",
-        "react-native-config.d.ts",
-        "gesture-handler.native.js",
-        "jest.setup.js",
-        "jest.config.js",
-        "app.config.ts"
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": [
+      "es2021"
     ],
-    "extends": "expo/tsconfig.base"
+    "allowJs": true,
+    "jsx": "react-native",
+    "noEmit": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "useUnknownInCatchVariables": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@presentation/*": [
+        "src/presentation/*"
+      ],
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@data/*": [
+        "src/data/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ]
+    }
+  },
+  "include": [
+    ".prettierrc.js",
+    ".eslintrc.js",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "index.js",
+    "src",
+    "__tests__/App.test.tsx",
+    "tailwind.config.js",
+    "nativewind-env.d.ts",
+    "react-native-config.d.ts",
+    "gesture-handler.native.js",
+    "jest.setup.js",
+    "app.config.ts"
+  ],
 }

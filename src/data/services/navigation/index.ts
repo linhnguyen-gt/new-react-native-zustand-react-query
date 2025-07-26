@@ -1,1 +1,1 @@
-export { default as RootNavigator, type NavigatorParamsType } from "./rootNavigator";
+export { default as RootNavigator, type NavigatorParamsType } from './rootNavigator';

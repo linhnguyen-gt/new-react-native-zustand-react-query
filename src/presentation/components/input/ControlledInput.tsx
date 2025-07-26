@@ -1,10 +1,10 @@
-import React from "react";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
+import React from 'react';
+import { Control, FieldValues, Path, useController } from 'react-hook-form';
 
-import Input, { InputProps } from "./Input";
+import Input, { InputProps } from './Input';
 
 interface ControlledInputProps<T extends FieldValues>
-    extends Omit<InputProps, "value" | "onChangeValue" | "fieldName"> {
+    extends Omit<InputProps, 'value' | 'onChangeValue' | 'fieldName'> {
     name: Path<T>;
     control: Control<T>;
     error?: string;
@@ -23,11 +23,11 @@ const ControlledInput = <T extends FieldValues>({
 }: ControlledInputProps<T>) => {
     const {
         field: { onChange, value, onBlur },
-        fieldState: { error: fieldError }
+        fieldState: { error: fieldError },
     } = useController({
         name,
         control,
-        rules
+        rules,
     });
 
     const displayError = shouldUseFieldError && fieldError ? fieldError.message : error;

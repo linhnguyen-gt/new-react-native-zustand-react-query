@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Animated, Keyboard, KeyboardEvent } from "react-native";
+import * as React from 'react';
+import { Animated, Keyboard, KeyboardEvent } from 'react-native';
 
 type KeyboardViewSpacerProps = {
     children: Array<React.ReactNode> | React.ReactNode;
@@ -15,8 +15,8 @@ const KeyboardViewSpacer: React.FC<KeyboardViewSpacerProps> = ({ children, useNa
                 Animated.timing(keyboardHeight, {
                     duration: event.duration,
                     toValue: event.endCoordinates.height - 25,
-                    useNativeDriver
-                })
+                    useNativeDriver,
+                }),
             ]).start();
         },
         [keyboardHeight, useNativeDriver]
@@ -28,15 +28,15 @@ const KeyboardViewSpacer: React.FC<KeyboardViewSpacerProps> = ({ children, useNa
                 Animated.timing(keyboardHeight, {
                     duration: event.duration,
                     toValue: 0,
-                    useNativeDriver
-                })
+                    useNativeDriver,
+                }),
             ]).start();
         },
         [keyboardHeight, useNativeDriver]
     );
     React.useEffect(() => {
-        const showListener = Keyboard.addListener("keyboardWillShow", keyboardWillShow);
-        const hideListener = Keyboard.addListener("keyboardWillHide", keyboardWillHide);
+        const showListener = Keyboard.addListener('keyboardWillShow', keyboardWillShow);
+        const hideListener = Keyboard.addListener('keyboardWillHide', keyboardWillHide);
 
         return () => {
             showListener.remove();

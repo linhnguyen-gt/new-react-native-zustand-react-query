@@ -1,6 +1,6 @@
-import { StateCreator, create } from "zustand";
+import { StateCreator, create } from 'zustand';
 
-import { reactotron } from "@/data/services/reactotron";
+import { reactotron } from '@/data/services';
 
 const storeResetFns = new Set<() => void>();
 

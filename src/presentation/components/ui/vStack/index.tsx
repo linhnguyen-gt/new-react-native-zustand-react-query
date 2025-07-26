@@ -1,13 +1,13 @@
-import React from "react";
-import { View, ViewStyle } from "react-native";
+import React from 'react';
+import { View, ViewStyle } from 'react-native';
 
-import Touchable from "../touch";
+import Touchable from '../touch';
 
-import { vstackStyle } from "./styles";
+import { vstackStyle } from './styles';
 
-import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
-type StyleProps = Omit<ViewStyle, "transform">;
+type StyleProps = Omit<ViewStyle, 'transform'>;
 
 export type IVStackProps = Omit<React.ComponentProps<typeof View>, keyof StyleProps> &
     StyleProps &
@@ -37,6 +37,6 @@ const VStack = React.forwardRef<React.ComponentRef<typeof View>, IVStackProps>(
     }
 );
 
-VStack.displayName = "VStack";
+VStack.displayName = 'VStack';
 
 export default VStack;

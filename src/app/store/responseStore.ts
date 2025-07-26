@@ -1,4 +1,4 @@
-import { createStore } from "./storeFactory";
+import { createStore } from './storeFactory';
 
 type ResponseState = ResponseStateData & {
     setResponse: (response?: ResponseData[]) => void;
@@ -9,13 +9,13 @@ type ResponseState = ResponseStateData & {
 
 const initialState: ResponseStateData = {
     response: [],
-    responseDetail: null
+    responseDetail: null,
 };
 
-export const useResponseStore = createStore<ResponseState>("Response", (set) => ({
+export const useResponseStore = createStore<ResponseState>('Response', (set) => ({
     ...initialState,
     setResponse: (response) => set({ response }),
     setResponseDetail: (detail) => set({ responseDetail: detail }),
     clearResponse: () => set({ response: [] }),
-    clearResponseDetail: () => set({ responseDetail: null })
+    clearResponseDetail: () => set({ responseDetail: null }),
 }));

@@ -1,7 +1,7 @@
-import React from "react";
+import { QueryProvider } from '@app/providers';
+import React from 'react';
 
-import App from "./App";
-import { QueryProvider } from "./app/providers";
+import App from './App';
 
 const Root = () => (
     <QueryProvider>

@@ -1,6 +1,6 @@
-import { useResponseStore } from "@/app/store";
+import { useResponseStore } from '@/app/store';
 
-import { useResponsesQueries } from "@/data/queries";
+import { useResponsesQueries } from '@/data/queries';
 
 export const useResponse = () => {
     const { response } = useResponseStore();
@@ -10,6 +10,6 @@ export const useResponse = () => {
         response,
         isLoading,
         error,
-        data
+        data,
     };
 };

@@ -1,6 +1,6 @@
-import { StateCreator } from "zustand";
+import { StateCreator } from 'zustand';
 
-import { ReactotronCore } from "../reactotron.core";
+import { ReactotronCore } from '../reactotron.core';
 
 export const zustandPlugin = (core: ReactotronCore) => ({
     enhancer:
@@ -10,7 +10,7 @@ export const zustandPlugin = (core: ReactotronCore) => ({
 
             return config(
                 (state) => {
-                    const newState = typeof state === "function" ? state(get()) : state;
+                    const newState = typeof state === 'function' ? state(get()) : state;
 
                     const currentState = get();
                     previousState = previousState || currentState;
@@ -22,21 +22,21 @@ export const zustandPlugin = (core: ReactotronCore) => ({
                     const finalState = get();
 
                     core.log({
-                        type: "ZUSTAND",
+                        type: 'ZUSTAND',
                         name: `🏪 ${storeName} Store`,
                         preview:
                             Object.keys(changes).length > 0
-                                ? `Changed: ${Object.keys(changes).join(", ")}`
-                                : "State Updated",
+                                ? `Changed: ${Object.keys(changes).join(', ')}`
+                                : 'State Updated',
                         value: {
                             currentState: finalState,
                             changes: changes,
                             previousValues: previousState
                                 ? filterObjectByKeys(previousState, Object.keys(changes))
                                 : {},
-                            timestamp: new Date().toLocaleTimeString()
+                            timestamp: new Date().toLocaleTimeString(),
                         },
-                        color: getStoreColor()
+                        color: getStoreColor(),
                     });
 
                     previousState = { ...finalState };
@@ -46,7 +46,7 @@ export const zustandPlugin = (core: ReactotronCore) => ({
                 get,
                 store
             );
-        }
+        },
 });
 
 function findObjectDifferences(oldObj: any, newObj: any): Record<string, any> {
@@ -66,19 +66,16 @@ function findObjectDifferences(oldObj: any, newObj: any): Record<string, any> {
 }
 
 function filterObjectByKeys(obj: Record<string, any>, keys: string[]): Record<string, any> {
-    return keys.reduce(
-        (result, key) => {
-            if (key in obj) {
-                result[key] = obj[key];
-            }
-            return result;
-        },
-        {} as Record<string, any>
-    );
+    return keys.reduce((result, key) => {
+        if (key in obj) {
+            result[key] = obj[key];
+        }
+        return result;
+    }, {} as Record<string, any>);
 }
 
 function isEqual(a: any, b: any): boolean {
-    if (typeof a === "function" || typeof b === "function") {
+    if (typeof a === 'function' || typeof b === 'function') {
         return false;
     }
 
@@ -93,7 +90,7 @@ function isEqual(a: any, b: any): boolean {
         return a.every((val, index) => isEqual(val, b[index]));
     }
 
-    if (typeof a === "object" && typeof b === "object") {
+    if (typeof a === 'object' && typeof b === 'object') {
         const keysA = Object.keys(a);
         const keysB = Object.keys(b);
 
@@ -106,5 +103,5 @@ function isEqual(a: any, b: any): boolean {
 }
 
 function getStoreColor(): string {
-    return "#34495e";
+    return '#34495e';
 }

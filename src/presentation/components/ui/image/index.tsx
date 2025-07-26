@@ -1,33 +1,33 @@
-"use client";
+'use client';
 
-import { createImage } from "@gluestack-ui/image";
-import { tva } from "@gluestack-ui/nativewind-utils/tva";
-import { cssInterop } from "nativewind";
-import React from "react";
-import { ImageStyle, Platform, Image as RNImage } from "react-native";
+import { createImage } from '@gluestack-ui/image';
+import { tva } from '@gluestack-ui/nativewind-utils/tva';
+import { cssInterop } from 'nativewind';
+import React from 'react';
+import { ImageStyle, Platform, Image as RNImage } from 'react-native';
 
-import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
-type StyleProps = Omit<ImageStyle, "transform">;
+type StyleProps = Omit<ImageStyle, 'transform'>;
 
 const imageStyle = tva({
-    base: "max-w-full",
+    base: 'max-w-full',
     variants: {
         size: {
-            "2xs": "h-6 w-6",
-            xs: "h-10 w-10",
-            sm: "h-16 w-16",
-            md: "h-20 w-20",
-            lg: "h-24 w-24",
-            xl: "h-32 w-32",
-            "2xl": "h-64 w-64",
-            full: "h-full w-full"
-        }
-    }
+            '2xs': 'h-6 w-6',
+            xs: 'h-10 w-10',
+            sm: 'h-16 w-16',
+            md: 'h-20 w-20',
+            lg: 'h-24 w-24',
+            xl: 'h-32 w-32',
+            '2xl': 'h-64 w-64',
+            full: 'h-full w-full',
+        },
+    },
 });
 
 const UIImage = createImage({ Root: RNImage });
-cssInterop(UIImage, { className: "style" });
+cssInterop(UIImage, { className: 'style' });
 
 export type ImageProps = Omit<React.ComponentProps<typeof UIImage>, keyof StyleProps> &
     StyleProps &
@@ -41,7 +41,7 @@ const createStyleFromProps = (props: StyleProps): ImageStyle => {
 };
 
 const Image = React.forwardRef<React.ComponentRef<typeof UIImage>, ImageProps>(
-    ({ size = "md", className, style, ...props }, ref) => {
+    ({ size = 'md', className, style, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 
         return (
@@ -50,8 +50,8 @@ const Image = React.forwardRef<React.ComponentRef<typeof UIImage>, ImageProps>(
                 style={[
                     styleProps,
                     // @ts-expect-error : web only
-                    Platform.OS === "web" ? { height: "revert-layer", width: "revert-layer" } : undefined,
-                    style
+                    Platform.OS === 'web' ? { height: 'revert-layer', width: 'revert-layer' } : undefined,
+                    style,
                 ]}
                 {...props}
                 ref={ref}
@@ -60,5 +60,5 @@ const Image = React.forwardRef<React.ComponentRef<typeof UIImage>, ImageProps>(
     }
 );
 
-Image.displayName = "Image";
+Image.displayName = 'Image';
 export default Image;

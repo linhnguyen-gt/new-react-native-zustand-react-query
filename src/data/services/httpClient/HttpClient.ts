@@ -1,16 +1,16 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from 'axios';
 
-import { environment } from "../environment";
+import { environment } from '../environment';
 
-import ApiMethod from "./apiMethod";
-import { HttpRequestConfig, HttpResponse, IHttpClient } from "./interfaces/IHttpClient";
-import { ErrorHandler } from "./services/errorHandler";
-import { RequestInterceptor } from "./services/requestInterceptor";
-import { TokenService } from "./services/tokenService";
+import ApiMethod from './apiMethod';
+import { HttpRequestConfig, HttpResponse, IHttpClient } from './interfaces/IHttpClient';
+import { ErrorHandler } from './services/errorHandler';
+import { RequestInterceptor } from './services/requestInterceptor';
+import { TokenService } from './services/tokenService';
 
 const DEFAULT_API_CONFIG = {
     baseURL: environment.apiBaseUrl,
-    timeout: 30000
+    timeout: 30000,
 } as const;
 
 export class HttpClient implements IHttpClient {
@@ -30,7 +30,7 @@ export class HttpClient implements IHttpClient {
     private constructor(tokenService?: TokenService, errorHandler?: ErrorHandler) {
         this.INSTANCE = axios.create({
             baseURL: DEFAULT_API_CONFIG.baseURL,
-            timeout: DEFAULT_API_CONFIG.timeout
+            timeout: DEFAULT_API_CONFIG.timeout,
             // TODO: Uncomment this when the backend is ready to receive cookies
             // withCredentials: true,
         });
@@ -56,14 +56,14 @@ export class HttpClient implements IHttpClient {
                 method: config.method.toLowerCase(),
                 params: this.shouldIncludeParams(config.method) ? config.params : undefined,
                 data: this.shouldIncludeBody(config.method) ? config.body : undefined,
-                headers
+                headers,
             });
 
             return {
                 ok: true,
                 data: response.data,
                 status: response.status,
-                headers: response.headers
+                headers: response.headers,
             };
         } catch (e) {
             this.errorHandler.handleError(e);
@@ -83,7 +83,7 @@ export class HttpClient implements IHttpClient {
         if (this.INSTANCE) {
             this.INSTANCE.defaults.headers = {
                 ...this.INSTANCE.defaults.headers,
-                ...newHeaders
+                ...newHeaders,
             };
         }
     }

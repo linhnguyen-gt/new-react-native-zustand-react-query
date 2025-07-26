@@ -1,12 +1,12 @@
-import { tva } from "@gluestack-ui/nativewind-utils/tva";
-import React from "react";
-import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import { tva } from '@gluestack-ui/nativewind-utils/tva';
+import React from 'react';
+import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
 
-import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
 export const touchableStyle = tva({});
 
-type StyleProps = Omit<ViewStyle, "transform">;
+type StyleProps = Omit<ViewStyle, 'transform'>;
 
 export type TouchableComponentProps = Omit<TouchableOpacityProps, keyof StyleProps> &
     StyleProps &
@@ -36,5 +36,5 @@ const TouchableComponent = React.forwardRef<React.ComponentRef<typeof TouchableO
     }
 );
 
-TouchableComponent.displayName = "TouchableComponent";
+TouchableComponent.displayName = 'TouchableComponent';
 export default TouchableComponent;

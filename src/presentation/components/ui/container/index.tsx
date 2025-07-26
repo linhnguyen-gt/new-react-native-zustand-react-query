@@ -1,9 +1,9 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
-import ContainerBox from "./ContainerBox";
+import ContainerBox from './ContainerBox';
 
-import type { BaseBoxProps } from "../box/BaseBox";
+import type { BaseBoxProps } from '../box/BaseBox';
 
 type ContainerProps = BaseBoxProps & {
     isLoading?: boolean;
@@ -16,5 +16,5 @@ const Container = React.forwardRef<React.ComponentRef<typeof View>, ContainerPro
     }
 );
 
-Container.displayName = "Container";
+Container.displayName = 'Container';
 export default Container;

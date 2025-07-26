@@ -1,7 +1,7 @@
-import React from "react";
-import { ActivityIndicator, View } from "react-native";
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
-import BaseBox, { type BaseBoxProps } from "./BaseBox";
+import BaseBox, { type BaseBoxProps } from './BaseBox';
 
 export type LoadingBoxProps = BaseBoxProps & {
     isLoading?: boolean;
@@ -24,5 +24,5 @@ const LoadingBox = React.forwardRef<React.ComponentRef<typeof View>, LoadingBoxP
     }
 );
 
-LoadingBox.displayName = "LoadingBox";
+LoadingBox.displayName = 'LoadingBox';
 export default LoadingBox;

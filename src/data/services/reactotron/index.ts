@@ -1,5 +1,5 @@
-import { plugins } from "./plugins";
-import { ReactotronCore } from "./reactotron.core";
+import { plugins } from './plugins';
+import { ReactotronCore } from './reactotron.core';
 
 const core = ReactotronCore.getInstance();
 
@@ -9,7 +9,7 @@ export const reactotron = {
     api: plugins.api(core),
 
     log: (name: string, value: any, preview?: string) =>
-        core.log({ type: "INFO", name, preview: preview || "Log", value, color: "#95a5a6" }),
+        core.log({ type: 'INFO', name, preview: preview || 'Log', value, color: '#95a5a6' }),
 
     info: (name: string, value: any, preview?: string) => core.logInfo(name, value, preview),
 
@@ -24,5 +24,5 @@ export const reactotron = {
     action: (name: string, action: any, state?: any) => core.logAction(name, action, state),
 
     component: (name: string, props?: any, state?: any, renderTime?: number) =>
-        core.logComponent(name, props, state, renderTime)
+        core.logComponent(name, props, state, renderTime),
 };

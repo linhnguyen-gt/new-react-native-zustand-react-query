@@ -1,9 +1,9 @@
-import { CommonActions, createNavigationContainerRef } from "@react-navigation/native";
+import { CommonActions, createNavigationContainerRef } from '@react-navigation/native';
 
-import { INavigationService } from "./INavigationService";
-import { NavigationLogger } from "./navigationLogger";
+import { INavigationService } from './INavigationService';
+import { NavigationLogger } from './navigationLogger';
 
-import { RouteName } from "@/shared/constants";
+import { RouteName } from '@/shared/constants';
 
 export interface NavigatorParamsType {}
 
@@ -36,7 +36,7 @@ class RootNavigator implements INavigationService {
         return this.navigationRef.current?.dispatch(
             CommonActions.reset({
                 index: 0,
-                routes: [{ name: route, params: params }]
+                routes: [{ name: route, params: params }],
             })
         );
     }

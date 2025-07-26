@@ -1,6 +1,6 @@
-import { AxiosError, AxiosInstance, HttpStatusCode } from "axios";
+import { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
 
-import { ITokenService } from "../interfaces/IHttpClient";
+import { ITokenService } from '../interfaces/IHttpClient';
 
 interface ErrorResponseData {
     message: string;
@@ -8,10 +8,7 @@ interface ErrorResponseData {
 }
 
 export class RequestInterceptor {
-    constructor(
-        private readonly axiosInstance: AxiosInstance,
-        private readonly tokenService: ITokenService
-    ) {}
+    constructor(private readonly axiosInstance: AxiosInstance, private readonly tokenService: ITokenService) {}
 
     setupInterceptors(): void {
         this.axiosInstance.interceptors.request.use(this.handleRequest.bind(this), this.handleRequestError.bind(this));
@@ -23,9 +20,9 @@ export class RequestInterceptor {
                     return this.axiosInstance.request(error.config!);
                 } catch (refreshError) {
                     return Promise.reject({
-                        message: "Session expired, please login again",
+                        message: 'Session expired, please login again',
                         status: HttpStatusCode.Unauthorized,
-                        code: "TOKEN_EXPIRED"
+                        code: 'TOKEN_EXPIRED',
                     });
                 }
             }
@@ -33,9 +30,9 @@ export class RequestInterceptor {
             if (this.isUserNotFoundError(error)) {
                 await this.tokenService.logout();
                 return Promise.reject({
-                    message: "Account not found, please login again",
+                    message: 'Account not found, please login again',
                     status: HttpStatusCode.BadRequest,
-                    code: "USER_NOT_FOUND"
+                    code: 'USER_NOT_FOUND',
                 });
             }
 
@@ -44,7 +41,7 @@ export class RequestInterceptor {
                 return Promise.reject({
                     ...error,
                     message: errorData.message,
-                    status: error.response.status
+                    status: error.response.status,
                 });
             }
 
@@ -69,7 +66,7 @@ export class RequestInterceptor {
         const errorData = error.response?.data as ErrorResponseData;
         return (
             error.response?.status === HttpStatusCode.Unauthorized &&
-            errorData?.message?.toLowerCase().includes("token expired")
+            errorData?.message?.toLowerCase().includes('token expired')
         );
     }
 
@@ -77,7 +74,7 @@ export class RequestInterceptor {
         const errorData = error.response?.data as ErrorResponseData;
         return (
             error.response?.status === HttpStatusCode.BadRequest &&
-            errorData?.message?.toLowerCase().includes("user not found")
+            errorData?.message?.toLowerCase().includes('user not found')
         );
     }
 }

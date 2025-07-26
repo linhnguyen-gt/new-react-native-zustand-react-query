@@ -10,3 +10,4 @@ build/
 *.d.ts 
 scripts/
 *.js
+tsconfig.json

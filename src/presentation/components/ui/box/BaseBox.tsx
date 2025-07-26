@@ -1,11 +1,11 @@
-import React from "react";
-import { View, ViewStyle } from "react-native";
+import React from 'react';
+import { View, ViewStyle } from 'react-native';
 
-import { boxStyle } from "./styles";
+import { boxStyle } from './styles';
 
-import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
-type StyleProps = Omit<ViewStyle, "transform">;
+type StyleProps = Omit<ViewStyle, 'transform'>;
 
 export type BaseBoxProps = Omit<React.ComponentProps<typeof View>, keyof StyleProps> &
     StyleProps &
@@ -25,7 +25,7 @@ const BaseBox = React.forwardRef<React.ComponentRef<typeof View>, BaseBoxProps>(
 
         return (
             <View
-                className={boxStyle({ class: `${className} ${safeArea ? "pt-safe" : ""}` })}
+                className={boxStyle({ class: `${className} ${safeArea ? 'pt-safe' : ''}` })}
                 style={[styleProps, style]}
                 {...props}
                 ref={ref}
@@ -34,5 +34,5 @@ const BaseBox = React.forwardRef<React.ComponentRef<typeof View>, BaseBoxProps>(
     }
 );
 
-BaseBox.displayName = "BaseBox";
+BaseBox.displayName = 'BaseBox';
 export default BaseBox;

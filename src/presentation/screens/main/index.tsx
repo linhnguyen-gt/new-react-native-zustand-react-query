@@ -1,20 +1,20 @@
-import React from "react";
-import { StatusBar, useColorScheme } from "react-native";
+import React from 'react';
+import { StatusBar, useColorScheme } from 'react-native';
 
-import { environment, RootNavigator } from "@/data/services";
+import { environment, RootNavigator } from '@/data/services';
 
-import { useResponse } from "@/presentation/hooks";
+import { useResponse } from '@/presentation/hooks';
 
-import { Loading } from "@/presentation/components/loading";
-import { MyTouchable } from "@/presentation/components/touchable";
-import { Box, ScrollView, Text, VStack } from "@/presentation/components/ui";
-import { Colors, RouteName } from "@/shared/constants";
+import { Loading } from '@/presentation/components/loading';
+import { MyTouchable } from '@/presentation/components/touchable';
+import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { Colors, RouteName } from '@/shared/constants';
 
 const ItemSeparator = () => <Box height={16} />;
 
 const MainPage = () => {
     const { response, isLoading, error } = useResponse();
-    const isDarkMode = useColorScheme() === "dark";
+    const isDarkMode = useColorScheme() === 'dark';
 
     const renderItem = ({ item }: { item: ResponseData }) => (
         <Box
@@ -59,7 +59,7 @@ const MainPage = () => {
                             </Text>
                         </Box>
                         <Text size="sm" color="#94a3b8">
-                            ID: {item["ID State"]}
+                            ID: {item['ID State']}
                         </Text>
                     </Box>
                 </Box>
@@ -121,7 +121,7 @@ const MainPage = () => {
 
     return (
         <Box flex={1}>
-            <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
 
             <ScrollView flex={1}>
                 <VStack space="3xl" padding={24}>

@@ -1,12 +1,11 @@
-import React from "react";
-import { Animated, TextInput, TextInputProps } from "react-native";
+import React from 'react';
+import { Animated, TextInput, TextInputProps } from 'react-native';
 
-import { getColor } from "@/presentation/hooks";
+import { getColor } from '../../hooks';
+import { MyTouchable } from '../touchable';
+import { Box, HStack, IconComponent, Text, VStack } from '../ui';
 
-import { MyTouchable } from "../touchable";
-import { Box, HStack, IconComponent, Text, VStack } from "../ui";
-
-import useShakeView from "./Input.Hook";
+import useShakeView from './Input.Hook';
 
 export type InputProps = TextInputProps & {
     prefixIcon?: React.ReactNode;
@@ -52,7 +51,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
         const _renderShowPassword = React.useMemo(
             () => (
                 <MyTouchable onPress={_handleSecure}>
-                    <IconComponent font="entypo" name={isShowPassword ? "eye-with-line" : "eye"} size={16} />
+                    <IconComponent font="entypo" name={isShowPassword ? 'eye-with-line' : 'eye'} size={16} />
                 </MyTouchable>
             ),
             [_handleSecure, isShowPassword]
@@ -72,7 +71,9 @@ const Input = React.forwardRef<TextInput, InputProps>(
             return (
                 <HStack
                     style={{ height }}
-                    className={`items-center w-full rounded-2xl border ${!enable && "bg-inputDisable"} px-5 border-2 ${error ? "border-red" : "border-gray-100"} `}>
+                    className={`items-center w-full rounded-2xl border ${!enable && 'bg-inputDisable'} px-5 border-2 ${
+                        error ? 'border-red' : 'border-gray-100'
+                    } `}>
                     <HStack className="items-center flex-1 h-full" space="md">
                         {prefixIcon}
                         <TextInput
@@ -80,12 +81,12 @@ const Input = React.forwardRef<TextInput, InputProps>(
                             ref={ref}
                             {...rest}
                             className="font-semibold w-full font-body mt-1 h-full"
-                            style={{ textAlignVertical: "top" }}
+                            style={{ textAlignVertical: 'top' }}
                             placeholder={placeholder}
                             secureTextEntry={isShowPassword}
                             onChangeText={handleChangeText}
                             editable={enable}
-                            placeholderTextColor={getColor("iconGrey")}
+                            placeholderTextColor={getColor('iconGrey')}
                         />
                     </HStack>
                     <Box className="pl-3">{suffixIcon ?? (isPassword && _renderShowPassword)}</Box>
@@ -104,7 +105,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
             ref,
             rest,
             suffixIcon,
-            testID
+            testID,
         ]);
 
         return (
@@ -128,5 +129,5 @@ const Input = React.forwardRef<TextInput, InputProps>(
 export default Input;
 
 declare global {
-    export type TypeInput = "dropdown" | "search" | "phone" | "date" | "otp";
+    export type TypeInput = 'dropdown' | 'search' | 'phone' | 'date' | 'otp';
 }

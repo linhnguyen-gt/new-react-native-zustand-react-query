@@ -1,6 +1,6 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from '@tanstack/react-query';
 
-import { ReactotronCore } from "../reactotron.core";
+import { ReactotronCore } from '../reactotron.core';
 
 // Define a proper interface for our details object
 interface QueryDetails {
@@ -30,34 +30,34 @@ export const queryPlugin = (core: ReactotronCore) => {
                 staleTime: 5 * 60 * 1000, // 5 minutes
                 gcTime: 10 * 60 * 1000, // 10 minutes (garbage collection time)
                 retry: 2, // Number of retries
-                refetchOnWindowFocus: false // Disable refetch on window focus
-            }
-        }
+                refetchOnWindowFocus: false, // Disable refetch on window focus
+            },
+        },
     });
 
     if (__DEV__) {
         client.getQueryCache().subscribe(({ type, query }) => {
             const queryName = Array.isArray(query.queryKey)
-                ? query.queryKey.join(" / ")
+                ? query.queryKey.join(' / ')
                 : JSON.stringify(query.queryKey);
 
-            let color = "#3498db";
-            let emoji = "🔄";
+            let color = '#3498db';
+            let emoji = '🔄';
             let isImportant = false;
 
             switch (query.state.status) {
-                case "success":
-                    color = "#2ecc71";
-                    emoji = "✅";
+                case 'success':
+                    color = '#2ecc71';
+                    emoji = '✅';
                     break;
-                case "error":
-                    color = "#e74c3c";
-                    emoji = "❌";
+                case 'error':
+                    color = '#e74c3c';
+                    emoji = '❌';
                     isImportant = true;
                     break;
-                case "pending":
-                    color = "#f39c12";
-                    emoji = "⏳";
+                case 'pending':
+                    color = '#f39c12';
+                    emoji = '⏳';
                     break;
             }
 
@@ -66,15 +66,15 @@ export const queryPlugin = (core: ReactotronCore) => {
                 status: query.state.status,
                 dataUpdatedAt: query.state.dataUpdatedAt
                     ? new Date(query.state.dataUpdatedAt).toLocaleTimeString()
-                    : "N/A",
-                data: query.state.data
+                    : 'N/A',
+                data: query.state.data,
             };
 
-            if (query.state.status === "error" && query.state.error) {
+            if (query.state.status === 'error' && query.state.error) {
                 details.error = formatError(query.state.error);
             }
 
-            if (query.state.fetchStatus !== "idle") {
+            if (query.state.fetchStatus !== 'idle') {
                 details.fetchStatus = query.state.fetchStatus;
             }
 
@@ -82,35 +82,35 @@ export const queryPlugin = (core: ReactotronCore) => {
                 details.fetchMeta = query.state.fetchMeta;
             }
 
-            const isInitialLoad = type === "added" || (type === "updated" && query.state.fetchStatus === "fetching");
-            const isPending = type === "updated" && query.state.status === "pending";
+            const isInitialLoad = type === 'added' || (type === 'updated' && query.state.fetchStatus === 'fetching');
+            const isPending = type === 'updated' && query.state.status === 'pending';
 
             let preview = `${query.state.status} (${type})`;
             if (isInitialLoad) {
-                preview = "Loading...";
+                preview = 'Loading...';
             } else if (isPending) {
-                preview = "Fetching...";
-            } else if (query.state.status === "error") {
-                preview = query.state.error instanceof Error ? query.state.error.message : "Error occurred";
-            } else if (query.state.status === "success") {
-                preview = "Success";
+                preview = 'Fetching...';
+            } else if (query.state.status === 'error') {
+                preview = query.state.error instanceof Error ? query.state.error.message : 'Error occurred';
+            } else if (query.state.status === 'success') {
+                preview = 'Success';
             }
 
             if (
-                type === "added" ||
-                type === "removed" ||
-                (type === "updated" &&
-                    (query.state.status === "success" ||
-                        query.state.status === "error" ||
-                        query.state.fetchStatus === "fetching"))
+                type === 'added' ||
+                type === 'removed' ||
+                (type === 'updated' &&
+                    (query.state.status === 'success' ||
+                        query.state.status === 'error' ||
+                        query.state.fetchStatus === 'fetching'))
             ) {
                 core.log({
-                    type: "QUERY",
+                    type: 'QUERY',
                     name: `${emoji} Query: ${queryName}`,
                     preview,
                     value: details,
                     color,
-                    important: isImportant
+                    important: isImportant,
                 });
             }
         });
@@ -120,27 +120,27 @@ export const queryPlugin = (core: ReactotronCore) => {
 
             const mutationId = mutation.options.mutationKey
                 ? Array.isArray(mutation.options.mutationKey)
-                    ? mutation.options.mutationKey.join(" / ")
+                    ? mutation.options.mutationKey.join(' / ')
                     : JSON.stringify(mutation.options.mutationKey)
                 : String(mutation.mutationId).substring(0, 8); // Convert to string before using substring
 
-            let color = "#9b59b6";
-            let emoji = "🔄";
+            let color = '#9b59b6';
+            let emoji = '🔄';
             let isImportant = false;
 
             switch (mutation.state.status) {
-                case "success":
-                    color = "#2ecc71";
-                    emoji = "✅";
+                case 'success':
+                    color = '#2ecc71';
+                    emoji = '✅';
                     break;
-                case "error":
-                    color = "#e74c3c";
-                    emoji = "❌";
+                case 'error':
+                    color = '#e74c3c';
+                    emoji = '❌';
                     isImportant = true;
                     break;
-                case "pending":
-                    color = "#f39c12";
-                    emoji = "⏳";
+                case 'pending':
+                    color = '#f39c12';
+                    emoji = '⏳';
                     break;
             }
 
@@ -149,26 +149,26 @@ export const queryPlugin = (core: ReactotronCore) => {
                 status: mutation.state.status,
                 variables: mutation.state.variables,
                 data: mutation.state.data,
-                timestamp: new Date().toLocaleTimeString()
+                timestamp: new Date().toLocaleTimeString(),
             };
 
-            if (mutation.state.status === "error" && mutation.state.error) {
+            if (mutation.state.status === 'error' && mutation.state.error) {
                 details.error = formatError(mutation.state.error);
             }
 
             let preview = `Mutation ${mutation.state.status}`;
-            if (mutation.state.status === "error") {
-                preview = mutation.state.error instanceof Error ? mutation.state.error.message : "Mutation failed";
+            if (mutation.state.status === 'error') {
+                preview = mutation.state.error instanceof Error ? mutation.state.error.message : 'Mutation failed';
             }
 
-            if (type === "added" || (type === "updated" && mutation.state.status !== "idle")) {
+            if (type === 'added' || (type === 'updated' && mutation.state.status !== 'idle')) {
                 core.log({
-                    type: "QUERY",
+                    type: 'QUERY',
                     name: `${emoji} Mutation: ${mutationId}`,
                     preview,
                     value: details,
                     color,
-                    important: isImportant
+                    important: isImportant,
                 });
             }
         });
@@ -178,13 +178,13 @@ export const queryPlugin = (core: ReactotronCore) => {
 };
 
 function formatError(error: unknown): any {
-    if (!error) return "Unknown error";
+    if (!error) return 'Unknown error';
 
     if (error instanceof Error) {
         return {
             name: error.name,
             message: error.message,
-            stack: error.stack
+            stack: error.stack,
         };
     }
 

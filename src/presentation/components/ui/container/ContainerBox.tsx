@@ -1,8 +1,8 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
-import BaseBox, { type BaseBoxProps } from "../box/BaseBox";
-import LoadingBox from "../box/LoadingBox";
+import BaseBox, { type BaseBoxProps } from '../box/BaseBox';
+import LoadingBox from '../box/LoadingBox';
 
 type ContainerBoxProps = BaseBoxProps & {
     isLoading?: boolean;
@@ -10,7 +10,7 @@ type ContainerBoxProps = BaseBoxProps & {
 };
 
 const ContainerBox = React.forwardRef<React.ComponentRef<typeof View>, ContainerBoxProps>(
-    ({ backgroundColor = "white", safeArea, ...props }, ref) => {
+    ({ backgroundColor = 'white', safeArea, ...props }, ref) => {
         return (
             <BaseBox safeArea={safeArea} flex={1} backgroundColor={backgroundColor}>
                 <BaseBox flex={1} backgroundColor={backgroundColor} {...props} ref={ref}>
@@ -22,5 +22,5 @@ const ContainerBox = React.forwardRef<React.ComponentRef<typeof View>, Container
     }
 );
 
-ContainerBox.displayName = "ContainerBox";
+ContainerBox.displayName = 'ContainerBox';
 export default ContainerBox;

@@ -27,23 +27,14 @@ end
 
 target 'NewReactNativeZustandRNQ' do
   use_expo_modules!
-
-  if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
-    config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
-  else
-    config_command = [
-      'node',
-      '--no-warnings',
-      '--eval',
-      'require(require.resolve(\'expo-modules-autolinking\', { paths: [require.resolve(\'expo/package.json\')] }))(process.argv.slice(1))',
-      'react-native-config',
-      '--json',
-      '--platform',
-      'ios'
-    ]
+  post_integrate do |installer|
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
   end
-
-  config = use_native_modules!(config_command)
+  config = use_native_modules!
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -59,7 +50,6 @@ target 'NewReactNativeZustandRNQ' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
-
     # Set permission for set_version.sh
     system("chmod +x #{Pod::Config.instance.installation_root}/scripts/set_version.sh")
     

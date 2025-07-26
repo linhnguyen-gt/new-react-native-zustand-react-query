@@ -1,1 +1,1 @@
-import "react-native-gesture-handler/jestSetup";
+import 'react-native-gesture-handler/jestSetup';
