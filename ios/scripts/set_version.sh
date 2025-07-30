@@ -1,10 +1,10 @@
 # Get the environment from configuration name
 echo "Debug: Raw CONFIGURATION value: ${CONFIGURATION}"
 
-if [[ "${CONFIGURATION}" == *"Product"* ]]; then
+if [ "$CONFIGURATION" == "Product.Debug" ] || [ "$CONFIGURATION" == "Product.Release" ]; then
   ENV_FILE="${SRCROOT}/../.env.production"
   echo "Debug: Matched Product configuration"
-elif [[ "${CONFIGURATION}" == *"Staging"* ]]; then
+elif [ "$CONFIGURATION" == "Staging.Debug" ] || [ "$CONFIGURATION" == "Staging.Release" ]; then
   ENV_FILE="${SRCROOT}/../.env.staging"
   echo "Debug: Matched Staging configuration"
 else

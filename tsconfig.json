@@ -51,4 +51,5 @@
     "jest.setup.js",
     "app.config.ts"
   ],
+  "extends": "expo/tsconfig.base"
 }
