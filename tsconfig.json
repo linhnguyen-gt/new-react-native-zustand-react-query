@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "commonjs",
+    "module": "es2022",
     "lib": [
       "es2021"
     ],
@@ -12,10 +12,11 @@
     "resolveJsonModule": true,
     "strict": true,
     "useUnknownInCatchVariables": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -50,6 +51,9 @@
     "gesture-handler.native.js",
     "jest.setup.js",
     "app.config.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ],
   "extends": "expo/tsconfig.base"
 }

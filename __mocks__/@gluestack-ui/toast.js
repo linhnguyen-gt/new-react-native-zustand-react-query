@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const ToastProvider = ({ children }) => <>{children}</>;
 
@@ -7,6 +7,6 @@ export const createToastHook = () => {
         show: jest.fn(),
         hide: jest.fn(),
         isActive: false,
-        hideAll: jest.fn()
+        hideAll: jest.fn(),
     });
 };

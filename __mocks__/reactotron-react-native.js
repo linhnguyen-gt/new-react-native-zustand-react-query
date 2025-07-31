@@ -6,7 +6,7 @@ const reactotron = {
     clear: () => null,
     createEnhancer: () => () => (next) => (reducer) => next(reducer),
     createSagaMonitor: () => ({}),
-    setAsyncStorageHandler: () => reactotron
+    setAsyncStorageHandler: () => reactotron,
 };
 
 export default reactotron;

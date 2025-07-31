@@ -1,1 +1,1 @@
-export default "MockedIcon";
+export default 'MockedIcon';

@@ -6,7 +6,7 @@ const AsyncStorage = {
     getAllKeys: jest.fn(),
     multiGet: jest.fn(),
     multiSet: jest.fn(),
-    multiRemove: jest.fn()
+    multiRemove: jest.fn(),
 };
 
 export default AsyncStorage;

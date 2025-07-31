@@ -14,6 +14,15 @@ jest.mock('@/data/services', () => ({
     RootNavigator: {
         replaceName: jest.fn(),
     },
+    environment: {
+        appFlavor: 'development',
+        apiBaseUrl: 'https://api.example.com',
+        versionName: '1.0.0',
+        versionCode: '1',
+        isDevelopment: () => true,
+        isStaging: () => false,
+        isProduction: () => false,
+    },
     reactotron: {
         zustand: {
             enhancer: jest.fn((name, creator) => creator),
@@ -42,7 +51,7 @@ describe('<LoginPage />', () => {
         expect(screen.getByTestId('email-input')).toBeTruthy();
         expect(screen.getByTestId('password-input')).toBeTruthy();
         expect(screen.getByTestId('login-button')).toBeTruthy();
-        expect(screen.getByText('Welcome Back')).toBeTruthy();
+        expect(screen.getByText('Welcome Back development')).toBeTruthy();
     });
 
     it('navigates to Main screen on valid form submission', async () => {

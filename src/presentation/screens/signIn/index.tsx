@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
 import * as z from 'zod';
 
-import { RootNavigator } from '@/data/services';
+import { environment, RootNavigator } from '@/data/services';
 
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
@@ -85,7 +85,7 @@ const Login = () => {
                     <VStack alignItems="center" marginBottom={40} space="md">
                         <RNLogo />
                         <Text size="3xl" fontWeight="bold" color="#0f172a" marginTop={16}>
-                            Welcome Back
+                            Welcome Back {environment.appFlavor}
                         </Text>
                         <Text size="md" color="#64748b">
                             Please sign in to your account

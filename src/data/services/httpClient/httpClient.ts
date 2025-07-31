@@ -16,7 +16,6 @@ const DEFAULT_API_CONFIG = {
 export class HttpClient implements IHttpClient {
     private static _instance: HttpClient;
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     private readonly INSTANCE: AxiosInstance;
 
     private readonly tokenService: TokenService;

@@ -1,5 +1,5 @@
 export const colorScheme = {
-    set: jest.fn()
+    set: jest.fn(),
 };
 
 export const vars = (config) => config;

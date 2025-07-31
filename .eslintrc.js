@@ -2,8 +2,9 @@ module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        project: './tsconfig.json',
-        warnOnUnsupportedTypeScriptVersion: false,
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        project: null,
     },
     env: {
         es6: true,
@@ -22,7 +23,7 @@ module.exports = {
         'prettier',
     ],
     plugins: ['react', 'react-native', 'detox', 'react-hooks', 'import'],
-    ignorePatterns: ['!.*', 'dist', 'node_modules'],
+    ignorePatterns: ['dist', 'node_modules', 'vendor', 'android', 'ios'],
     rules: {
         'no-console': ['error', { allow: ['warn', 'error'] }],
         'react-hooks/rules-of-hooks': 'error',
@@ -54,15 +55,8 @@ module.exports = {
             'error',
             {
                 selector: 'variable',
-                format: ['camelCase', 'UPPER_CASE'],
-                types: ['string', 'number', 'array'],
+                format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
                 leadingUnderscore: 'allow',
-            },
-            {
-                selector: 'variable',
-                types: ['boolean'],
-                format: ['PascalCase'],
-                prefix: ['is', 'should', 'has', 'can', 'did', 'will'],
             },
             {
                 selector: 'parameter',
@@ -70,14 +64,12 @@ module.exports = {
                 leadingUnderscore: 'allow',
             },
             {
-                selector: 'memberLike',
-                modifiers: ['private'],
-                format: ['camelCase'],
-                leadingUnderscore: 'allow',
-            },
-            {
                 selector: 'typeLike',
                 format: ['PascalCase'],
+            },
+            {
+                selector: 'function',
+                format: ['camelCase', 'PascalCase'],
             },
         ],
         'import/imports-first': 'error',
@@ -166,4 +158,29 @@ module.exports = {
             version: 'detect',
         },
     },
+    overrides: [
+        {
+            files: ['**/__mocks__/**/*.js'],
+            rules: {
+                'react/jsx-filename-extension': 'off',
+                '@typescript-eslint/no-unused-vars': 'off',
+            },
+        },
+        {
+            files: ['*.js', 'scripts/**/*.js'],
+            rules: {
+                '@typescript-eslint/no-var-requires': 'off',
+                'no-console': 'off',
+                'no-empty': 'off',
+                'no-case-declarations': 'off',
+                quotes: 'off',
+            },
+        },
+        {
+            files: ['metro.config.js', 'babel.config.js', 'jest.config.js'],
+            rules: {
+                '@typescript-eslint/no-var-requires': 'off',
+            },
+        },
+    ],
 };

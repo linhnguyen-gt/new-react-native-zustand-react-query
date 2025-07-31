@@ -1,6 +1,6 @@
 const mockComponent = () => {
     const MockComponent = ({ name, size, color }) => null;
-    MockComponent.displayName = "MockVectorIcon";
+    MockComponent.displayName = 'MockVectorIcon';
     return MockComponent;
 };
 

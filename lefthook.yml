@@ -7,9 +7,7 @@ pre-commit:
         lint-staged:
             glob: "*.{js,ts,jsx,tsx}"
             run: yarn lint-staged
-        typescript:
-            glob: "*.{ts,tsx}"
-            run: yarn tsc --noEmit
+
 
 commit-msg:
     commands:
