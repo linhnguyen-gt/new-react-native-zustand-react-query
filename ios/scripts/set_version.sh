@@ -43,7 +43,25 @@ fi
 
 # Ensure INFOPLIST_FILE is set
 if [ -z "$INFOPLIST_FILE" ]; then
-    INFOPLIST_FILE="ios/NewReactNativeZustandRNQ/Info.plist"
+    # Auto-detect Info.plist path by looking for .xcodeproj files
+    IOS_DIR="${SRCROOT}/ios"
+    for xcodeproj in "$IOS_DIR"/*.xcodeproj; do
+        if [ -d "$xcodeproj" ]; then
+            XCODEPROJ_NAME=$(basename "$xcodeproj" .xcodeproj)
+            POTENTIAL_INFO_PLIST="ios/$XCODEPROJ_NAME/Info.plist"
+            if [ -f "${SRCROOT}/$POTENTIAL_INFO_PLIST" ]; then
+                INFOPLIST_FILE="$POTENTIAL_INFO_PLIST"
+                break
+            fi
+        fi
+    done
+    
+    # Fallback if no Info.plist found
+    if [ -z "$INFOPLIST_FILE" ]; then
+        echo "Warning: Could not auto-detect Info.plist, using default path"
+        INFOPLIST_FILE="ios/Info.plist"
+    fi
+    
     echo "Setting default INFOPLIST_FILE: $INFOPLIST_FILE"
 fi
 
