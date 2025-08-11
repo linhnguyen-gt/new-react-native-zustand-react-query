@@ -52,7 +52,7 @@
         "@tanstack/react-query": "^5.83.0",
         "aes-js": "^3.1.2",
         "axios": "^1.11.0",
-        "expo": "~54.0.0-canary-20250701-6a945c5",
+        "expo": "~54.0.0-canary-20250729-d8899ae",
         "expo-secure-store": "^14.2.3",
         "nativewind": "^4.1.23",
         "react": "19.1.0",
