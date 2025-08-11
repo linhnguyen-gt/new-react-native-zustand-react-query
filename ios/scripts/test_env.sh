@@ -34,11 +34,36 @@ done
 # Check for Info.plist
 echo ""
 echo "=== Checking Info.plist ==="
-INFO_PLIST="$PROJECT_ROOT/ios/NewReactNativeZustandRNQ/Info.plist"
-if [ -f "$INFO_PLIST" ]; then
+
+# Get project name from package.json
+PROJECT_NAME=$(node -p "require('$PROJECT_ROOT/package.json').name" 2>/dev/null)
+if [ -z "$PROJECT_NAME" ]; then
+    echo "❌ Error: Could not read project name from package.json"
+    exit 1
+fi
+
+echo "Project name: $PROJECT_NAME"
+
+# Look for Info.plist in ios directory
+IOS_DIR="$PROJECT_ROOT/ios"
+INFO_PLIST=""
+
+# Find Info.plist by looking for .xcodeproj files
+for xcodeproj in "$IOS_DIR"/*.xcodeproj; do
+    if [ -d "$xcodeproj" ]; then
+        XCODEPROJ_NAME=$(basename "$xcodeproj" .xcodeproj)
+        POTENTIAL_INFO_PLIST="$IOS_DIR/$XCODEPROJ_NAME/Info.plist"
+        if [ -f "$POTENTIAL_INFO_PLIST" ]; then
+            INFO_PLIST="$POTENTIAL_INFO_PLIST"
+            break
+        fi
+    fi
+done
+
+if [ -n "$INFO_PLIST" ]; then
     echo "✅ Found Info.plist at $INFO_PLIST"
 else
-    echo "❌ Missing Info.plist at $INFO_PLIST"
+    echo "❌ Missing Info.plist in ios directory"
 fi
 
 # Create a test .env file if it doesn't exist

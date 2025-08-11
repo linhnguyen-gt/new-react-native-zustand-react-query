@@ -5,7 +5,7 @@
 
   <p>
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.80.1-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.80.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
       <img src="https://img.shields.io/badge/TypeScript-v5.0.4-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
@@ -15,7 +15,7 @@
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v54.0.0-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.0-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-canary-20250701-6a945c5-000020?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
     <img src="https://img.shields.io/badge/React_Navigation-v7.1.15-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
