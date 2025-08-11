@@ -132,6 +132,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewReactNativeZustandRNQ" */;
 			buildPhases = (
+				BDD5C0222E4A31E600401AFA /* ShellScript */,
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				A88C94C0FDD75C26AE740F0C /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -140,7 +141,6 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
-				BD0A9ABF2E190C57004148AC /* Set Version */,
 			);
 			buildRules = (
 			);
@@ -220,9 +220,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -238,17 +242,21 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh",
 			);
 			name = "[Expo] Configure project";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh\"\n";
 		};
-		BD0A9ABF2E190C57004148AC /* Set Version */ = {
+		BDD5C0222E4A31E600401AFA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -257,14 +265,13 @@
 			);
 			inputPaths = (
 			);
-			name = "Set Version";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/scripts/set_version.sh\"\n";
+			shellScript = "# Get the environment from configuration name\necho \"Debug: Raw CONFIGURATION value: ${CONFIGURATION}\"\n\nif [ \"$CONFIGURATION\" == \"Product.Debug\" ] || [ \"$CONFIGURATION\" == \"Product.Release\" ]; then\n  ENV_FILE=\"${SRCROOT}/../.env.production\"\n  echo \"Debug: Matched Product configuration\"\nelif [ \"$CONFIGURATION\" == \"Staging.Debug\" ] || [ \"$CONFIGURATION\" == \"Staging.Release\" ]; then\n  ENV_FILE=\"${SRCROOT}/../.env.staging\"\n  echo \"Debug: Matched Staging configuration\"\nelse\n  ENV_FILE=\"${SRCROOT}/../.env\"\n  echo \"Debug: Using default configuration\"\nfi\n\n# Ensure INFOPLIST_FILE is set\nif [ -z \"$INFOPLIST_FILE\" ]; then\n    echo \"Error: INFOPLIST_FILE not set\"\n    exit 0\nfi\n\nINFO_PLIST=\"${SRCROOT}/${INFOPLIST_FILE}\"\n\necho \"=== Environment Setup ===\"\necho \"CONFIGURATION: ${CONFIGURATION}\"\necho \"Using env file: ${ENV_FILE}\"\necho \"Info.plist path: ${INFO_PLIST}\"\n\n# Default values in case env file is missing\nVERSION_CODE=\"1\"\nVERSION_NAME=\"1.0.0\"\nAPP_NAME=\"\"\n\n# Try to read from env file if it exists\nif [ -f \"$ENV_FILE\" ]; then\n    echo \"Reading from env file...\"\n    \n    # Read VERSION_CODE\n    VERSION_CODE_LINE=$(grep \"^VERSION_CODE=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$VERSION_CODE_LINE\" ]; then\n        VERSION_CODE=$(echo \"$VERSION_CODE_LINE\" | cut -d'=' -f2 | tr -d '\"' | tr -d ' ')\n    fi\n    \n    # Read VERSION_NAME\n    VERSION_NAME_LINE=$(grep \"^VERSION_NAME=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$VERSION_NAME_LINE\" ]; then\n        VERSION_NAME=$(echo \"$VERSION_NAME_LINE\" | cut -d'=' -f2 | tr -d '\"' | tr -d ' ')\n    fi\n\n    # Read APP_NAME \n    APP_NAME_LINE=$(grep \"^APP_NAME=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$APP_NAME_LINE\" ]; then\n        APP_NAME=$(echo \"$APP_NAME_LINE\" | sed 's/^APP_NAME=//' | sed 's/^\"//' | sed 's/\"$//')\n    fi\n\nelse\n    echo \"Warning: Environment file not found, using default values\"\nfi\n\necho \"Using versions - Code: $VERSION_CODE, Name: $VERSION_NAME, App Name: $APP_NAME\"\n\n# Update Info.plist if it exists\nif [ -f \"$INFO_PLIST\" ]; then\n    echo \"Updating Info.plist...\"\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION_CODE\" \"$INFO_PLIST\" || true\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $VERSION_NAME\" \"$INFO_PLIST\" || true\n    if [ ! -z \"$APP_NAME\" ]; then\n        /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $APP_NAME\" \"$INFO_PLIST\" || true\n    fi\n    echo \"Info.plist update completed\"\nelse\n    echo \"Warning: Info.plist not found at $INFO_PLIST\"\nfi \n";
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -296,9 +303,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -327,6 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -356,6 +368,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -445,10 +458,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -518,10 +528,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -599,10 +606,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -618,6 +622,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -709,10 +714,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -811,10 +813,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -830,6 +829,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -911,10 +911,7 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;

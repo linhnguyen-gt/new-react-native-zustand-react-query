@@ -50,6 +50,6 @@ target 'NewReactNativeZustandRNQ' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
-
+    
   end
 end

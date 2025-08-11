@@ -1,9 +1,9 @@
 PODS:
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
-  - EXConstants (17.1.7-canary-20250701-6a945c5):
+  - EXConstants (17.1.8-canary-20250729-d8899ae):
     - ExpoModulesCore
-  - Expo (54.0.0-canary-20250701-6a945c5):
+  - Expo (54.0.0-canary-20250729-d8899ae):
     - boost
     - DoubleConversion
     - ExpoModulesCore
@@ -35,15 +35,15 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - ExpoAsset (11.2.0-canary-20250701-6a945c5):
+  - ExpoAsset (11.2.0-canary-20250729-d8899ae):
     - ExpoModulesCore
-  - ExpoFileSystem (18.2.0-canary-20250701-6a945c5):
+  - ExpoFileSystem (18.2.0-canary-20250729-d8899ae):
     - ExpoModulesCore
-  - ExpoFont (13.3.3-canary-20250701-6a945c5):
+  - ExpoFont (13.4.0-canary-20250729-d8899ae):
     - ExpoModulesCore
-  - ExpoKeepAwake (14.1.5-canary-20250701-6a945c5):
+  - ExpoKeepAwake (14.1.5-canary-20250729-d8899ae):
     - ExpoModulesCore
-  - ExpoModulesCore (2.5.0-canary-20250701-6a945c5):
+  - ExpoModulesCore (2.6.0-canary-20250729-d8899ae):
     - boost
     - DoubleConversion
     - fast_float
@@ -2981,13 +2981,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
-  EXConstants: 982fb5df7af235200f6dfb8955d259e19ad5da09
-  Expo: 0248e2046a418513f7e176fa769234c020c7dac2
-  ExpoAsset: 318c668ad5384a54e35f1c78329d54c227073e2c
-  ExpoFileSystem: 98e816b300e688ed5805f334ddfddc95cd7923f9
-  ExpoFont: 9c0e742b4ce54baab812da72b712370348382aaf
-  ExpoKeepAwake: 0c29948d701cbf75f651a28df20cc3bf785113f0
-  ExpoModulesCore: 317ab1bb4a592e6fc06213df7f20a0b1698f2bdc
+  EXConstants: 62d317e376636c894b51d4b23d790230f06885f9
+  Expo: e7f080ec499a3ccc31b02a7e882bc513de8b9e67
+  ExpoAsset: b36e3bbd50ae81ede4d2d761877c300c7b13af3d
+  ExpoFileSystem: 4c376ba0a35b35a043593bb6b190c68fcfea045d
+  ExpoFont: f64dd8b859a0c924ed9641dda17089e33f345439
+  ExpoKeepAwake: 2417ad3d2a3cc6dfb9acac1785dab2466a2cf3b2
+  ExpoModulesCore: 6047e5e20e411d615f6199cfb64f1905396009ec
   ExpoSecureStore: 3148869ad24ab94f9e0c5777c7941d7a37d60399
   fast_float: b32c788ed9c6a8c584d114d0047beda9664e7cc6
   FBLazyVector: 86588b5a1547e7a417942a08f49559b184e002c8
@@ -3076,6 +3076,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 1c52fbd270869e556504def7e94fffbf67f53f7b
 
-PODFILE CHECKSUM: 5d187495c3571c00ddbb27981452eb07d83c7749
+PODFILE CHECKSUM: 6726cfde868cba8e09e2e26c8c75e8bfa951b837
 
 COCOAPODS: 1.16.2
