@@ -24,11 +24,15 @@ module.exports = {
             '|@gluestack-ui/button' +
             '|@gluestack-ui/toast' +
             '|@gluestack-ui/image' +
-            '|@gluestack-ui/nativewind-utils' +
             '|@gluestack-ui/icon' +
+            '|@gluestack-ui/nativewind-utils' +
             '|@legendapp/motion' +
             '|nativewind' +
             '|expo-constants' +
+            '|expo-secure-store' +
+            '|react-native-get-random-values' +
+            '|react-native-url-polyfill' +
+            '|aes-js' +
             '|react-native-gesture-handler' +
             '|react-native-reanimated' +
             '|react-native-svg' +

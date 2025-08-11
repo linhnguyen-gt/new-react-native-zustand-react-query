@@ -74,15 +74,59 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 
-
+# Environment files
 .env*
 .flaskenv*
 !.env.project
 !.env.vault
-# Environment files
-.env
-.env.*
 !.env.example
-!.env.vault
+
+# Security files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+secrets/
+keys/
+certificates/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Build artifacts
+dist/
+build/
+*.tgz
+*.tar.gz
+
+# Cache
+.cache/
+.parcel-cache/
+.npm/
+.yarn-cache/
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Security scan results
+security-scan-results/
+vulnerability-reports/
 
 .qodo

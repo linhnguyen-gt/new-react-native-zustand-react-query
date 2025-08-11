@@ -1,11 +1,26 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import SecureStorageService from '@/data/services/secureStorage';
 
 enum TypeToken {
     RefreshToken = 'REFRESH_TOKEN',
 }
 
+interface TokenData {
+    refreshToken?: string | null;
+    expiresAt?: number;
+    createdAt?: number;
+}
+
+const validateToken = (token: string): boolean => {
+    return Boolean(token && token.length > 10 && token.length < 1000);
+};
+
+const isTokenExpired = (expiresAt?: number): boolean => {
+    if (!expiresAt) return false;
+    return Date.now() > expiresAt;
+};
+
 /**
- * Saves access and refresh tokens to AsyncStorage
+ * Saves access and refresh tokens to secure storage with encryption
  * @param param0 Object containing optional accessToken and refreshToken
  * @example
  * await setToken({
@@ -14,17 +29,53 @@ enum TypeToken {
  */
 export const setToken = async ({ refreshToken }: { refreshToken?: string | undefined | null }) => {
     if (!refreshToken) return;
-    await AsyncStorage.setItem(TypeToken.RefreshToken, refreshToken);
+
+    if (!validateToken(refreshToken)) {
+        throw new Error('Invalid token format');
+    }
+
+    const tokenData: TokenData = {
+        refreshToken,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    };
+
+    try {
+        await SecureStorageService.setItem(TypeToken.RefreshToken, JSON.stringify(tokenData));
+    } catch (error) {
+        throw new Error('Failed to store token securely');
+    }
 };
 
 /**
- * Retrieves a token from AsyncStorage
- * @param type Type of token to retrieve (AccessToken or RefreshToken)
+ * Retrieves a token from secure storage with validation
  * @returns Promise resolving to the token string or undefined
  * @example
- * const token = await getToken(TypeToken.AccessToken)
+ * const token = await getToken()
  */
-export const getToken = async () => (await AsyncStorage.getItem(TypeToken.RefreshToken)) ?? undefined;
+export const getToken = async (): Promise<string | undefined> => {
+    try {
+        const tokenString = await SecureStorageService.getItem(TypeToken.RefreshToken);
+        if (!tokenString) return undefined;
+
+        const tokenData: TokenData = JSON.parse(tokenString);
+
+        if (isTokenExpired(tokenData.expiresAt)) {
+            await clearToken();
+            return undefined;
+        }
+
+        if (!tokenData.refreshToken || !validateToken(tokenData.refreshToken)) {
+            await clearToken();
+            return undefined;
+        }
+
+        return tokenData.refreshToken;
+    } catch (error) {
+        await clearToken();
+        return undefined;
+    }
+};
 
 /**
  * Clears all tokens including refresh token
@@ -32,6 +83,58 @@ export const getToken = async () => (await AsyncStorage.getItem(TypeToken.Refres
  * @example
  * await clearToken()
  */
-export const clearToken = async () => {
-    await AsyncStorage.removeItem(TypeToken.RefreshToken);
+export const clearToken = async (): Promise<void> => {
+    try {
+        await SecureStorageService.removeItem(TypeToken.RefreshToken);
+    } catch (error) {
+        /* empty */
+    }
+};
+
+export const hasValidToken = async (): Promise<boolean> => {
+    const token = await getToken();
+    return !!token;
+};
+
+export const getTokenMetadata = async (): Promise<{ createdAt?: number; expiresAt?: number } | null> => {
+    try {
+        const tokenString = await SecureStorageService.getItem(TypeToken.RefreshToken);
+        if (!tokenString) return null;
+
+        const tokenData: TokenData = JSON.parse(tokenString);
+        return {
+            createdAt: tokenData.createdAt,
+            expiresAt: tokenData.expiresAt,
+        };
+    } catch (error) {
+        return null;
+    }
+};
+
+export const secureStore = async (key: string, value: string): Promise<void> => {
+    try {
+        await SecureStorageService.setItem(key, value);
+    } catch (error) {
+        throw new Error('Failed to store data securely');
+    }
+};
+
+export const secureRetrieve = async (key: string): Promise<string | null> => {
+    try {
+        return await SecureStorageService.getItem(key);
+    } catch (error) {
+        return null;
+    }
+};
+
+export const secureRemove = async (key: string): Promise<void> => {
+    try {
+        await SecureStorageService.removeItem(key);
+    } catch (error) {
+        /* empty */
+    }
+};
+
+export const isSecureStorageAvailable = async (): Promise<boolean> => {
+    return await SecureStorageService.isSecureStoreAvailable();
 };

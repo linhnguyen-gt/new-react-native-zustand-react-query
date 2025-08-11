@@ -1,27 +1,57 @@
-# Get the environment from configuration name
+#!/bin/bash
+
+# Get the environment from configuration name or command line
+if [ -z "$CONFIGURATION" ]; then
+    # If CONFIGURATION is not set, try to get it from command line argument
+    if [ ! -z "$1" ]; then
+        case "$1" in
+            "staging")
+                CONFIGURATION="Staging.Debug"
+                ;;
+            "production")
+                CONFIGURATION="Product.Debug"
+                ;;
+            *)
+                CONFIGURATION="Debug"
+                ;;
+        esac
+    else
+        CONFIGURATION="Debug"
+    fi
+fi
+
 echo "Debug: Raw CONFIGURATION value: ${CONFIGURATION}"
 
+# Get the project root directory (where package.json is located)
+if [ -z "$SRCROOT" ]; then
+    # Try to find project root by looking for package.json
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+    SRCROOT="$PROJECT_ROOT"
+fi
+
 if [ "$CONFIGURATION" == "Product.Debug" ] || [ "$CONFIGURATION" == "Product.Release" ]; then
-  ENV_FILE="${SRCROOT}/../.env.production"
+  ENV_FILE="${SRCROOT}/.env.production"
   echo "Debug: Matched Product configuration"
 elif [ "$CONFIGURATION" == "Staging.Debug" ] || [ "$CONFIGURATION" == "Staging.Release" ]; then
-  ENV_FILE="${SRCROOT}/../.env.staging"
+  ENV_FILE="${SRCROOT}/.env.staging"
   echo "Debug: Matched Staging configuration"
 else
-  ENV_FILE="${SRCROOT}/../.env"
+  ENV_FILE="${SRCROOT}/.env"
   echo "Debug: Using default configuration"
 fi
 
 # Ensure INFOPLIST_FILE is set
 if [ -z "$INFOPLIST_FILE" ]; then
-    echo "Error: INFOPLIST_FILE not set"
-    exit 0
+    INFOPLIST_FILE="ios/NewReactNativeZustandRNQ/Info.plist"
+    echo "Setting default INFOPLIST_FILE: $INFOPLIST_FILE"
 fi
 
 INFO_PLIST="${SRCROOT}/${INFOPLIST_FILE}"
 
 echo "=== Environment Setup ==="
 echo "CONFIGURATION: ${CONFIGURATION}"
+echo "SRCROOT: ${SRCROOT}"
 echo "Using env file: ${ENV_FILE}"
 echo "Info.plist path: ${INFO_PLIST}"
 
@@ -53,7 +83,7 @@ if [ -f "$ENV_FILE" ]; then
     fi
 
 else
-    echo "Warning: Environment file not found, using default values"
+    echo "Warning: Environment file not found at $ENV_FILE, using default values"
 fi
 
 echo "Using versions - Code: $VERSION_CODE, Name: $VERSION_NAME, App Name: $APP_NAME"

@@ -11,7 +11,36 @@ import { TokenService } from './services/tokenService';
 const DEFAULT_API_CONFIG = {
     baseURL: environment.apiBaseUrl,
     timeout: 30000,
+    headers: {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block',
+    },
 } as const;
+
+class RateLimiter {
+    private requests: { [key: string]: number[] } = {};
+    private readonly maxRequests = 100;
+    private readonly windowMs = 60000;
+
+    canMakeRequest(endpoint: string): boolean {
+        const now = Date.now();
+        const windowStart = now - this.windowMs;
+
+        if (!this.requests[endpoint]) {
+            this.requests[endpoint] = [];
+        }
+
+        this.requests[endpoint] = this.requests[endpoint].filter((time) => time > windowStart);
+
+        if (this.requests[endpoint].length >= this.maxRequests) {
+            return false;
+        }
+
+        this.requests[endpoint].push(now);
+        return true;
+    }
+}
 
 export class HttpClient implements IHttpClient {
     private static _instance: HttpClient;
@@ -24,18 +53,22 @@ export class HttpClient implements IHttpClient {
 
     private readonly requestInterceptor: RequestInterceptor;
 
+    private readonly rateLimiter: RateLimiter;
+
     private timeoutId: number | null = null;
 
     private constructor(tokenService?: TokenService, errorHandler?: ErrorHandler) {
         this.INSTANCE = axios.create({
             baseURL: DEFAULT_API_CONFIG.baseURL,
             timeout: DEFAULT_API_CONFIG.timeout,
+            headers: DEFAULT_API_CONFIG.headers,
             // TODO: Uncomment this when the backend is ready to receive cookies
             // withCredentials: true,
         });
         this.errorHandler = errorHandler ?? new ErrorHandler();
         this.tokenService = tokenService ?? new TokenService(this);
         this.requestInterceptor = new RequestInterceptor(this.INSTANCE, this.tokenService);
+        this.rateLimiter = new RateLimiter();
         this.requestInterceptor.setupInterceptors();
     }
 
@@ -46,8 +79,32 @@ export class HttpClient implements IHttpClient {
         return HttpClient._instance;
     }
 
+    private validateRequest(config: HttpRequestConfig): void {
+        if (!config.endpoint || typeof config.endpoint !== 'string') {
+            throw new Error('Invalid endpoint');
+        }
+
+        const dangerousPatterns = [/\.\./, /\/etc\//, /\/proc\//, /\/sys\//];
+
+        for (const pattern of dangerousPatterns) {
+            if (pattern.test(config.endpoint)) {
+                throw new Error('Potentially dangerous endpoint detected');
+            }
+        }
+
+        if (!Object.values(ApiMethod).includes(config.method)) {
+            throw new Error('Invalid HTTP method');
+        }
+
+        if (!this.rateLimiter.canMakeRequest(config.endpoint)) {
+            throw new Error('Rate limit exceeded');
+        }
+    }
+
     async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T> | undefined> {
         try {
+            this.validateRequest(config);
+
             const headers = { ...config.headers };
 
             const response = await this.INSTANCE.request<T>({
@@ -80,9 +137,16 @@ export class HttpClient implements IHttpClient {
 
     updateHeaders(newHeaders: Record<string, string>): void {
         if (this.INSTANCE) {
+            const safeHeaders = { ...newHeaders };
+            const dangerousHeaders = ['host', 'origin', 'referer'];
+
+            dangerousHeaders.forEach((header) => {
+                delete safeHeaders[header];
+            });
+
             this.INSTANCE.defaults.headers = {
                 ...this.INSTANCE.defaults.headers,
-                ...newHeaders,
+                ...safeHeaders,
             };
         }
     }
@@ -107,7 +171,14 @@ export class HttpClient implements IHttpClient {
     }
 
     public setAccessToken(accessToken?: string): void {
-        this.INSTANCE.defaults.headers.Authorization = `Bearer ${accessToken}`;
+        if (accessToken) {
+            if (!accessToken.match(/^[A-Za-z0-9\-._~+/]+=*$/)) {
+                throw new Error('Invalid token format');
+            }
+            this.INSTANCE.defaults.headers.Authorization = `Bearer ${accessToken}`;
+        } else {
+            delete this.INSTANCE.defaults.headers.Authorization;
+        }
     }
 }
 

@@ -50,15 +50,6 @@ target 'NewReactNativeZustandRNQ' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
-    # Set permission for set_version.sh
-    system("chmod +x #{Pod::Config.instance.installation_root}/scripts/set_version.sh")
-    
-    # Add build phase
-    installer.pods_project.targets.each do |target|
-      if target.name == 'NewReactNativeZustandRNQ'
-        phase = target.new_shell_script_build_phase('Set Version')
-        phase.shell_script = "\"#{Pod::Config.instance.installation_root}/scripts/set_version.sh\""
-      end
-    end
+
   end
 end
