@@ -132,8 +132,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewReactNativeZustandRNQ" */;
 			buildPhases = (
-				BDD5C0222E4A31E600401AFA /* ShellScript */,
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
+				BDD5C0222E4A31E600401AFA /* ShellScript */,
 				A88C94C0FDD75C26AE740F0C /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -730,6 +730,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -927,6 +928,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (

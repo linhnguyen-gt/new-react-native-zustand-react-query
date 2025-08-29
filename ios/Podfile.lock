@@ -1814,12 +1814,12 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-vector-icons-ant-design (12.2.0)
-  - react-native-vector-icons-entypo (12.2.0)
-  - react-native-vector-icons-evil-icons (12.2.0)
-  - react-native-vector-icons-feather (12.2.0)
-  - react-native-vector-icons-ionicons (12.2.0)
-  - react-native-vector-icons-material-icons (12.2.0)
+  - react-native-vector-icons-ant-design (12.3.0)
+  - react-native-vector-icons-entypo (12.3.0)
+  - react-native-vector-icons-evil-icons (12.3.0)
+  - react-native-vector-icons-feather (12.3.0)
+  - react-native-vector-icons-ionicons (12.3.0)
+  - react-native-vector-icons-material-icons (12.3.0)
   - React-NativeModulesApple (0.80.2):
     - boost
     - DoubleConversion
@@ -2352,35 +2352,6 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNFlashList (1.8.3):
-    - boost
-    - DoubleConversion
-    - fast_float
-    - fmt
-    - glog
-    - hermes-engine
-    - RCT-Folly
-    - RCT-Folly/Fabric
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-hermes
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - SocketRocket
-    - Yoga
   - RNGestureHandler (2.27.2):
     - boost
     - DoubleConversion
@@ -2773,7 +2744,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
-  - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -2965,8 +2935,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
-  RNFlashList:
-    :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -3029,12 +2997,12 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 5d00fefc19f0bc9a6432e5533683d6fc9c3da4e1
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-safe-area-context: 339885703b6dd1be2bce42d9c0b0350c21180032
-  react-native-vector-icons-ant-design: 7af79b29c82b3a5e3e7375f6896372fd367a4674
-  react-native-vector-icons-entypo: b93cffb02e37321142529317407a6045c908a702
-  react-native-vector-icons-evil-icons: 02639805c4abca8068d963117d3342f8e90c649d
-  react-native-vector-icons-feather: 9a5ae7068527c30d221b6b9bdb79f18b6d05bb18
-  react-native-vector-icons-ionicons: 3a23bfb6ac5e5c44d822f37107afa50718f3cf31
-  react-native-vector-icons-material-icons: 02aacdc7a2aa4d22dd841eaddad080a5f967b888
+  react-native-vector-icons-ant-design: 3764a6096f8d760e0bb6766ea762a5545f6dba1c
+  react-native-vector-icons-entypo: 884e623c9b041803269b27ef57d6cde614f8ae1f
+  react-native-vector-icons-evil-icons: 74d1fe2b104d1b4286359313713c7a4a9dcef1be
+  react-native-vector-icons-feather: 14d6f3e1af2acefb0b4d976b226bb15b19e1db58
+  react-native-vector-icons-ionicons: ad07e944a092a5cf71b8b569d8f5ce2bf674c415
+  react-native-vector-icons-material-icons: eff7417eb1ac6c740ab802837ad34b8233fded34
   React-NativeModulesApple: b22e6abb44d78270dfdfc7d85efe29e35e0333a7
   React-oscompat: 56d6de59f9ae95cd006a1c40be2cde83bc06a4e1
   React-perflogger: 0633844e495d8b34798c9bf0cb32ce315f1d5c9f
@@ -3068,7 +3036,6 @@ SPEC CHECKSUMS:
   ReactCommon: 7aca047f2f453a7d7f0adeccb63810d61829235a
   RNCAsyncStorage: 767abb068db6ad28b5f59a129fbc9fab18b377e2
   RNCMaskedView: aac38cf7e947ff80e483996d1acd43c5ad4ab610
-  RNFlashList: 995a7cad345dcb6f203db0f50bcf4b83cc04f3c9
   RNGestureHandler: 502fd35c8e1d326562536ff256e61e38d703eafb
   RNReanimated: 88ed7de46e956f5f0d623f070a534f711cf056e5
   RNScreens: 75074e642b69b086813a943bdf63da7085fb2166

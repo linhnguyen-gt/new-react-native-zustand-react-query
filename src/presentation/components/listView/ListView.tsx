@@ -1,4 +1,4 @@
-import { FlashList, FlashListProps, ListRenderItem } from '@shopify/flash-list';
+import { FlashList, FlashListProps, FlashListRef, ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
 import { DimensionValue, RefreshControl } from 'react-native';
 
@@ -7,7 +7,7 @@ import { LoadingFooter } from '../loading';
 
 type Data = Record<string, any>;
 
-export type ListViewRef<T> = FlashList<T>;
+export type ListViewRef<T> = FlashListRef<T>;
 
 type ListViewProps<T> = FlashListProps<T> & {
     data: T[] | undefined;
@@ -109,7 +109,6 @@ function ListView<T extends Data>(
                     paddingTop: pt,
                     paddingBottom: pb,
                 }}
-                estimatedItemSize={200}
                 onEndReachedThreshold={0.1}
                 scrollEnabled={!isLoading}
             />
