@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 import { ConfigContext, ExpoConfig } from 'expo/config';
 
 import { name } from './package.json';
-import withIosSchemes from './plugins/with-ios-schemes';
 
 const getEnvPath = (env: string | undefined): string => {
     switch (env?.toLowerCase()) {
@@ -55,25 +54,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
     const validatedConfig = validateEnvConfig(envConfig);
 
-    const flavor = String(validatedConfig.APP_FLAVOR || '').toLowerCase();
-
-    const androidBase = 'com.newreactnativezustandrnq';
-    const androidPackage =
-        flavor === 'production'
-            ? `${androidBase}.production`
-            : flavor === 'staging'
-            ? `${androidBase}.stg`
-            : androidBase; // dev
-
-    const iosBase = 'com.newreactnativezustandrnq';
-    const iosBundleIdentifier =
-        flavor === 'production'
-            ? `${iosBase}.production`
-            : flavor === 'staging'
-            ? `${iosBase}.stg`
-            : 'org.reactjs.native.example.NewReactNativeZustandRNQ.dev';
-
-    let finalConfig: ExpoConfig = {
+    return {
         ...config,
         name,
         slug: name.toLowerCase(),
@@ -81,16 +62,5 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         extra: {
             ...validatedConfig,
         },
-        ios: {
-            buildNumber: validatedConfig.VERSION_CODE,
-            bundleIdentifier: iosBundleIdentifier,
-        },
-        android: {
-            versionCode: parseInt(validatedConfig.VERSION_CODE, 10),
-            package: androidPackage,
-        },
     };
-
-    finalConfig = withIosSchemes(finalConfig, {});
-    return finalConfig;
 };

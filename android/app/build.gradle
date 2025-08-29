@@ -100,6 +100,9 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         
+        def rnReleaseLevel = (findProperty('reactNativeReleaseLevel') ?: 'stable')
+        buildConfigField 'String', 'REACT_NATIVE_RELEASE_LEVEL', '"' + rnReleaseLevel + '"'
+
         def envFile = new File("${project.rootDir.parentFile}/.env")
         if (envFile.exists()) {
             def versionProps = getVersionFromEnv(envFile)
