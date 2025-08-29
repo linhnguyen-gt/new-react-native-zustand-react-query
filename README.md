@@ -5,19 +5,19 @@
 
   <p>
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.81.1-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.80.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="https://img.shields.io/badge/TypeScript-v5.8.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
+      <img src="https://img.shields.io/badge/TypeScript-v5.0.4-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
     </a>
   </p>
 
 ### Core Libraries
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Expo-v54.0.0-preview.11-preview.11?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.0-canary-20250729-d8899ae-canary-20250729-d8899ae-preview.11-preview.11?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
-    <img src="https://img.shields.io/badge/React_Navigation-v7.1.17-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
+    <img src="https://img.shields.io/badge/React_Navigation-v7.1.15-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
 ### State Management & API
@@ -39,8 +39,8 @@
 ### Form & Validation
 
   <p>
-    <img src="https://img.shields.io/badge/React_Hook_Form-v7.62.0-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
-    <img src="https://img.shields.io/badge/Zod-v4.1.5-3068B7?style=for-the-badge" alt="zod" />
+    <img src="https://img.shields.io/badge/React_Hook_Form-v7.61.1-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
+    <img src="https://img.shields.io/badge/Zod-v4.0.10-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
 ### Development & Testing
@@ -61,7 +61,7 @@
 ### Development Tools
 
   <p>
-    <img src="https://img.shields.io/badge/Reactotron-v5.1.15-7B61FF?style=for-the-badge" alt="reactotron" />
+    <img src="https://img.shields.io/badge/Reactotron-v5.1.14-7B61FF?style=for-the-badge" alt="reactotron" />
     <img src="https://img.shields.io/badge/React_Native_Reanimated-v3.18.0-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
