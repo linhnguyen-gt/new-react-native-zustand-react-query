@@ -1,3 +1,11 @@
-export * from './counterStore';
-export * from './responseStore';
-export { resetAllStores } from './storeFactory';
+import { useCounterStore } from './counterStore';
+import { useResponseStore } from './responseStore';
+import { resetAllStores } from './storeFactory';
+
+const store = {
+    useCounterStore,
+    useResponseStore,
+    resetAllStores,
+};
+
+export default store;

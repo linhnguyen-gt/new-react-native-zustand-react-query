@@ -11,15 +11,6 @@ ENV['RCT_USE_PREBUILT_RNCORE'] ||= '1' if podfile_properties['ios.buildReactNati
 platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
 
 prepare_react_native_project!
-# configuration name environment
-project 'NewReactNativeZustandRNQ',{
-        'Debug' => :debug,
-        'Release' => :release,
-        'Staging.Debug' => :debug,
-        'Staging.Release' => :release,
-        'Product.Debug' => :debug,
-        'Product.Release' => :release,
-}
 
 target 'NewReactNativeZustandRNQ' do
   use_expo_modules!
