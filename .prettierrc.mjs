@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     bracketSameLine: true,
     bracketSpacing: true,
     singleQuote: true,
@@ -10,4 +10,6 @@ module.exports = {
     endOfLine: 'lf',
     embeddedLanguageFormatting: 'auto',
     quoteProps: 'as-needed',
+    plugins: ["prettier-plugin-tailwindcss"],
+    tailwindFunctions: ["tva"]
 };

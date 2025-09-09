@@ -66,12 +66,15 @@ function findObjectDifferences(oldObj: any, newObj: any): Record<string, any> {
 }
 
 function filterObjectByKeys(obj: Record<string, any>, keys: string[]): Record<string, any> {
-    return keys.reduce((result, key) => {
-        if (key in obj) {
-            result[key] = obj[key];
-        }
-        return result;
-    }, {} as Record<string, any>);
+    return keys.reduce(
+        (result, key) => {
+            if (key in obj) {
+                result[key] = obj[key];
+            }
+            return result;
+        },
+        {} as Record<string, any>
+    );
 }
 
 function isEqual(a: any, b: any): boolean {

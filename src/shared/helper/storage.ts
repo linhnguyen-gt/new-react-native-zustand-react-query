@@ -42,7 +42,7 @@ export const setToken = async ({ refreshToken }: { refreshToken?: string | undef
 
     try {
         await SecureStorageService.setItem(TypeToken.RefreshToken, JSON.stringify(tokenData));
-    } catch (error) {
+    } catch {
         throw new Error('Failed to store token securely');
     }
 };
@@ -71,7 +71,7 @@ export const getToken = async (): Promise<string | undefined> => {
         }
 
         return tokenData.refreshToken;
-    } catch (error) {
+    } catch {
         await clearToken();
         return undefined;
     }
@@ -86,7 +86,7 @@ export const getToken = async (): Promise<string | undefined> => {
 export const clearToken = async (): Promise<void> => {
     try {
         await SecureStorageService.removeItem(TypeToken.RefreshToken);
-    } catch (error) {
+    } catch {
         /* empty */
     }
 };
@@ -106,7 +106,7 @@ export const getTokenMetadata = async (): Promise<{ createdAt?: number; expiresA
             createdAt: tokenData.createdAt,
             expiresAt: tokenData.expiresAt,
         };
-    } catch (error) {
+    } catch {
         return null;
     }
 };
@@ -114,7 +114,7 @@ export const getTokenMetadata = async (): Promise<{ createdAt?: number; expiresA
 export const secureStore = async (key: string, value: string): Promise<void> => {
     try {
         await SecureStorageService.setItem(key, value);
-    } catch (error) {
+    } catch {
         throw new Error('Failed to store data securely');
     }
 };
@@ -122,7 +122,7 @@ export const secureStore = async (key: string, value: string): Promise<void> => 
 export const secureRetrieve = async (key: string): Promise<string | null> => {
     try {
         return await SecureStorageService.getItem(key);
-    } catch (error) {
+    } catch {
         return null;
     }
 };
@@ -130,7 +130,7 @@ export const secureRetrieve = async (key: string): Promise<string | null> => {
 export const secureRemove = async (key: string): Promise<void> => {
     try {
         await SecureStorageService.removeItem(key);
-    } catch (error) {
+    } catch {
         /* empty */
     }
 };

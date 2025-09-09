@@ -30,7 +30,7 @@ export class SecureStorageService {
             const aesCbc = new AES.ModeOfOperation.cbc(this.encryptionKey, this.iv);
             const encryptedBytes = aesCbc.encrypt(textBytes);
             return AES.utils.hex.fromBytes(encryptedBytes);
-        } catch (error) {
+        } catch {
             throw new Error('Failed to encrypt data');
         }
     }
@@ -41,7 +41,7 @@ export class SecureStorageService {
             const aesCbc = new AES.ModeOfOperation.cbc(this.encryptionKey, this.iv);
             const decryptedBytes = aesCbc.decrypt(encryptedBytes);
             return AES.utils.utf8.fromBytes(decryptedBytes);
-        } catch (error) {
+        } catch {
             throw new Error('Failed to decrypt data');
         }
     }
@@ -50,7 +50,7 @@ export class SecureStorageService {
         try {
             const encryptedValue = this.encrypt(value);
             await SecureStore.setItemAsync(key, encryptedValue);
-        } catch (error) {
+        } catch {
             throw new Error('Secure storage is not available on this device');
         }
     }
@@ -63,10 +63,10 @@ export class SecureStorageService {
 
             try {
                 return this.decrypt(encryptedValue);
-            } catch (decryptError) {
+            } catch {
                 return null;
             }
-        } catch (error) {
+        } catch {
             throw new Error('Secure storage is not available on this device');
         }
     }
@@ -74,7 +74,7 @@ export class SecureStorageService {
     async removeItem(key: string): Promise<void> {
         try {
             await SecureStore.deleteItemAsync(key);
-        } catch (error) {
+        } catch {
             throw new Error('Secure storage is not available on this device');
         }
     }

@@ -15,7 +15,7 @@
 ### Core Libraries
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Expo-v54.0.0-preview.13-preview.13-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-canary-20250729-d8899ae-canary-20250729-d8899ae-preview.11-preview.11?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.0-preview.13-preview.13-preview.13-preview.13-preview.13-preview.13-preview.13-preview.13-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-preview.12-canary-20250729-d8899ae-canary-20250729-d8899ae-preview.11-preview.11?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
     <img src="https://img.shields.io/badge/React_Navigation-v7.1.17-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
@@ -47,7 +47,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/ESLint-v8.19.0-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="eslint" />
-    <img src="https://img.shields.io/badge/Prettier-v2.8.8-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
+    <img src="https://img.shields.io/badge/Prettier-v3.3.3-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
     <img src="https://img.shields.io/badge/Jest-v29.6.3-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
   </p>
 

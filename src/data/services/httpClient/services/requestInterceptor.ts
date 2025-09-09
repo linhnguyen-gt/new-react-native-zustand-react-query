@@ -8,7 +8,10 @@ interface ErrorResponseData {
 }
 
 export class RequestInterceptor {
-    constructor(private readonly axiosInstance: AxiosInstance, private readonly tokenService: ITokenService) {}
+    constructor(
+        private readonly axiosInstance: AxiosInstance,
+        private readonly tokenService: ITokenService
+    ) {}
 
     setupInterceptors(): void {
         this.axiosInstance.interceptors.request.use(this.handleRequest.bind(this), this.handleRequestError.bind(this));
@@ -18,7 +21,7 @@ export class RequestInterceptor {
                 try {
                     await this.tokenService.refreshToken();
                     return this.axiosInstance.request(error.config!);
-                } catch (refreshError) {
+                } catch {
                     return Promise.reject({
                         message: 'Session expired, please login again',
                         status: HttpStatusCode.Unauthorized,

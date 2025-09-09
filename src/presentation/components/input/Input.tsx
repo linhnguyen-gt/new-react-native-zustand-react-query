@@ -71,16 +71,16 @@ const Input = React.forwardRef<TextInput, InputProps>(
             return (
                 <HStack
                     style={{ height }}
-                    className={`items-center w-full rounded-2xl border ${!enable && 'bg-inputDisable'} px-5 border-2 ${
+                    className={`w-full items-center rounded-2xl border ${!enable && 'bg-inputDisable'} border-2 px-5 ${
                         error ? 'border-red' : 'border-gray-100'
                     } `}>
-                    <HStack className="items-center flex-1 h-full" space="md">
+                    <HStack className="h-full flex-1 items-center" space="md">
                         {prefixIcon}
                         <TextInput
                             testID={testID}
                             ref={ref}
                             {...rest}
-                            className="font-semibold w-full font-body mt-1 h-full"
+                            className="font-body mt-1 h-full w-full font-semibold"
                             style={{ textAlignVertical: 'top' }}
                             placeholder={placeholder}
                             secureTextEntry={isShowPassword}
@@ -115,7 +115,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
                     <Animated.View style={shake}>{_renderInput}</Animated.View>
                     {!!error && (
                         <Box>
-                            <Text testID={`${testID}-error`} className="text-red text-sm">
+                            <Text testID={`${testID}-error`} className="text-sm text-red">
                                 {error}
                             </Text>
                         </Box>

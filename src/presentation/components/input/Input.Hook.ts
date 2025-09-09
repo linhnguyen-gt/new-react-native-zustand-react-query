@@ -28,7 +28,9 @@ function useShakeView(error?: string | boolean | undefined) {
     }, []);
 
     React.useEffect(() => {
-        error && shake();
+        if (error) {
+            shake();
+        }
     }, [error, shake]);
 
     return { transform: [{ translateX: anim.current }] };
