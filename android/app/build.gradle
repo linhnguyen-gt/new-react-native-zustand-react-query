@@ -106,7 +106,7 @@ android {
         // def envFile = new File("${project.rootDir.parentFile}/.env")
         // if (envFile.exists()) {
         //     def versionProps = getVersionFromEnv(envFile)
-        //     versionCode 1
+        //     versionCode versionProps.code.toInteger()
         //     versionName versionProps.name
         // }
     }
@@ -156,7 +156,7 @@ android {
 
         staging {
             dimension 'default'
-            applicationId 'com.newreactnativezustandrnq'
+            applicationId 'com.newreactnativezustandrnq.stg'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
             versionCode 1
             versionName '1.0.0'
@@ -173,7 +173,7 @@ android {
         
         production {
             dimension 'default'
-            applicationId 'com.newreactnativezustandrnq'
+            applicationId 'com.newreactnativezustandrnq.prod'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
             versionCode 1
             versionName '1.0.0'

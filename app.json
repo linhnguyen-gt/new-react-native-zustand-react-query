@@ -1,6 +1,5 @@
 {
     "name": "NewReactNativeZustandRNQ",
-    "displayName": "NewReactNativeZustandRNQ",
     "ios": {
         "bundleIdentifier": "org.reactjs.native.example.NewReactNativeZustandRNQ"
     },
