@@ -5,8 +5,7 @@ import { NavigationLogger } from './navigationLogger';
 
 import { RouteName } from '@/shared/constants';
 
-export type NavigatorParamsType = object;
-
+export type NavigatorParamsType = Record<string, never>;
 class RootNavigator implements INavigationService {
     public readonly navigationRef = createNavigationContainerRef();
 

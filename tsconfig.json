@@ -37,7 +37,7 @@
     }
   },
   "include": [
-    ".prettierrc.js",
+    ".prettierrc.mjs",
     ".eslintrc.js",
     "babel.config.js",
     "metro.config.js",
