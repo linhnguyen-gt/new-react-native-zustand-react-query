@@ -30,7 +30,7 @@ const runCommand = (command) => {
         execSync(command, { stdio: 'inherit' });
         return true;
     } catch (error) {
-        console.error(`Failed to execute ${command}`, error);
+        console.error(`Failed to execute ${command}`);
         return false;
     }
 };
@@ -371,12 +371,42 @@ const main = async () => {
 
                 if (!fs.existsSync('.env.staging')) {
                     console.log('\n📥 Pulling staging environment from vault...');
-                    runCommand('npx dotenv-vault@latest pull staging');
+                    try {
+                        execSync('npx dotenv-vault@latest pull staging', { stdio: 'pipe' });
+                        console.log('✅ Pulled staging environment from vault');
+                    } catch (error) {
+                        const output = `${error?.stdout || ''}${error?.stderr || ''}${error?.message || ''}`;
+                        if (
+                            output.includes('NOT_FOUND_ENVIRONMENT') ||
+                            output.includes("Environment 'staging' not found")
+                        ) {
+                            console.log(
+                                '⚠️ Staging environment not found in vault. Skipping pull and continuing with manual setup.'
+                            );
+                        } else {
+                            console.log('⚠️ Failed to pull staging from vault. Continuing without staging.');
+                        }
+                    }
                 }
 
                 if (!fs.existsSync('.env.production')) {
                     console.log('\n📥 Pulling production environment from vault...');
-                    runCommand('npx dotenv-vault@latest pull production');
+                    try {
+                        execSync('npx dotenv-vault@latest pull production', { stdio: 'pipe' });
+                        console.log('✅ Pulled production environment from vault');
+                    } catch (error) {
+                        const output = `${error?.stdout || ''}${error?.stderr || ''}${error?.message || ''}`;
+                        if (
+                            output.includes('NOT_FOUND_ENVIRONMENT') ||
+                            output.includes("Environment 'production' not found")
+                        ) {
+                            console.log(
+                                '⚠️ Production environment not found in vault. Skipping pull and continuing with manual setup.'
+                            );
+                        } else {
+                            console.log('⚠️ Failed to pull production from vault. Continuing without production.');
+                        }
+                    }
                 }
             }
         } else if (vaultResponse.toLowerCase() === 'y') {
