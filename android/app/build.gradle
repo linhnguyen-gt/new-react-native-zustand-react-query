@@ -96,19 +96,19 @@ android {
 
     namespace 'com.newreactnativezustandrnq'
     defaultConfig {
-        applicationId 'com.newreactnativezustandrnq'
+        // applicationId 'com.newreactnativezustandrnq'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         
         def rnReleaseLevel = (findProperty('reactNativeReleaseLevel') ?: 'stable')
         buildConfigField 'String', 'REACT_NATIVE_RELEASE_LEVEL', '"' + rnReleaseLevel + '"'
 
-        def envFile = new File("${project.rootDir.parentFile}/.env")
-        if (envFile.exists()) {
-            def versionProps = getVersionFromEnv(envFile)
-            versionCode versionProps.code.toInteger()
-            versionName versionProps.name
-        }
+        // def envFile = new File("${project.rootDir.parentFile}/.env")
+        // if (envFile.exists()) {
+        //     def versionProps = getVersionFromEnv(envFile)
+        //     versionCode 1
+        //     versionName versionProps.name
+        // }
     }
     signingConfigs {
         debug {
@@ -134,12 +134,16 @@ android {
             crunchPngs enablePngCrunchInRelease.toBoolean()
         }
     }
-        flavorDimensions 'default'
+    
+    flavorDimensions 'default'
     productFlavors {
         dev {
             dimension 'default'
             applicationId 'com.newreactnativezustandrnq'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
+            versionCode 1
+            versionName '1.0.0'
+            resValue "string", "app_name", "NewReactNativeZustandRNQ Dev"
 
             def envFile = new File("${project.rootDir.parentFile}/.env")
             if (envFile.exists()) {
@@ -152,8 +156,11 @@ android {
 
         staging {
             dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.stg'
+            applicationId 'com.newreactnativezustandrnq'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
+            versionCode 1
+            versionName '1.0.0'
+            resValue "string", "app_name", "NewReactNativeZustandRNQ Staging"
 
             def envFile = new File("${project.rootDir.parentFile}/.env.staging")
             if (envFile.exists()) {
@@ -163,10 +170,14 @@ android {
                 resValue "string", "app_name", props.appName
             }
         }
+        
         production {
             dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.production'
+            applicationId 'com.newreactnativezustandrnq'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
+            versionCode 1
+            versionName '1.0.0'
+            resValue "string", "app_name", "NewReactNativeZustandRNQ"
 
             def envFile = new File("${project.rootDir.parentFile}/.env.production")
             if (envFile.exists()) {

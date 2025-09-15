@@ -59,6 +59,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         name,
         slug: name.toLowerCase(),
         version: validatedConfig.VERSION_NAME,
+        plugins: [...(config.plugins ?? []), 'expo-secure-store'],
         extra: {
             ...validatedConfig,
         },
