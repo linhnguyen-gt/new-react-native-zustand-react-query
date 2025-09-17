@@ -55,6 +55,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Dotenv-v16.5.0-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
+    <img src="https://img.shields.io/badge/React_Native_Config-v1.5.9-2E7D32?style=for-the-badge" alt="react-native-config" />
     <img src="https://img.shields.io/badge/Async_Storage-v2.2.0-3B82F6?style=for-the-badge" alt="async-storage" />
   </p>
 

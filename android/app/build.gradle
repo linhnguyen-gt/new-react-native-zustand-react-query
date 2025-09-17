@@ -2,6 +2,14 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+project.ext.envConfigFiles = [
+    dev              : ".env",
+    staging          : ".env.staging",
+    production       : ".env.production",
+]
+
+apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
+
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
 project.ext.vectoricons = [
@@ -103,12 +111,9 @@ android {
         def rnReleaseLevel = (findProperty('reactNativeReleaseLevel') ?: 'stable')
         buildConfigField 'String', 'REACT_NATIVE_RELEASE_LEVEL', '"' + rnReleaseLevel + '"'
 
-        // def envFile = new File("${project.rootDir.parentFile}/.env")
-        // if (envFile.exists()) {
-        //     def versionProps = getVersionFromEnv(envFile)
-        //     versionCode versionProps.code.toInteger()
-        //     versionName versionProps.name
-        // }
+        versionCode project.env.get("VERSION_CODE").toInteger()
+        versionName project.env.get("VERSION_NAME")
+
     }
     signingConfigs {
         debug {
@@ -141,51 +146,16 @@ android {
             dimension 'default'
             applicationId 'com.newreactnativezustandrnq'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-            versionCode 1
-            versionName '1.0.0'
-            resValue "string", "app_name", "NewReactNativeZustandRNQ Dev"
-
-            def envFile = new File("${project.rootDir.parentFile}/.env")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
         }
-
         staging {
             dimension 'default'
             applicationId 'com.newreactnativezustandrnq.stg'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-            versionCode 1
-            versionName '1.0.0'
-            resValue "string", "app_name", "NewReactNativeZustandRNQ Staging"
-
-            def envFile = new File("${project.rootDir.parentFile}/.env.staging")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
         }
-        
         production {
             dimension 'default'
             applicationId 'com.newreactnativezustandrnq.prod'
             resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-            versionCode 1
-            versionName '1.0.0'
-            resValue "string", "app_name", "NewReactNativeZustandRNQ"
-
-            def envFile = new File("${project.rootDir.parentFile}/.env.production")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
         }
     }
     // Split APKs per ABI
@@ -228,31 +198,10 @@ android {
     }
 }
 
-def getVersionFromEnv(File envFile) {
-    def versionCode = '1'
-    def versionName = '1.0.0'
-    def appName = ''
-
-    envFile.eachLine { line ->
-        if (line.contains('=')) {
-            def (key, value) = line.split('=', 2)
-            if (key == 'VERSION_CODE') versionCode = value?.trim()?.replaceAll('"', '')
-            if (key == 'VERSION_NAME') versionName = value?.trim()?.replaceAll('"', '')
-            if (key == 'APP_NAME') appName = value?.trim()?.replaceAll('"', '')
-        }
-    }
-
-    println "Reading from ${envFile.path}"
-    println "VERSION_CODE: ${versionCode}"
-    println "VERSION_NAME: ${versionName}"
-    println "APP_NAME: ${appName}"
-
-    return [code: versionCode, name: versionName, appName: appName]
-}
-
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation project(':react-native-config')
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

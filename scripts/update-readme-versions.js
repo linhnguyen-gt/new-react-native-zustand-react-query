@@ -23,6 +23,7 @@ const packagesToUpdate = {
     Prettier: packageJson.devDependencies.prettier,
     Jest: packageJson.devDependencies.jest,
     Dotenv: packageJson.dependencies.dotenv,
+    React_Native_Config: packageJson.dependencies['react-native-config'],
     Async_Storage: packageJson.dependencies['@react-native-async-storage/async-storage'],
     Reactotron: packageJson.dependencies['reactotron-react-native'],
     React_Native_Reanimated: packageJson.dependencies['react-native-reanimated'],

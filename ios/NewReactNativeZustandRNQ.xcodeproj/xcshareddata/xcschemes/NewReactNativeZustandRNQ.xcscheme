@@ -5,6 +5,15 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# Derive repo root and ios dir from workspace path; fallback to project dir if available&#10;ROOT_DIR=${WORKSPACE_PATH%/*}/..&#10;IOS_DIR=${WORKSPACE_PATH%/*}&#10;if [ -z &quot;$WORKSPACE_PATH&quot; ] &amp;&amp; [ -n &quot;$PROJECT_DIR&quot; ]; then&#10;  ROOT_DIR=&quot;${PROJECT_DIR}/..&quot;&#10;  IOS_DIR=&quot;${PROJECT_DIR}&quot;&#10;fi&#10;&#10;&quot;${ROOT_DIR}/node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb&quot; &quot;${ROOT_DIR}&quot; &quot;${IOS_DIR}/tmp.xcconfig&quot;&#10;&#10;">
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

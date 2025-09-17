@@ -2,9 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
+import Config from 'react-native-config';
 import * as z from 'zod';
 
-import { environment, RootNavigator } from '@/data/services';
+import { RootNavigator } from '@/data/services';
 
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
@@ -84,9 +85,51 @@ const Login = () => {
                 <Box flex={1} paddingHorizontal={24} paddingTop={40}>
                     <VStack alignItems="center" marginBottom={40} space="md">
                         <RNLogo />
-                        <Text size="3xl" fontWeight="bold" color="#0f172a" marginTop={16}>
-                            Welcome Back {environment.appFlavor}
-                        </Text>
+                        <VStack space="xs" alignItems="center" marginTop={16}>
+                            <Text size="3xl" fontWeight="bold" color="#0f172a">
+                                Welcome Back
+                            </Text>
+                            <Box
+                                flexDirection="row"
+                                alignItems="center"
+                                paddingHorizontal={10}
+                                paddingVertical={4}
+                                backgroundColor="#e2e8f0"
+                                borderRadius={999}>
+                                <Text size="sm" color="#334155" fontWeight="bold">
+                                    Flavor:
+                                </Text>
+                                <Text size="sm" color="#0f172a" marginLeft={6}>
+                                    {Config.APP_FLAVOR}
+                                </Text>
+                            </Box>
+                            <VStack space="xs" marginTop={8}>
+                                <Box flexDirection="row" justifyContent="center">
+                                    <Text size="sm" color="#64748b" marginRight={6}>
+                                        App Name:
+                                    </Text>
+                                    <Text size="sm" color="#0f172a" fontWeight="medium">
+                                        {Config.APP_NAME}
+                                    </Text>
+                                </Box>
+                                <Box flexDirection="row" justifyContent="center">
+                                    <Text size="sm" color="#64748b" marginRight={6}>
+                                        Version:
+                                    </Text>
+                                    <Text size="sm" color="#0f172a" fontWeight="medium">
+                                        {Config.VERSION_NAME}
+                                    </Text>
+                                </Box>
+                                <Box flexDirection="row" justifyContent="center">
+                                    <Text size="sm" color="#64748b" marginRight={6}>
+                                        Build:
+                                    </Text>
+                                    <Text size="sm" color="#0f172a" fontWeight="medium">
+                                        {Config.VERSION_CODE}
+                                    </Text>
+                                </Box>
+                            </VStack>
+                        </VStack>
                         <Text size="md" color="#64748b">
                             Please sign in to your account
                         </Text>

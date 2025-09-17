@@ -1,7 +1,8 @@
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
+import Config from 'react-native-config';
 
-import { environment, RootNavigator } from '@/data/services';
+import { RootNavigator } from '@/data/services';
 
 import { useResponse } from '@/presentation/hooks';
 
@@ -180,7 +181,7 @@ const MainPage = () => {
                                         Environment
                                     </Text>
                                     <Text size="lg" color="#818cf8" marginTop={4} fontWeight="bold">
-                                        {environment.appFlavor}
+                                        {Config.APP_FLAVOR}
                                     </Text>
                                 </Box>
                             </Box>

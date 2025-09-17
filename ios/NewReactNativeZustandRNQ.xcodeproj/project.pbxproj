@@ -28,6 +28,7 @@
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = NewReactNativeZustandRNQ/SplashScreen.storyboard; sourceTree = "<group>"; };
 		AFD7B355660823583BB917A7 /* Pods-NewReactNativeZustandRNQ.product.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.product.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.product.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		BD7799F62E7851070014D7BA /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		C14E8AEF03A9A2A99F507098 /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; sourceTree = "<group>"; };
 		DFCE04C879F41D726013887A /* Pods-NewReactNativeZustandRNQ.product.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.product.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.product.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -81,6 +82,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				BD7799F62E7851070014D7BA /* Config.xcconfig */,
 				13B07FAE1A68108700A75B9A /* NewReactNativeZustandRNQ */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -146,7 +148,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewReactNativeZustandRNQ" */;
 			buildPhases = (
-				BD3EE9492E619C1E00989F41 /* ShellScript */,
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				F5687AD6226BBFB54B39BAB4 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -314,23 +315,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BD3EE9492E619C1E00989F41 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Get the environment from configuration name\necho \"Debug: Raw CONFIGURATION value: ${CONFIGURATION}\"\n\nif [ \"$CONFIGURATION\" == \"Product.Debug\" ] || [ \"$CONFIGURATION\" == \"Product.Release\" ]; then\n  ENV_FILE=\"${SRCROOT}/../.env.production\"\n  echo \"Debug: Matched Product configuration\"\nelif [ \"$CONFIGURATION\" == \"Staging.Debug\" ] || [ \"$CONFIGURATION\" == \"Staging.Release\" ]; then\n  ENV_FILE=\"${SRCROOT}/../.env.staging\"\n  echo \"Debug: Matched Staging configuration\"\nelse\n  ENV_FILE=\"${SRCROOT}/../.env\"\n  echo \"Debug: Using default configuration\"\nfi\n\n# Ensure INFOPLIST_FILE is set\nif [ -z \"$INFOPLIST_FILE\" ]; then\n    echo \"Error: INFOPLIST_FILE not set\"\n    exit 0\nfi\n\nINFO_PLIST=\"${SRCROOT}/${INFOPLIST_FILE}\"\n\necho \"=== Environment Setup ===\"\necho \"CONFIGURATION: ${CONFIGURATION}\"\necho \"Using env file: ${ENV_FILE}\"\necho \"Info.plist path: ${INFO_PLIST}\"\n\n# Default values in case env file is missing\nVERSION_CODE=\"1\"\nVERSION_NAME=\"1.0.0\"\nAPP_NAME=\"\"\n\n# Try to read from env file if it exists\nif [ -f \"$ENV_FILE\" ]; then\n    echo \"Reading from env file...\"\n    \n    # Read VERSION_CODE\n    VERSION_CODE_LINE=$(grep \"^VERSION_CODE=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$VERSION_CODE_LINE\" ]; then\n        VERSION_CODE=$(echo \"$VERSION_CODE_LINE\" | cut -d'=' -f2 | tr -d '\"' | tr -d ' ')\n    fi\n    \n    # Read VERSION_NAME\n    VERSION_NAME_LINE=$(grep \"^VERSION_NAME=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$VERSION_NAME_LINE\" ]; then\n        VERSION_NAME=$(echo \"$VERSION_NAME_LINE\" | cut -d'=' -f2 | tr -d '\"' | tr -d ' ')\n    fi\n\n    # Read APP_NAME \n    APP_NAME_LINE=$(grep \"^APP_NAME=\" \"$ENV_FILE\" || echo \"\")\n    if [ ! -z \"$APP_NAME_LINE\" ]; then\n        APP_NAME=$(echo \"$APP_NAME_LINE\" | sed 's/^APP_NAME=//' | sed 's/^\"//' | sed 's/\"$//')\n    fi\n\nelse\n    echo \"Warning: Environment file not found, using default values\"\nfi\n\necho \"Using versions - Code: $VERSION_CODE, Name: $VERSION_NAME, App Name: $APP_NAME\"\n\n# Update Info.plist if it exists\nif [ -f \"$INFO_PLIST\" ]; then\n    echo \"Updating Info.plist...\"\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $VERSION_CODE\" \"$INFO_PLIST\" || true\n    /usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $VERSION_NAME\" \"$INFO_PLIST\" || true\n    if [ ! -z \"$APP_NAME\" ]; then\n        /usr/libexec/PlistBuddy -c \"Set :CFBundleDisplayName $APP_NAME\" \"$INFO_PLIST\" || true\n    fi\n    echo \"Info.plist update completed\"\nelse\n    echo \"Warning: Info.plist not found at $INFO_PLIST\"\nfi \n";
-		};
 		F5687AD6226BBFB54B39BAB4 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -438,6 +422,7 @@
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -502,6 +487,7 @@
 		};
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -558,6 +544,7 @@
 		};
 		BD3EE94A2E619CCD00989F41 /* Staging.Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -658,6 +645,7 @@
 		};
 		BD3EE94C2E619CE300989F41 /* Product.Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -758,6 +746,7 @@
 		};
 		BD3EE94E2E619CEE00989F41 /* Staging.Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -844,6 +833,7 @@
 		};
 		BD3EE9502E619CF700989F41 /* Product.Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD7799F62E7851070014D7BA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
