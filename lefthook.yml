@@ -2,12 +2,14 @@ pre-commit:
     parallel: true
     commands:
         versions:
-            glob: "package.json"
+            glob: 'package.json'
             run: yarn update-versions && git add README.md
         lint-staged:
-            glob: "*.{js,ts,jsx,tsx}"
+            glob: '*.{js,ts,jsx,tsx}'
             run: yarn lint-staged
-
+        test:
+            glob: 'src/**/*.{js,ts,jsx,tsx}'
+            run: yarn test --passWithNoTests
 
 commit-msg:
     commands:

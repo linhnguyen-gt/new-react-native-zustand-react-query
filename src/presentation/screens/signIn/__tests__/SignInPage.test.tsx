@@ -51,7 +51,7 @@ describe('<LoginPage />', () => {
         expect(screen.getByTestId('email-input')).toBeTruthy();
         expect(screen.getByTestId('password-input')).toBeTruthy();
         expect(screen.getByTestId('login-button')).toBeTruthy();
-        expect(screen.getByText('Welcome Back development')).toBeTruthy();
+        expect(screen.getByText('Welcome Back')).toBeTruthy();
     });
 
     it('navigates to Main screen on valid form submission', async () => {

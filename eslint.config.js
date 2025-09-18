@@ -248,7 +248,17 @@ export default [
         },
     },
     {
-        files: ['metro.config.js', 'babel.config.js', 'jest.config.js'],
+        files: ['*.cjs', 'metro.config.js', 'babel.config.js', 'jest.config.js'],
+        languageOptions: {
+            globals: {
+                __dirname: 'readonly',
+                __filename: 'readonly',
+                module: 'readonly',
+                require: 'readonly',
+                exports: 'readonly',
+                process: 'readonly',
+            },
+        },
         rules: {
             '@typescript-eslint/no-var-requires': 'off',
         },

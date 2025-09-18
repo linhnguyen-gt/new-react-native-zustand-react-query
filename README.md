@@ -48,7 +48,7 @@
   <p>
     <img src="https://img.shields.io/badge/ESLint-v9.35.0-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="eslint" />
     <img src="https://img.shields.io/badge/Prettier-v3.6.2-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
-    <img src="https://img.shields.io/badge/Jest-v30.1.3-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
+    <img src="https://img.shields.io/badge/Jest-v29.7.0-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
   </p>
 
 ### Environment & Storage

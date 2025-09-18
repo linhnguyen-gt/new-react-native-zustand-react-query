@@ -47,15 +47,3 @@ jest.mock('@/data/services/navigation', () => ({
         replaceName: jest.fn(),
     },
 }));
-
-jest.mock('@/data/services/environment', () => ({
-    environment: {
-        apiBaseUrl: 'https://api.example.com',
-        appFlavor: 'development',
-        versionName: '1.0.0',
-        versionCode: '1',
-        isDevelopment: () => true,
-        isStaging: () => false,
-        isProduction: () => false,
-    },
-}));
