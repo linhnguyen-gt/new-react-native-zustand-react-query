@@ -1,7 +1,7 @@
 PODS:
-  - EXConstants (18.0.8):
+  - EXConstants (18.0.9):
     - ExpoModulesCore
-  - Expo (54.0.7):
+  - Expo (54.0.8):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -34,7 +34,7 @@ PODS:
     - ExpoModulesCore
   - ExpoKeepAwake (15.0.7):
     - ExpoModulesCore
-  - ExpoModulesCore (3.0.15):
+  - ExpoModulesCore (3.0.16):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2079,7 +2079,7 @@ PODS:
   - Yoga (0.0.0)
 
 DEPENDENCIES:
-  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXConstants (from `../node_modules/expo/node_modules/expo-constants/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
@@ -2174,7 +2174,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   EXConstants:
-    :path: "../node_modules/expo-constants/ios"
+    :path: "../node_modules/expo/node_modules/expo-constants/ios"
   Expo:
     :path: "../node_modules/expo"
   ExpoAsset:
@@ -2358,13 +2358,13 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  EXConstants: 0246c66e19d755cd9c88504d5c69896bba41d8a6
-  Expo: 24f225a64acfd5fb3d9949f2d02a3cceb2d4620b
+  EXConstants: 59d46d25b89f88cc38291a56dbce4d550758f72d
+  Expo: 40b8889f991ca5f25ead0bfcbc1f818b01efab9e
   ExpoAsset: 4375a46b45b12bbfcf6efac8c8a33aebdb8ba12b
   ExpoFileSystem: adffad7d1f57f768ca7a5e3bf450312fb9ebd27a
   ExpoFont: d3e56c7cc03d9fd113b90a5513ad32b4bf46b0ff
   ExpoKeepAwake: 3f5e3ac53627849174f3603271df8e08f174ed4a
-  ExpoModulesCore: c91f6219ddb4386f73fa4650bc66dc51224c28a9
+  ExpoModulesCore: af36f958c77e8551bc34cd62cf166eeb6a8d9920
   ExpoSecureStore: f44dee1354536bdb3d7fab8cc451ee737c41beca
   FBLazyVector: 9e0cd874afd81d9a4d36679daca991b58b260d42
   hermes-engine: 35c763d57c9832d0eef764316ca1c4d043581394

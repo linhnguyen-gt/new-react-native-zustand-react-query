@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 console.log('🔍 Checking environment configuration...');
 
-// Check if .env file exists
 const envPath = path.join(process.cwd(), '.env');
 if (!fs.existsSync(envPath)) {
     console.error('❌ .env file not found!');
@@ -13,7 +12,6 @@ if (!fs.existsSync(envPath)) {
     process.exit(1);
 }
 
-// Check if .env file has content
 const envContent = fs.readFileSync(envPath, 'utf8').trim();
 if (!envContent) {
     console.error('❌ .env file is empty!');
@@ -21,7 +19,6 @@ if (!envContent) {
     process.exit(1);
 }
 
-// Check for required environment variables
 const requiredVars = ['APP_FLAVOR', 'APP_NAME', 'VERSION_CODE', 'VERSION_NAME', 'API_URL'];
 
 const missingVars = [];

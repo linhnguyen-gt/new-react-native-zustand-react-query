@@ -15,7 +15,7 @@
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v54.0.7-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.8-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
     <img src="https://img.shields.io/badge/React_Navigation-v7.1.17-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
@@ -40,15 +40,15 @@
 
   <p>
     <img src="https://img.shields.io/badge/React_Hook_Form-v7.62.0-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
-    <img src="https://img.shields.io/badge/Zod-v4.1.8-3068B7?style=for-the-badge" alt="zod" />
+    <img src="https://img.shields.io/badge/Zod-v4.1.9-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
 ### Development & Testing
 
   <p>
-    <img src="https://img.shields.io/badge/ESLint-v8.19.0-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="eslint" />
-    <img src="https://img.shields.io/badge/Prettier-v3.3.3-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
-    <img src="https://img.shields.io/badge/Jest-v29.6.3-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
+    <img src="https://img.shields.io/badge/ESLint-v9.35.0-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="eslint" />
+    <img src="https://img.shields.io/badge/Prettier-v3.6.2-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="prettier" />
+    <img src="https://img.shields.io/badge/Jest-v30.1.3-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="jest" />
   </p>
 
 ### Environment & Storage
@@ -62,7 +62,7 @@
 ### Development Tools
 
   <p>
-    <img src="https://img.shields.io/badge/Reactotron-v5.1.16-7B61FF?style=for-the-badge" alt="reactotron" />
+    <img src="https://img.shields.io/badge/Reactotron-v5.1.17-7B61FF?style=for-the-badge" alt="reactotron" />
     <img src="https://img.shields.io/badge/React_Native_Reanimated-v4.1.0-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
@@ -225,14 +225,119 @@ yarn android:pro
 yarn ios:pro
 ```
 
-### Setup Steps for New Project
+### Setup Steps environment for New Project
 
-### iOS Configuration
+This project uses [react-native-config](https://github.com/lugg/react-native-config) for environment variable management. Follow these detailed steps to set up environment configuration for a new project.
 
-1. **Podfile Configuration**
-   Add this configuration block to your Podfile:
+#### 1. Install react-native-config
+
+The package is already included in this project, but for new projects:
+
+```bash
+yarn add react-native-config
+# or
+npm install react-native-config
+```
+
+#### 2. Android Configuration
+
+##### 2.1 Update android/app/build.gradle
+
+Add the environment configuration mapping and apply the dotenv plugin:
+
+```gradle
+// Add this before the android block
+project.ext.envConfigFiles = [
+    dev              : ".env",
+    staging          : ".env.staging", 
+    production       : ".env.production",
+]
+
+// Apply the dotenv plugin
+apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
+
+android {
+    // ... existing configuration
+    
+    defaultConfig {
+        // Use environment variables for version
+        versionCode project.env.get("VERSION_CODE").toInteger()
+        versionName project.env.get("VERSION_NAME")
+        
+        // Add build config fields for environment variables
+        buildConfigField "String", "API_URL", "\"${project.env.get("API_URL")}\""
+        buildConfigField "String", "APP_FLAVOR", "\"${project.env.get("APP_FLAVOR")}\""
+    }
+    
+    // Configure product flavors
+    flavorDimensions 'default'
+    productFlavors {
+        dev {
+            dimension 'default'
+            applicationId 'com.yourcompany.yourapp'
+            resValue 'string', 'build_config_package', 'com.yourcompany.yourapp'
+        }
+        staging {
+            dimension 'default'
+            applicationId 'com.yourcompany.yourapp.stg'
+            resValue 'string', 'build_config_package', 'com.yourcompany.yourapp'
+        }
+        production {
+            dimension 'default'
+            applicationId 'com.yourcompany.yourapp.prod'
+            resValue 'string', 'build_config_package', 'com.yourcompany.yourapp'
+        }
+    }
+}
+
+dependencies {
+    // Add react-native-config dependency
+    implementation project(':react-native-config')
+    // ... other dependencies
+}
+```
+
+##### 2.2 Update MainApplication.kt/java
+
+Add the RNCConfigPackage to your packages list:
+
+```kotlin
+// MainApplication.kt
+import com.lugg.RNCConfig.RNCConfigPackage
+
+class MainApplication : Application(), ReactApplication {
+    override fun getPackages(): List<ReactPackage> =
+        PackageList(this).packages.apply {
+            add(RNCConfigPackage())
+        }
+}
+```
+
+##### 2.3 Proguard Configuration (Release Builds)
+
+Add to `android/app/proguard-rules.pro`:
+
+```proguard
+# Keep BuildConfig class for react-native-config
+-keep class com.yourcompany.yourapp.BuildConfig { *; }
+```
+
+#### 3. iOS Configuration
+
+##### 3.1 Create Config.xcconfig
+
+Create `ios/Config.xcconfig`:
+
+```xcconfig
+#include? "tmp.xcconfig"
+```
+
+##### 3.2 Update Podfile
+
+Add environment file configuration to your Podfile:
 
 ```ruby
+# Add this to your Podfile
 # configuration name environment
 project 'NewReactNativeZustandRNQ',{
         'Debug' => :debug,
@@ -244,141 +349,165 @@ project 'NewReactNativeZustandRNQ',{
 }
 ```
 
-This configuration:
+##### 3.3 Configure Build Schemes
 
-- Maps each build configuration to its corresponding mode (:debug or :release)
-- Supports all environments (Dev, Staging, Product)
-- Enables both Debug and Release builds for each environment
+1. **Create Build Schemes** for different environments:
+   - Development (uses `.env`)
+   - Staging (uses `.env.staging`)
+   - Production (uses `.env.production`)
 
-2. **Build Configurations**
-   Xcode should have these configurations set up:
+2. **Add Pre-actions** to each scheme:
+   - Go to Product → Scheme → Edit Scheme
+   - Select Build → Pre-actions
+   - Add "New Run Script Action" with:
 
-- Staging.Debug/Release (Staging)
-- Product.Debug/Release (Production)
-- Debug/Release (Default Dev)
+   ```bash
+   # For development (default)
+   ROOT_DIR=${WORKSPACE_PATH%/*}/..
+   IOS_DIR=${WORKSPACE_PATH%/*}
+   if [ -z "$WORKSPACE_PATH" ] && [ -n "$PROJECT_DIR" ]; then
+     ROOT_DIR="${PROJECT_DIR}/.."
+     IOS_DIR="${PROJECT_DIR}"
+   fi
+   
+   "${ROOT_DIR}/node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb" "${ROOT_DIR}" "${IOS_DIR}/tmp.xcconfig"
+   
+   # For staging scheme
+   ROOT_DIR=${WORKSPACE_PATH%/*}/..
+   IOS_DIR=${WORKSPACE_PATH%/*}
+   if [ -z "$WORKSPACE_PATH" ] && [ -n "$PROJECT_DIR" ]; then
+     ROOT_DIR="${PROJECT_DIR}/.."
+     IOS_DIR="${PROJECT_DIR}"
+   fi
+   
+   export ENVFILE=.env.staging
+   "${ROOT_DIR}/node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb" "${ROOT_DIR}" "${IOS_DIR}/tmp.xcconfig"
+   
+   # For production scheme
+   ROOT_DIR=${WORKSPACE_PATH%/*}/..
+   IOS_DIR=${WORKSPACE_PATH%/*}
+   if [ -z "$WORKSPACE_PATH" ] && [ -n "$PROJECT_DIR" ]; then
+     ROOT_DIR="${PROJECT_DIR}/.."
+     IOS_DIR="${PROJECT_DIR}"
+   fi
+   
+   export ENVFILE=.env.production
+   "${ROOT_DIR}/node_modules/react-native-config/ios/ReactNativeConfig/BuildXCConfig.rb" "${ROOT_DIR}" "${IOS_DIR}/tmp.xcconfig"
+   ```
 
-1. **Setup Steps for iOS**
+##### 3.4 Update Info.plist (Optional)
 
-- Copy the configuration block to your Podfile
-- Run `pod install` to apply configurations
-- Set up corresponding Build Configurations in Xcode
-- Add the version management script to Build Phases
-- Configure schemes to use appropriate configurations
+You can access environment variables in Info.plist:
 
-### Android Configuration
-
-1. **Product Flavors**
-   Add to app/build.gradle:
-
-```gradle
-    flavorDimensions 'default'
-    productFlavors {
-        dev {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-
-            def envFile = new File("${project.rootDir.parentFile}/.env")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
-        }
-
-        staging {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.stg'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-
-            def envFile = new File("${project.rootDir.parentFile}/.env.staging")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
-        }
-        production {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.production'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-
-            def envFile = new File("${project.rootDir.parentFile}/.env.production")
-            if (envFile.exists()) {
-                def props = getVersionFromEnv(envFile)
-                versionCode props.code.toInteger()
-                versionName props.name
-                resValue "string", "app_name", props.appName
-            }
-        }
-    }
-
-def getVersionFromEnv(File envFile) {
-    def versionCode = '1'
-    def versionName = '1.0.0'
-    def appName = ''
-
-    envFile.eachLine { line ->
-        if (line.contains('=')) {
-            def (key, value) = line.split('=', 2)
-            if (key == 'VERSION_CODE') versionCode = value?.trim()?.replaceAll('"', '')
-            if (key == 'VERSION_NAME') versionName = value?.trim()?.replaceAll('"', '')
-            if (key == 'APP_NAME') appName = value?.trim()?.replaceAll('"', '')
-        }
-    }
-
-    println "Reading from ${envFile.path}"
-    println "VERSION_CODE: ${versionCode}"
-    println "VERSION_NAME: ${versionName}"
-    println "APP_NAME: ${appName}"
-
-    return [code: versionCode, name: versionName, appName: appName]
-}
+```xml
+<key>API_URL</key>
+<string>$(API_URL)</string>
+<key>APP_FLAVOR</key>
+<string>$(APP_FLAVOR)</string>
 ```
 
-### Update package.json Scripts
+#### 4. Environment Files Structure
+
+Create environment files in your project root:
+
+##### .env (Development)
+
+```bash
+# Development Environment
+APP_FLAVOR=development
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+API_URL=http://localhost:3000
+APP_NAME=MyApp Dev
+```
+
+##### .env.staging
+
+```bash
+# Staging Environment  
+APP_FLAVOR=staging
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+API_URL=https://api-staging.example.com
+APP_NAME=MyApp Staging
+```
+
+##### .env.production
+
+```bash
+# Production Environment
+APP_FLAVOR=production
+VERSION_CODE=1
+VERSION_NAME=1.0.0
+API_URL=https://api.example.com
+APP_NAME=MyApp
+```
+
+#### 5. Update package.json Scripts
 
 ```json
 {
     "scripts": {
       "android": "yarn check:env && npx expo run:android --device --variant devDebug",
-      "android:stg": "yarn check:env && APP_ENV=staging && npx expo run:android --device --variant stagingDebug --app-id com.newreactnativezustandrnq.stg",
-      "android:prod": "yarn check:env && APP_ENV=production && npx expo run:android --device --variant productionDebug --app-id com.newreactnativezustandrnq.production",
-      "ios": "yarn check:env && chmod +x ios/scripts/run_ios_build.sh && bash ios/scripts/run_ios_build.sh development && npx expo run:ios --device",
-      "ios:stg": "yarn check:env && chmod +x ios/scripts/run_ios_build.sh && bash ios/scripts/run_ios_build.sh staging && APP_ENV=staging && npx expo run:ios --device --scheme Staging --configuration Staging.Debug",
-      "ios:prod": "yarn check:env && chmod +x ios/scripts/run_ios_build.sh && bash ios/scripts/run_ios_build.sh production && APP_ENV=production && npx expo run:ios --device --scheme Product --configuration Product.Debug"
+      "android:stg": "yarn check:env && npx expo run:android --device --variant stagingDebug --app-id com.yourcompany.yourapp.stg",
+      "android:prod": "yarn check:env && npx expo run:android --device --variant productionDebug --app-id com.yourcompany.yourapp.prod",
+      "ios": "yarn check:env && npx expo run:ios --device",
+      "ios:stg": "yarn check:env && ENVFILE=.env.staging npx expo run:ios --device --scheme Staging --configuration Staging.Debug",
+      "ios:prod": "yarn check:env && ENVFILE=.env.production npx expo run:ios --device --scheme Product --configuration Product.Debug"
     }
 }
 ```
 
-### Update .gitignore
+#### 6. Update .gitignore
 
 ```bash
-.env*
-.flaskenv*
-!.env.project
-!.env.vault
 # Environment files
 .env
 .env.*
 !.env.example
 !.env.vault
+
+# iOS generated config
+ios/tmp.xcconfig
 ```
 
-### Version Management
+#### 7. Using Environment Variables in Code
+
+##### TypeScript Types
+
+Create `src/shared/types/react-native-config.d.ts`:
+
+```typescript
+declare module 'react-native-config' {
+    export interface NativeConfig {
+        APP_FLAVOR: 'development' | 'staging' | 'production';
+        VERSION_CODE: string;
+        VERSION_NAME: string;
+        API_URL: string;
+        APP_NAME: string;
+        [key: string]: string;
+    }
+
+    const Config: NativeConfig;
+    export default Config;
+}
+```
+
+#### 8. Version Management
 
 The setup automatically manages app versions based on environment files:
 
-- VERSION_CODE: Used for internal build numbering
-- VERSION_NAME: Used for display version in stores
+- **VERSION_CODE**: Used for internal build numbering (Android)
+- **VERSION_NAME**: Used for display version in stores
+- **APP_FLAVOR**: Used to identify the current environment
 
-### Important Notes
+#### 9. Important Notes
 
-- Never commit `.env` files to git (they are automatically added to .gitignore)
-- Always commit `.env.example` and `.env.vault` (if using dotenv-vault)
-- Share vault credentials with your team members if using dotenv-vault
+- **Never commit `.env` files** to git (they are automatically added to .gitignore)
+- **Always commit `.env.example`** and `.env.vault` (if using dotenv-vault)
+- **Share vault credentials** with your team members if using dotenv-vault
+- **Test all environments** before deploying to production
+- **Use different app IDs** for different environments to allow side-by-side installation
 
 ## Project Structure
 
