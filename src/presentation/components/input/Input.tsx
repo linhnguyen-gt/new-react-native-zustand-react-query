@@ -129,5 +129,5 @@ const Input = React.forwardRef<TextInput, InputProps>(
 export default Input;
 
 declare global {
-    export type TypeInput = 'dropdown' | 'search' | 'phone' | 'date' | 'otp';
+    export type TypeInput = 'dropdown' | 'phone' | 'date' | 'otp';
 }
