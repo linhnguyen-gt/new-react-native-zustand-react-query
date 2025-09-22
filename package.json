@@ -21,7 +21,7 @@
         "env:setup": "node scripts/setup-env.js",
         "adb:reactotron": "adb reverse tcp:9090 tcp:9090",
         "update-versions": "node scripts/update-readme-versions.js",
-        "postinstall": "lefthook install && yarn update-versions",
+        "postinstall": "npx lefthook install && yarn update-versions",
         "doctor": "npx expo-doctor"
     },
     "dependencies": {

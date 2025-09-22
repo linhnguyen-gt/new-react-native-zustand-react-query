@@ -51,6 +51,15 @@ target 'NewReactNativeZustandRNQ' do
     :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
   )
 
+  ENVFILES = {
+    'Debug' => '$(PODS_ROOT)/../../.env', 
+    'Release' => '$(PODS_ROOT)/../../.env',
+    'Staging.Debug' => '$(PODS_ROOT)/../../.env.staging',
+    'Staging.Release' => '$(PODS_ROOT)/../../.env.staging',
+    'Product.Debug' => '$(PODS_ROOT)/../../.env.production',
+    'Product.Release' => '$(PODS_ROOT)/../../.env.production',
+  }
+
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -58,5 +67,12 @@ target 'NewReactNativeZustandRNQ' do
       :mac_catalyst_enabled => false,
       :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
     )
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        if target.name == 'react-native-config'
+          config.build_settings['ENVFILE'] = ENVFILES[config.name]
+        end
+      end
+    end
   end
 end
