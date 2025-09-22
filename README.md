@@ -15,7 +15,7 @@
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v54.0.8-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v54.0.9-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
     <img src="https://img.shields.io/badge/React_Navigation-v7.1.17-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>

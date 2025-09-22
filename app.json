@@ -1,9 +1,10 @@
 {
-    "name": "NewReactNativeZustandRNQ",
-    "ios": {
-        "bundleIdentifier": "org.reactjs.native.example.NewReactNativeZustandRNQ"
-    },
-    "android": {
-        "package": "com.newreactnativezustandrnq"
-    }
+  "name": "NewReactNativeZustandRNQ",
+  "ios": {
+    "bundleIdentifier": "org.reactjs.native.example.NewReactNativeZustandRNQ",
+    "appleTeamId": "ZUAY5K8CWJ"
+  },
+  "android": {
+    "package": "com.newreactnativezustandrnq"
+  }
 }
