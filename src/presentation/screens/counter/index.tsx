@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { useCounterStore } from '@/app/store';
+import store from '@/app/store';
 
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, HStack, Text, VStack } from '@/presentation/components/ui';
 
 const Counter = () => {
-    const { count, increment, decrement, reset } = useCounterStore();
+    const { count, increment, decrement, reset } = store.useCounterStore();
 
     return (
         <Box flex={1} justifyContent="center" alignItems="center" backgroundColor="white">
