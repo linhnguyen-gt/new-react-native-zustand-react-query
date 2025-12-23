@@ -5,8 +5,47 @@ import store from '@/app/store';
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, HStack, Text, VStack } from '@/presentation/components/ui';
 
+const CounterButton = React.memo<{
+    onPress: () => void;
+    children: React.ReactNode;
+    testId?: string;
+}>(({ onPress, children, testId }) => (
+    <MyTouchable
+        borderWidth={2}
+        borderRadius={8}
+        width={80}
+        height={44}
+        alignItems="center"
+        backgroundColor="white"
+        onPress={onPress}
+        testID={testId}>
+        <Text size="2xl" fontWeight="bold">
+            {children}
+        </Text>
+    </MyTouchable>
+));
+
+CounterButton.displayName = 'CounterButton';
+
 const Counter = () => {
-    const { count, increment, decrement, reset } = store.useCounterStore();
+    const count = store.useCounterStore((state) => state.count);
+    const { increment, decrement, reset } = store.useCounterStore((state) => ({
+        increment: state.increment,
+        decrement: state.decrement,
+        reset: state.reset,
+    }));
+
+    const handleIncrement = React.useCallback(() => {
+        increment();
+    }, [increment]);
+
+    const handleDecrement = React.useCallback(() => {
+        decrement();
+    }, [decrement]);
+
+    const handleReset = React.useCallback(() => {
+        reset();
+    }, [reset]);
 
     return (
         <Box flex={1} justifyContent="center" alignItems="center" backgroundColor="white">
@@ -22,18 +61,13 @@ const Counter = () => {
                 </Box>
 
                 <HStack space="md">
-                    <MyTouchable
-                        borderWidth={2}
-                        borderRadius={8}
-                        width={80}
-                        height={44}
-                        alignItems="center"
-                        backgroundColor="white"
-                        onPress={decrement}>
-                        <Text size="2xl" fontWeight="bold">
-                            -
-                        </Text>
-                    </MyTouchable>
+                    <CounterButton onPress={handleDecrement} testId="decrement-button">
+                        -
+                    </CounterButton>
+
+                    <CounterButton onPress={handleIncrement} testId="increment-button">
+                        +
+                    </CounterButton>
 
                     <MyTouchable
                         borderWidth={2}
@@ -42,20 +76,8 @@ const Counter = () => {
                         height={44}
                         alignItems="center"
                         backgroundColor="white"
-                        onPress={increment}>
-                        <Text size="2xl" fontWeight="bold">
-                            +
-                        </Text>
-                    </MyTouchable>
-
-                    <MyTouchable
-                        borderWidth={2}
-                        borderRadius={8}
-                        width={80}
-                        height={44}
-                        alignItems="center"
-                        backgroundColor="white"
-                        onPress={reset}>
+                        onPress={handleReset}
+                        testID="reset-button">
                         <Text size="xl" fontWeight="bold">
                             Reset
                         </Text>
@@ -66,4 +88,4 @@ const Counter = () => {
     );
 };
 
-export default Counter;
+export default React.memo(Counter);

@@ -2,7 +2,7 @@ import ApiMethod from '../apiMethod';
 import { HttpClient } from '../httpClient';
 import { ITokenService, Session } from '../interfaces/IHttpClient';
 
-import { clearToken, getToken, setToken } from '@/shared/helper';
+import { clearToken, getToken, Logger, setToken } from '@/shared/helper';
 
 export class TokenService implements ITokenService {
     private readonly httpClient: HttpClient;
@@ -17,19 +17,22 @@ export class TokenService implements ITokenService {
             refreshToken: session.refreshToken || undefined,
         });
 
-        // TODO: Implement token lifetime expiration here!!!
-        // example:
-        const tokenLifetime = 15 * 60 * 1000;
-        const refreshBuffer = 30 * 1000;
-        const refreshTime = tokenLifetime - refreshBuffer;
+        // Use server-provided expiration time for token refresh scheduling
+        if (session.expiredAt) {
+            const refreshBuffer = 30 * 1000; // 30 seconds before expiration
+            const refreshTime = session.expiredAt - Date.now() - refreshBuffer;
 
-        this.httpClient.clearRefreshTokenTimeout();
+            this.httpClient.clearRefreshTokenTimeout();
 
-        const timeoutId = setTimeout(() => {
-            this.refreshToken();
-        }, refreshTime);
+            // Only schedule refresh if token hasn't already expired
+            if (refreshTime > 0) {
+                const timeoutId = setTimeout(() => {
+                    this.refreshToken();
+                }, refreshTime);
 
-        this.httpClient.setRefreshTokenTimeout(timeoutId);
+                this.httpClient.setRefreshTokenTimeout(timeoutId);
+            }
+        }
     }
 
     async clearSession(): Promise<void> {
@@ -70,7 +73,7 @@ export class TokenService implements ITokenService {
             });
             return true;
         } catch (e) {
-            console.error('Error refreshing token:', e);
+            Logger.error('TokenService', 'Error refreshing token', e);
             await this.clearSession();
             return false;
         }

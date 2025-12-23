@@ -2,14 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
-import * as z from 'zod';
 
 import { RootNavigator } from '@/data/services';
 
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
-import { Colors, Errors, RouteName } from '@/shared/constants';
+import { Colors, RouteName } from '@/shared/constants';
+import { signUpSchema, type SignUpFormData } from '@/shared/validation/schemas';
 
 const RNLogo = () => (
     <Box
@@ -51,26 +51,8 @@ const RNLogo = () => (
     </Box>
 );
 
-const signUpSchema = z
-    .object({
-        fullName: z.string().min(1, Errors.REQUIRED_FULLNAME_INPUT),
-        email: z
-            .string()
-            .min(1, Errors.REQUIRED_EMAIL_INPUT)
-            .pipe(z.email(Errors.EMAIL_INVALID))
-            .refine((value) => value.endsWith('.com'), {
-                message: Errors.IS_NOT_EMAIL,
-            }),
-        password: z.string().min(6, Errors.PASSWORD_MIN_LENGTH).min(1, Errors.REQUIRED_PASSWORD_INPUT),
-        confirmPassword: z.string().min(1, Errors.REQUIRED_CONFIRM_PASSWORD_INPUT),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: Errors.PASSWORD_NOT_MATCH,
-        path: ['confirmPassword'], // Path of the error
-    });
-
 const SignUp = () => {
-    const { control, handleSubmit } = useForm({
+    const { control, handleSubmit } = useForm<SignUpFormData>({
         defaultValues: {
             fullName: '',
             email: '',
@@ -102,7 +84,7 @@ const SignUp = () => {
                     </VStack>
 
                     <VStack space="xl">
-                        <ControlledInput
+                        <ControlledInput<SignUpFormData>
                             control={control}
                             name="fullName"
                             placeholder="Full Name"
@@ -110,7 +92,7 @@ const SignUp = () => {
                             testID="full-name-input"
                         />
 
-                        <ControlledInput
+                        <ControlledInput<SignUpFormData>
                             control={control}
                             name="email"
                             placeholder="Email"
@@ -118,7 +100,7 @@ const SignUp = () => {
                             testID="email-input"
                         />
 
-                        <ControlledInput
+                        <ControlledInput<SignUpFormData>
                             control={control}
                             name="password"
                             placeholder="Password"
@@ -126,7 +108,7 @@ const SignUp = () => {
                             testID="password-input"
                         />
 
-                        <ControlledInput
+                        <ControlledInput<SignUpFormData>
                             control={control}
                             name="confirmPassword"
                             placeholder="Confirm Password"

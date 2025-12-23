@@ -12,15 +12,19 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
 
+import ErrorBoundary from '@presentation/components/ErrorBoundary';
+
 const App = () => {
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaProvider>
-                <GluestackUIProvider>
-                    <AppStack />
-                </GluestackUIProvider>
-            </SafeAreaProvider>
-        </GestureHandlerRootView>
+        <ErrorBoundary>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <SafeAreaProvider>
+                    <GluestackUIProvider>
+                        <AppStack />
+                    </GluestackUIProvider>
+                </SafeAreaProvider>
+            </GestureHandlerRootView>
+        </ErrorBoundary>
     );
 };
 

@@ -13,14 +13,14 @@ interface ControlledInputProps<T extends FieldValues>
     shouldUseFieldError?: boolean;
 }
 
-const ControlledInput = <T extends FieldValues>({
+function ControlledInputComponent<T extends FieldValues>({
     name,
     control,
     error,
     rules,
     shouldUseFieldError = false,
     ...restProps
-}: ControlledInputProps<T>) => {
+}: ControlledInputProps<T>) {
     const {
         field: { onChange, value, onBlur },
         fieldState: { error: fieldError },
@@ -42,6 +42,8 @@ const ControlledInput = <T extends FieldValues>({
             testID={restProps.testID}
         />
     );
-};
+}
+
+const ControlledInput = React.memo(ControlledInputComponent) as typeof ControlledInputComponent;
 
 export default ControlledInput;

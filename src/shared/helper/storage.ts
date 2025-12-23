@@ -1,4 +1,5 @@
 import SecureStorageService from '@/data/services/secureStorage';
+import { isTokenExpired, validateToken } from '@/shared/validation';
 
 enum TypeToken {
     RefreshToken = 'REFRESH_TOKEN',
@@ -9,15 +10,6 @@ interface TokenData {
     expiresAt?: number;
     createdAt?: number;
 }
-
-const validateToken = (token: string): boolean => {
-    return Boolean(token && token.length > 10 && token.length < 1000);
-};
-
-const isTokenExpired = (expiresAt?: number): boolean => {
-    if (!expiresAt) return false;
-    return Date.now() > expiresAt;
-};
 
 /**
  * Saves access and refresh tokens to secure storage with encryption

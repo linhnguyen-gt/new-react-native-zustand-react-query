@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
 
 import store from '@/app/store';
+import { Logger } from '@/shared/helper';
 
 import { responseApi } from '../api';
 
@@ -43,7 +44,7 @@ const responseQueries = {
                     return result.data;
                 }
             } catch (error) {
-                console.error('Failed to fetch detail:', error);
+                Logger.error('ResponseQueries', 'Failed to fetch detail', error);
                 throw error;
             }
         };

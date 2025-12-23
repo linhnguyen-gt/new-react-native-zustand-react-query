@@ -61,8 +61,7 @@ export class HttpClient implements IHttpClient {
             baseURL: DEFAULT_API_CONFIG.baseURL,
             timeout: DEFAULT_API_CONFIG.timeout,
             headers: DEFAULT_API_CONFIG.headers,
-            // TODO: Uncomment this when the backend is ready to receive cookies
-            // withCredentials: true,
+            // Note: withCredentials will be enabled when backend supports it
         });
         this.errorHandler = errorHandler ?? new ErrorHandler();
         this.tokenService = tokenService ?? new TokenService(this);
