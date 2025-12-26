@@ -1,5 +1,8 @@
 <div>
   <h1>🚀 React Native Modern Architecture</h1>
+  <p align="center">
+    <img src="thumbnail/thumbnail.jpeg" alt="React Native Modern Architecture" width="600" />
+  </p>
   <p>A modern React Native boilerplate with Zustand, React Query and best practices</p>
   <p><strong>Create a new project using our CLI: <a href="https://github.com/linhnguyen-gt/create-rn-project">create-rn-project</a></strong></p>
 

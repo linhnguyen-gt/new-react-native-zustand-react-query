@@ -1,2 +1,4 @@
-// / <reference types="nativewind/types" />
+/// <reference types="nativewind/types" />
 import 'nativewind/types';
+
+declare module '*.css';
