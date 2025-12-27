@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import Config from 'react-native-config';
 
 import ApiMethod from './apiMethod';
 import { HttpRequestConfig, HttpResponse, IHttpClient } from './interfaces/IHttpClient';
@@ -8,7 +7,7 @@ import { RequestInterceptor } from './services/requestInterceptor';
 import { TokenService } from './services/tokenService';
 
 const DEFAULT_API_CONFIG = {
-    baseURL: Config.API_URL,
+    baseURL: 'https://jsonplaceholder.typicode.com',
     timeout: 30000,
     headers: {
         'X-Content-Type-Options': 'nosniff',

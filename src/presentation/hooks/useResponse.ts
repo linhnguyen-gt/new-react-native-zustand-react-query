@@ -1,10 +1,9 @@
-import store from '@/app/store';
-
 import queries from '@/data/queries';
 
 export const useResponse = () => {
-    const { response } = store.useResponseStore();
     const { isLoading, error, data } = queries.responseQueries.useResponses();
+
+    const response = data?.ok && data?.data ? data.data : [];
 
     return {
         response,

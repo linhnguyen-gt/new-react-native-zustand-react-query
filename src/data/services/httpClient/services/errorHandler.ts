@@ -1,35 +1,43 @@
-import { AxiosError, HttpStatusCode } from 'axios';
+import { AxiosError } from 'axios';
 
-import { apiProblem } from '../httpProblem';
-
-import { Logger } from '@/shared/helper';
+import { errorHandler } from '@/core/error';
+import { HttpError } from '@/shared/errors';
 
 export interface IErrorHandler {
     handleError(error: AxiosError): Promise<never>;
-    extractErrorData(error: AxiosError): Error;
+    extractErrorData(error: AxiosError): HttpError;
 }
 
+/**
+ * HTTP error handler - uses unified error handler
+ * Deprecated: Use errorHandler from @/core/error instead
+ */
 export class ErrorHandler implements IErrorHandler {
     async handleError(error: AxiosError): Promise<never> {
-        const errorData = this.extractErrorData(error);
-        Logger.error('HttpError', {
-            status: error.response?.status,
-            data: error.response?.data,
-            config: {
-                url: error.config?.url,
-                method: error.config?.method,
-                headers: error.config?.headers,
-            },
+        const appError = errorHandler.handle(error, {
+            endpoint: error.config?.url,
+            method: error.config?.method?.toUpperCase(),
         });
-        return Promise.reject(new Error(JSON.stringify(errorData)));
+        return Promise.reject(appError);
     }
 
-    extractErrorData(error: AxiosError): Error {
-        const errorResponse: ErrorResponse<Data> = {
-            ok: false,
-            data: error.response?.data || error.message || 'An unexpected error occurred',
-            status: error.response?.status || HttpStatusCode.InternalServerError,
-        };
-        return new Error(JSON.stringify(apiProblem(errorResponse)));
+    extractErrorData(error: AxiosError): HttpError {
+        const status = error.response?.status || 500;
+        const data = error.response?.data;
+        const message = this.extractMessage(data) || error.message || 'HTTP request failed';
+
+        return new HttpError(message, status, data, {
+            endpoint: error.config?.url,
+            method: error.config?.method?.toUpperCase(),
+        });
+    }
+
+    private extractMessage(data: any): string | null {
+        if (!data) return null;
+        if (typeof data === 'string') return data;
+        if (typeof data === 'object') {
+            return data.message || data.error || data.msg || data.detail || null;
+        }
+        return null;
     }
 }

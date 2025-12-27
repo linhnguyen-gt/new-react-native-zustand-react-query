@@ -1,5 +1,15 @@
 import 'react-native-gesture-handler/jestSetup';
 
+// Suppress console logs in tests
+global.console = {
+    ...console,
+    log: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+};
+
 jest.mock('expo-constants', () => ({
     default: {
         expoConfig: {

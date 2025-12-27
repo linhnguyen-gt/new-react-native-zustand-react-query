@@ -1,40 +1,20 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import React from 'react';
 
-import store from '@/app/store';
 import { Logger } from '@/shared/helper';
 
 import { responseApi } from '../api';
 
 const responseQueries = {
     useResponses: () => {
-        const { setResponse } = store.useResponseStore();
-
-        const result = useQuery({
+        return useQuery({
             queryKey: ['responses', 'list'],
             queryFn: responseApi.getResponseData,
         });
-
-        React.useEffect(() => {
-            if (result.data?.ok) {
-                setResponse(result.data.data ?? []);
-            }
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [result.data]);
-
-        return result;
     },
 
     useResponseDetail: () => {
-        const { setResponseDetail } = store.useResponseStore();
-
         const mutation = useMutation({
             mutationFn: responseApi.getResponseDetail,
-            onSuccess: (data) => {
-                if (data?.ok) {
-                    setResponseDetail(data.data);
-                }
-            },
         });
 
         const getDetail = async (detailId: string) => {

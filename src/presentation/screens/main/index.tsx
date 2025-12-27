@@ -9,83 +9,54 @@ import { useResponse } from '@/presentation/hooks';
 import { Loading } from '@/presentation/components/loading';
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
-import { Colors, RouteName } from '@/shared/constants';
+import { RouteName } from '@/shared/constants';
 
-const ItemSeparator = () => <Box height={16} />;
+const ItemSeparator = () => <Box className="h-4" />;
 
 const MainPage = () => {
     const { response, isLoading, error } = useResponse();
     const isDarkMode = useColorScheme() === 'dark';
 
     const renderItem = ({ item }: { item: ResponseData }) => (
-        <Box
-            backgroundColor="white"
-            padding={20}
-            borderRadius={24}
-            marginBottom={16}
-            shadowColor={Colors.primaryColor}
-            shadowOffset={{ width: 0, height: 8 }}
-            shadowOpacity={0.15}
-            shadowRadius={24}
-            elevation={8}>
-            <Box flexDirection="row" alignItems="center" marginBottom={16}>
-                <Box
-                    backgroundColor={Colors.primaryColor}
-                    width={56}
-                    height={56}
-                    borderRadius={28}
-                    justifyContent="center"
-                    alignItems="center"
-                    shadowColor={Colors.primaryColor}
-                    shadowOffset={{ width: 0, height: 4 }}
-                    shadowOpacity={0.3}
-                    shadowRadius={8}>
-                    <Text size="xl" fontWeight="bold" color="white">
-                        {item.State.substring(0, 2)}
+        <Box className="mb-4 rounded-3xl bg-white p-5 shadow-lg">
+            <Box className="mb-4 flex-row items-center">
+                <Box className="h-14 w-14 items-center justify-center rounded-full bg-indigo-500 shadow-md">
+                    <Text size="xl" fontWeight="bold" className="text-white">
+                        #{item.id}
                     </Text>
                 </Box>
-                <Box flex={1} marginLeft={16}>
-                    <Text size="xl" fontWeight="bold" color="#1e293b">
-                        {item.State}
+                <Box className="ml-4 flex-1">
+                    <Text size="lg" fontWeight="bold" className="text-slate-800" numberOfLines={2}>
+                        {item.title}
                     </Text>
-                    <Box flexDirection="row" alignItems="center" marginTop={4}>
-                        <Box
-                            backgroundColor="#f1f5f9"
-                            paddingHorizontal={12}
-                            paddingVertical={4}
-                            borderRadius={12}
-                            marginRight={8}>
-                            <Text size="sm" color="#64748b">
-                                {item.Year}
+                    <Box className="mt-2 flex-row items-center">
+                        <Box className="mr-2 rounded-xl bg-slate-100 px-3 py-1">
+                            <Text size="sm" className="text-slate-500">
+                                User: {item.userId}
                             </Text>
                         </Box>
-                        <Text size="sm" color="#94a3b8">
-                            ID: {item['ID State']}
+                        <Text size="sm" className="text-slate-400">
+                            Post ID: {item.id}
                         </Text>
                     </Box>
                 </Box>
             </Box>
 
-            <Box backgroundColor="#f8fafc" padding={16} borderRadius={20} flexDirection="row" alignItems="center">
-                <Box
-                    backgroundColor="#818cf8"
-                    padding={12}
-                    borderRadius={16}
-                    shadowColor="#818cf8"
-                    shadowOffset={{ width: 0, height: 2 }}
-                    shadowOpacity={0.2}
-                    shadowRadius={4}>
-                    <Text size="lg" color="white">
-                        👥
-                    </Text>
-                </Box>
-                <Box marginLeft={16}>
-                    <Text size="sm" color="#64748b" marginBottom={2}>
-                        Total Population
-                    </Text>
-                    <Text size="lg" fontWeight="bold" color="#1e293b">
-                        {item.Population.toLocaleString()}
-                    </Text>
+            <Box className="rounded-2xl bg-slate-50 p-4">
+                <Box className="mb-2 flex-row items-start">
+                    <Box className="rounded-2xl bg-indigo-400 p-3 shadow-sm">
+                        <Text size="lg" className="text-white">
+                            📝
+                        </Text>
+                    </Box>
+                    <Box className="ml-4 flex-1">
+                        <Text size="sm" className="mb-1 text-slate-500">
+                            Content
+                        </Text>
+                        <Text size="md" className="text-slate-800" numberOfLines={3}>
+                            {item.body}
+                        </Text>
+                    </Box>
                 </Box>
             </Box>
         </Box>
@@ -93,26 +64,17 @@ const MainPage = () => {
 
     if (error) {
         return (
-            <Box flex={1} justifyContent="center" alignItems="center" padding={24}>
-                <Box
-                    backgroundColor="#fef2f2"
-                    padding={24}
-                    borderRadius={24}
-                    width="100%"
-                    alignItems="center"
-                    shadowColor="#ef4444"
-                    shadowOffset={{ width: 0, height: 8 }}
-                    shadowOpacity={0.1}
-                    shadowRadius={24}>
-                    <Box backgroundColor="#fee2e2" padding={16} borderRadius={20} marginBottom={16}>
-                        <Text size="2xl" color="#dc2626">
+            <Box className="flex-1 items-center justify-center p-6">
+                <Box className="bg-red-50 w-full items-center rounded-3xl p-6 shadow-md">
+                    <Box className="bg-red-100 mb-4 rounded-2xl p-4">
+                        <Text size="2xl" className="text-red-600">
                             ⚠️
                         </Text>
                     </Box>
-                    <Text size="xl" color="#dc2626" fontWeight="bold">
+                    <Text size="xl" className="text-red-600 font-bold">
                         Error Occurred
                     </Text>
-                    <Text size="md" color="#ef4444" marginTop={8} textAlign="center">
+                    <Text size="md" className="text-red-500 mt-2 text-center">
                         {error.message}
                     </Text>
                 </Box>
@@ -121,66 +83,38 @@ const MainPage = () => {
     }
 
     return (
-        <Box flex={1}>
+        <Box className="flex-1">
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
 
-            <ScrollView flex={1}>
-                <VStack space="3xl" padding={24}>
-                    <Box alignItems="center" marginTop={40} marginBottom={32}>
-                        <Box
-                            backgroundColor="#818cf8"
-                            width={80}
-                            height={80}
-                            borderRadius={40}
-                            justifyContent="center"
-                            alignItems="center"
-                            marginBottom={20}
-                            shadowColor="#818cf8"
-                            shadowOffset={{ width: 0, height: 12 }}
-                            shadowOpacity={0.4}
-                            shadowRadius={24}
-                            elevation={12}>
-                            <Text size="3xl" fontWeight="bold" color="white">
+            <ScrollView className="flex-1">
+                <VStack space="3xl" className="p-6">
+                    <Box className="mb-8 mt-10 items-center">
+                        <Box className="mb-5 h-20 w-20 items-center justify-center rounded-full bg-indigo-400 shadow-xl">
+                            <Text size="3xl" fontWeight="bold" className="text-white">
                                 RN
                             </Text>
                         </Box>
-                        <Text size="3xl" fontWeight="bold" color="#1e293b">
+                        <Text size="3xl" fontWeight="bold" className="text-slate-800">
                             React Native
                         </Text>
-                        <Text size="lg" color="#64748b" marginTop={8} textAlign="center">
+                        <Text size="lg" className="mt-2 text-center text-slate-500">
                             Clean Architecture Template
                         </Text>
                     </Box>
 
-                    <Box flexDirection="row" justifyContent="space-between" gap={12}>
-                        <Box
-                            flex={1}
-                            backgroundColor="white"
-                            padding={20}
-                            borderRadius={28}
-                            shadowColor="#6366f1"
-                            shadowOffset={{ width: 0, height: 8 }}
-                            shadowOpacity={0.15}
-                            shadowRadius={24}
-                            elevation={8}>
-                            <Box flexDirection="row" alignItems="center">
-                                <Box
-                                    backgroundColor="#818cf8"
-                                    padding={16}
-                                    borderRadius={20}
-                                    shadowColor="#818cf8"
-                                    shadowOffset={{ width: 0, height: 4 }}
-                                    shadowOpacity={0.3}
-                                    shadowRadius={8}>
-                                    <Text size="xl" color="white">
+                    <Box className="flex-row justify-between gap-3">
+                        <Box className="flex-1 rounded-3xl bg-white p-5 shadow-lg">
+                            <Box className="flex-row items-center">
+                                <Box className="rounded-2xl bg-indigo-400 p-4 shadow-md">
+                                    <Text size="xl" className="text-white">
                                         🛠
                                     </Text>
                                 </Box>
-                                <Box marginLeft={12}>
-                                    <Text size="md" fontWeight="bold" color="#1e293b">
+                                <Box className="ml-3">
+                                    <Text size="md" fontWeight="bold" className="text-slate-800">
                                         Environment
                                     </Text>
-                                    <Text size="lg" color="#818cf8" marginTop={4} fontWeight="bold">
+                                    <Text size="lg" className="mt-1 font-bold text-indigo-400">
                                         {Config.APP_FLAVOR}
                                     </Text>
                                 </Box>
@@ -188,105 +122,66 @@ const MainPage = () => {
                         </Box>
 
                         <MyTouchable onPress={() => RootNavigator.navigate(RouteName.Counter)}>
-                            <Box
-                                flex={1}
-                                backgroundColor="#818cf8"
-                                padding={20}
-                                borderRadius={28}
-                                alignItems="center"
-                                justifyContent="center"
-                                shadowColor="#818cf8"
-                                shadowOffset={{ width: 0, height: 8 }}
-                                shadowOpacity={0.4}
-                                shadowRadius={24}
-                                elevation={12}>
-                                <Box
-                                    backgroundColor="white"
-                                    width={48}
-                                    height={48}
-                                    borderRadius={24}
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    marginBottom={12}
-                                    shadowColor="#000"
-                                    shadowOffset={{ width: 0, height: 2 }}
-                                    shadowOpacity={0.1}
-                                    shadowRadius={4}>
-                                    <Text size="2xl" fontWeight="bold" color="#818cf8">
+                            <Box className="flex-1 items-center justify-center rounded-3xl bg-indigo-400 p-5 shadow-xl">
+                                <Box className="mb-3 h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm">
+                                    <Text size="2xl" fontWeight="bold" className="text-indigo-400">
                                         →
                                     </Text>
                                 </Box>
-                                <Text size="md" fontWeight="bold" color="white">
+                                <Text size="md" fontWeight="bold" className="text-white">
                                     Counter Demo
                                 </Text>
                             </Box>
                         </MyTouchable>
                     </Box>
 
-                    <Box
-                        backgroundColor="white"
-                        padding={20}
-                        borderRadius={24}
-                        shadowColor="#6366f1"
-                        shadowOffset={{ width: 0, height: 8 }}
-                        shadowOpacity={0.15}
-                        shadowRadius={24}
-                        elevation={8}
-                        flexDirection="row"
-                        alignItems="center">
-                        <Box
-                            backgroundColor="#818cf8"
-                            padding={16}
-                            borderRadius={20}
-                            shadowColor="#818cf8"
-                            shadowOffset={{ width: 0, height: 4 }}
-                            shadowOpacity={0.3}
-                            shadowRadius={8}>
-                            <Text size="xl" color="white">
-                                📊
+                    <Box className="flex-row items-center rounded-3xl bg-white p-5 shadow-lg">
+                        <Box className="rounded-2xl bg-indigo-400 p-4 shadow-md">
+                            <Text size="xl" className="text-white">
+                                📝
                             </Text>
                         </Box>
-                        <Box marginLeft={16}>
-                            <Text size="xl" fontWeight="bold" color="#1e293b">
-                                Population Data
+                        <Box className="ml-4">
+                            <Text size="xl" fontWeight="bold" className="text-slate-800">
+                                Posts Data
                             </Text>
-                            <Text size="md" color="#64748b" marginTop={4}>
-                                {response?.length || 0} states available
+                            <Text size="md" className="mt-1 text-slate-500">
+                                {response?.length || 0} posts available
                             </Text>
                         </Box>
                     </Box>
                 </VStack>
 
-                <Box
-                    backgroundColor="#f8fafc"
-                    marginTop={24}
-                    paddingTop={32}
-                    borderTopLeftRadius={32}
-                    borderTopRightRadius={32}
-                    shadowColor={Colors.primaryColor}
-                    shadowOffset={{ width: 0, height: -8 }}
-                    shadowOpacity={0.1}
-                    shadowRadius={24}
-                    elevation={8}>
-                    <Box paddingHorizontal={24} marginBottom={24}>
-                        <Text size="2xl" fontWeight="bold" color="#1e293b">
-                            States List
+                <Box className="mt-6 rounded-t-[32px] bg-slate-50 pt-8 shadow-lg">
+                    <Box className="mb-6 px-6">
+                        <Text size="2xl" fontWeight="bold" className="text-slate-800">
+                            Posts List
                         </Text>
-                        <Text size="md" color="#64748b" marginTop={4}>
-                            Scroll to explore all states
+                        <Text size="md" className="mt-1 text-slate-500">
+                            Scroll to explore all posts
                         </Text>
                     </Box>
 
-                    {response?.length > 0 ? (
-                        response.map((item) => (
-                            <Box key={item.State} paddingHorizontal={24}>
-                                {renderItem({ item })}
-                                <ItemSeparator />
-                            </Box>
-                        ))
-                    ) : (
-                        <Text>No data</Text>
-                    )}
+                    {response?.length > 0
+                        ? response.map((item) => (
+                              <Box key={item.id} className="px-6">
+                                  {renderItem({ item })}
+                                  <ItemSeparator />
+                              </Box>
+                          ))
+                        : !isLoading && (
+                              <Box className="items-center px-6 py-12">
+                                  <Box className="mb-4 rounded-2xl bg-slate-100 p-6">
+                                      <Text size="2xl">📭</Text>
+                                  </Box>
+                                  <Text size="lg" className="font-medium text-slate-500">
+                                      No posts available
+                                  </Text>
+                                  <Text size="sm" className="mt-1 text-slate-400">
+                                      Pull to refresh or check your connection
+                                  </Text>
+                              </Box>
+                          )}
                 </Box>
             </ScrollView>
 
