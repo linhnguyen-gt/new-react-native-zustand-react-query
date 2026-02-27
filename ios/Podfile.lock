@@ -116,7 +116,7 @@ PODS:
     - React-utils
     - ReactNativeDependencies
     - Yoga
-  - React-Core-prebuilt (0.81.4):
+  - React-Core-prebuilt (0.83.2):
     - ReactNativeDependencies
   - React-Core/CoreModulesHeaders (0.83.2):
     - hermes-engine
@@ -2585,7 +2585,7 @@ SPEC CHECKSUMS:
   React: f4edc7518ccb0b54a6f580d89dd91471844b4990
   React-callinvoker: 79ef4e3f1c021571f6d2dafbe45ca432b2f3a146
   React-Core: 469995a2b6ef0ffff38ed123ccd202287703939e
-  React-Core-prebuilt: ab6d77841d4bb8d247c4358663c6c71836e4f461
+  React-Core-prebuilt: 78eb0a47c83ef920f6b10bb0af945d81c50a141a
   React-CoreModules: db3b65cb984dfc7e0b00db517712cff8d938fc3f
   React-cxxreact: 8551bebcc6bc624ce774dccae20c383844aa9d06
   React-debug: 4f6739c820d7da9c20f48caa985573b6a847e5f5
@@ -2665,6 +2665,6 @@ SPEC CHECKSUMS:
   RNWorklets: 69360224ddca4bd2b93c7f673fa063ebc32ba9a7
   Yoga: 4c1233b9fd0ae55a61417680a50f4534e001e199
 
-PODFILE CHECKSUM: 833743130c8d349c6931c9efc373f203c362d93c
+PODFILE CHECKSUM: e964591dfd7b64ee10f1a01fc7d6cb6415ecb413
 
 COCOAPODS: 1.16.2
