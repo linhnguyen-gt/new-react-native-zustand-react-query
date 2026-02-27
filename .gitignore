@@ -138,3 +138,5 @@ plans/
 # AIKit - AI Development Kits
 .kiro/
 KIRO.md
+.shared/
+.opencode/

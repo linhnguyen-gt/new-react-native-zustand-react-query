@@ -8,7 +8,7 @@
 
   <p>
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.81.5-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.83.2-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
       <img src="https://img.shields.io/badge/TypeScript-v5.9.2-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
@@ -18,9 +18,9 @@
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v54.0.25-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v55.0.0-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/Gluestack_UI-v1.1.73-1B1B1F?style=for-the-badge" alt="gluestack" />
-    <img src="https://img.shields.io/badge/React_Navigation-v7.1.20-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
+    <img src="https://img.shields.io/badge/React_Navigation-v7.1.31-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
 ### State Management & API
@@ -28,13 +28,13 @@
   <p>
     <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
     <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
-    <img src="https://img.shields.io/badge/Axios-v1.13.2-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
+    <img src="https://img.shields.io/badge/Axios-v1.13.5-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
 ### UI & Styling
 
   <p>
-    <img src="https://img.shields.io/badge/NativeWind-v4.2.1-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="nativewind" />
+    <img src="https://img.shields.io/badge/NativeWind-v4.2.2-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="nativewind" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-v3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwindcss" />
     <img src="https://img.shields.io/badge/React_Native_Vector_Icons-v10.2.0-4B32C3?style=for-the-badge" alt="vector-icons" />
   </p>
@@ -42,8 +42,8 @@
 ### Form & Validation
 
   <p>
-    <img src="https://img.shields.io/badge/React_Hook_Form-v7.66.1-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
-    <img src="https://img.shields.io/badge/Zod-v4.1.12-3068B7?style=for-the-badge" alt="zod" />
+    <img src="https://img.shields.io/badge/React_Hook_Form-v7.71.2-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
+    <img src="https://img.shields.io/badge/Zod-v4.3.6-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
 ### Development & Testing
@@ -58,7 +58,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Dotenv-v16.5.0-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
-    <img src="https://img.shields.io/badge/React_Native_Config-v1.6.0-2E7D32?style=for-the-badge" alt="react-native-config" />
+    <img src="https://img.shields.io/badge/React_Native_Config-v1.6.1-2E7D32?style=for-the-badge" alt="react-native-config" />
     <img src="https://img.shields.io/badge/Async_Storage-v2.2.0-3B82F6?style=for-the-badge" alt="async-storage" />
   </p>
 
@@ -66,7 +66,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Reactotron-v5.1.18-7B61FF?style=for-the-badge" alt="reactotron" />
-    <img src="https://img.shields.io/badge/React_Native_Reanimated-v4.1.1-FF4154?style=for-the-badge" alt="reanimated" />
+    <img src="https://img.shields.io/badge/React_Native_Reanimated-v4.2.1-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
 ### Environment Support

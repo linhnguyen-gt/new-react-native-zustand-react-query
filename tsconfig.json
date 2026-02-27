@@ -1,62 +1,48 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": [
-      "es2021"
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "lib": ["es2021"],
+        "allowJs": true,
+        "jsx": "react-native",
+        "noEmit": true,
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "useUnknownInCatchVariables": false,
+        "moduleResolution": "bundler",
+        "moduleDetection": "force",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@presentation/*": ["./src/presentation/*"],
+            "@app/*": ["./src/app/*"],
+            "@data/*": ["./src/data/*"],
+            "@shared/*": ["./src/shared/*"]
+        }
+    },
+    "include": [
+        ".prettierrc.mjs",
+        "eslint.config.js",
+        "babel.config.cjs",
+        "metro.config.cjs",
+        "jest.config.cjs",
+        "index.js",
+        "src",
+        "__tests__/App.test.tsx",
+        "tailwind.config.cjs",
+        "nativewind-env.d.ts",
+        "global.css.d.ts",
+        "react-native-config.d.ts",
+        "gesture-handler.native.js",
+        "jest.setup.js",
+        "app.config.ts",
+        "global.css"
     ],
-    "allowJs": true,
-    "jsx": "react-native",
-    "noEmit": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "useUnknownInCatchVariables": false,
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@presentation/*": [
-        "./src/presentation/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@data/*": [
-        "./src/data/*"
-      ],
-      "@shared/*": [
-        "./src/shared/*"
-      ]
-    }
-  },
-  "include": [
-    ".prettierrc.mjs",
-    "eslint.config.js",
-    "babel.config.cjs",
-    "metro.config.cjs",
-    "jest.config.cjs",
-    "index.js",
-    "src",
-    "__tests__/App.test.tsx",
-    "tailwind.config.cjs",
-    "nativewind-env.d.ts",
-    "global.css.d.ts",
-    "react-native-config.d.ts",
-    "gesture-handler.native.js",
-    "jest.setup.js",
-    "app.config.ts",
-    "global.css"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "extends": "expo/tsconfig.base"
+    "exclude": ["node_modules"],
+    "extends": "expo/tsconfig.base.json"
 }

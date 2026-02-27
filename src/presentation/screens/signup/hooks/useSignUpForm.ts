@@ -57,6 +57,7 @@ export const useSignUpForm = (): UseSignUpFormReturn => {
                 setIsSubmitting(false);
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [isSubmitting, navigation]
     );
 
