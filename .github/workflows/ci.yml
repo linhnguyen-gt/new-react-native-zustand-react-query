@@ -19,10 +19,12 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: '24'
-                  cache: 'yarn'
+
+            - name: Clear cache
+              run: rm -rf node_modules
 
             - name: Install dependencies
-              run: yarn install --immutable
+              run: yarn install
 
             - name: Run ESLint
               run: yarn lint
@@ -38,10 +40,12 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: '24'
-                  cache: 'yarn'
+
+            - name: Clear cache
+              run: rm -rf node_modules
 
             - name: Install dependencies
-              run: yarn install --immutable
+              run: yarn install
 
             - name: Run tests
               run: yarn test:ci
