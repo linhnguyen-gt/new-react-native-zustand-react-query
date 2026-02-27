@@ -3,6 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
 import Config from 'react-native-config';
+import { z } from 'zod';
 
 import { RootNavigator } from '@/data/services';
 
@@ -11,6 +12,8 @@ import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
 import { Colors, RouteName } from '@/shared/constants';
 import { loginSchema } from '@/shared/validation/schemas';
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const RNLogo = React.memo(() => (
     <Box

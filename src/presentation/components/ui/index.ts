@@ -6,6 +6,7 @@ export * from './gluestack-ui-provider';
 export { default as HStack } from './hStack';
 export { default as IconComponent } from './icon';
 export { default as Image } from './image';
+export { default as RNLogo } from './RNLogo';
 export { default as ScrollView } from './scrollView';
 export { default as Text } from './text';
 export * from './toast';

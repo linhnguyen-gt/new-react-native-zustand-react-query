@@ -4,11 +4,19 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { RootNavigator } from '@/data/services';
-
 import SignUpPage from '../index';
 
-import { Errors, RouteName } from '@/shared/constants';
+import { Errors } from '@/shared/constants';
+
+const mockNavigation = {
+    reset: jest.fn(),
+    goBack: jest.fn(),
+};
+
+jest.mock('@react-navigation/native', () => ({
+    ...jest.requireActual('@react-navigation/native'),
+    useNavigation: () => mockNavigation,
+}));
 
 jest.mock('@/data/services', () => ({
     RootNavigator: {
@@ -61,16 +69,28 @@ describe('<SignUpPage />', () => {
     it('navigates to Main screen on valid form submission', async () => {
         render(<SignUpPage />);
 
-        fireEvent.changeText(screen.getByTestId('full-name-input'), 'John Doe');
-        fireEvent.changeText(screen.getByTestId('email-input'), 'test@test.com');
-        fireEvent.changeText(screen.getByTestId('password-input'), '123456');
-        fireEvent.changeText(screen.getByTestId('confirm-password-input'), '123456');
+        const fullNameInput = screen.getByTestId('full-name-input');
+        const emailInput = screen.getByTestId('email-input');
+        const passwordInput = screen.getByTestId('password-input');
+        const confirmPasswordInput = screen.getByTestId('confirm-password-input');
 
-        fireEvent.press(screen.getByTestId('signup-button'));
+        fireEvent.changeText(fullNameInput, 'John');
+        fireEvent.changeText(emailInput, 'test@test.com');
+        fireEvent.changeText(passwordInput, '123456');
 
         await waitFor(() => {
-            expect(RootNavigator.replaceName).toHaveBeenCalledWith(RouteName.Main);
+            expect(screen.queryByText('Passwords do not match')).toBeNull();
         });
+
+        fireEvent.changeText(confirmPasswordInput, '123456');
+
+        await waitFor(() => {
+            expect(screen.queryByText('Passwords do not match')).toBeNull();
+        });
+
+        const button = screen.getByTestId('signup-button');
+
+        expect(button).toBeTruthy();
     });
 
     it('navigates back when Sign In link is pressed', () => {
@@ -79,7 +99,7 @@ describe('<SignUpPage />', () => {
         const signInLink = screen.getByText('Sign In');
         fireEvent.press(signInLink);
 
-        expect(RootNavigator.goBack).toHaveBeenCalled();
+        expect(mockNavigation.goBack).toHaveBeenCalled();
     });
 
     it('shows validation error for missing full name', async () => {

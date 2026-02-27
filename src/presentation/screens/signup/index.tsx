@@ -1,122 +1,93 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Keyboard } from 'react-native';
-
-import { RootNavigator } from '@/data/services';
 
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
-import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
-import { Colors, RouteName } from '@/shared/constants';
-import { signUpSchema, type SignUpFormData } from '@/shared/validation/schemas';
+import { Box, RNLogo, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { Colors } from '@/shared/constants';
 
-const RNLogo = () => (
-    <Box
-        width={120}
-        height={120}
-        backgroundColor={Colors.primaryColor}
-        borderRadius={30}
-        alignItems="center"
-        justifyContent="center"
-        shadowColor={Colors.primaryColor}
-        shadowOffset={{ width: 0, height: 8 }}
-        shadowOpacity={0.4}
-        shadowRadius={12}
-        elevation={10}
-        marginBottom={20}
-        overflow="visible">
-        <Box
-            width={100}
-            height={100}
-            borderRadius={25}
-            borderWidth={3}
-            borderColor="white"
-            alignItems="center"
-            justifyContent="center"
-            overflow="visible">
-            <Box height={50} alignItems="center" justifyContent="center" overflow="visible">
-                <Text
-                    color="white"
-                    fontWeight="bold"
-                    fontSize={42}
-                    style={{
-                        includeFontPadding: false,
-                        lineHeight: 50,
-                    }}>
-                    RN
-                </Text>
-            </Box>
-        </Box>
-    </Box>
-);
+import { SignUpStrings } from './constants/strings';
+import { useSignUpForm } from './hooks/useSignUpForm';
 
 const SignUp = () => {
-    const { control, handleSubmit } = useForm<SignUpFormData>({
-        defaultValues: {
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        },
-        resolver: zodResolver(signUpSchema),
-    });
+    const { control, handleSubmit, isSubmitting, onSubmit, onSignInPress } = useSignUpForm();
 
-    const handleSignUp = React.useCallback(() => {
-        Keyboard.dismiss();
-        handleSubmit((_values) => {
-            RootNavigator.replaceName(RouteName.Main);
-        })();
-    }, [handleSubmit]);
+    const handleSignUpPress = React.useCallback(() => {
+        handleSubmit(onSubmit)();
+    }, [handleSubmit, onSubmit]);
 
     return (
-        <Box flex={1} safeArea backgroundColor="white">
-            <ScrollView>
+        <Box flex={1} safeArea backgroundColor="white" accessibilityLabel="Sign up screen">
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}>
                 <Box flex={1} paddingHorizontal={24} paddingTop={40}>
                     <VStack alignItems="center" marginBottom={40} space="md">
-                        <RNLogo />
-                        <Text size="3xl" fontWeight="bold" color="#0f172a" marginTop={16}>
-                            Create Account
+                        <RNLogo
+                            size={120}
+                            backgroundColor={Colors.primaryColor}
+                            marginBottom={20}
+                            showShadow={true}
+                            accessibilityLabel={SignUpStrings.logo.accessibilityLabel}
+                        />
+                        <Text size="3xl" fontWeight="bold" color="#0f172a" marginTop={16} accessibilityRole="header">
+                            {SignUpStrings.title}
                         </Text>
                         <Text size="md" color="#64748b">
-                            Sign up to get started
+                            {SignUpStrings.subtitle}
                         </Text>
                     </VStack>
 
                     <VStack space="xl">
-                        <ControlledInput<SignUpFormData>
+                        <ControlledInput<import('@/shared/validation/schemas').SignUpFormData>
                             control={control}
                             name="fullName"
-                            placeholder="Full Name"
+                            placeholder={SignUpStrings.fullName.placeholder}
                             shouldUseFieldError={true}
                             testID="full-name-input"
+                            accessibilityLabel={SignUpStrings.fullName.accessibilityLabel}
                         />
 
-                        <ControlledInput<SignUpFormData>
+                        <ControlledInput<import('@/shared/validation/schemas').SignUpFormData>
                             control={control}
                             name="email"
-                            placeholder="Email"
+                            placeholder={SignUpStrings.email.placeholder}
                             shouldUseFieldError={true}
                             testID="email-input"
+                            accessibilityLabel={SignUpStrings.email.accessibilityLabel}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            autoComplete="email"
                         />
 
-                        <ControlledInput<SignUpFormData>
+                        <ControlledInput<import('@/shared/validation/schemas').SignUpFormData>
                             control={control}
                             name="password"
-                            placeholder="Password"
+                            placeholder={SignUpStrings.password.placeholder}
                             shouldUseFieldError={true}
                             testID="password-input"
+                            accessibilityLabel={SignUpStrings.password.accessibilityLabel}
+                            secureTextEntry={true}
+                            autoComplete="password-new"
                         />
 
-                        <ControlledInput<SignUpFormData>
+                        <ControlledInput<import('@/shared/validation/schemas').SignUpFormData>
                             control={control}
                             name="confirmPassword"
-                            placeholder="Confirm Password"
+                            placeholder={SignUpStrings.confirmPassword.placeholder}
                             shouldUseFieldError={true}
                             testID="confirm-password-input"
+                            accessibilityLabel={SignUpStrings.confirmPassword.accessibilityLabel}
+                            secureTextEntry={true}
+                            autoComplete="password-new"
                         />
 
-                        <MyTouchable onPress={handleSignUp} testID="signup-button">
+                        <MyTouchable
+                            onPress={handleSignUpPress}
+                            testID="signup-button"
+                            disabled={isSubmitting}
+                            accessibilityLabel={SignUpStrings.signUpButton.accessibilityLabel}
+                            accessibilityState={{ disabled: isSubmitting }}>
                             <Box
                                 backgroundColor={Colors.primaryColor}
                                 padding={16}
@@ -127,20 +98,34 @@ const SignUp = () => {
                                 shadowOpacity={0.3}
                                 shadowRadius={8}
                                 elevation={5}
-                                marginTop={8}>
-                                <Text size="xl" fontWeight="bold" color="white">
-                                    Sign Up
-                                </Text>
+                                marginTop={8}
+                                opacity={isSubmitting ? 0.7 : 1}>
+                                {isSubmitting ? (
+                                    <Text size="xl" fontWeight="bold" color="white">
+                                        {SignUpStrings.signUpButton.loadingText}
+                                    </Text>
+                                ) : (
+                                    <Text size="xl" fontWeight="bold" color="white">
+                                        {SignUpStrings.signUpButton.text}
+                                    </Text>
+                                )}
                             </Box>
                         </MyTouchable>
 
-                        <Box flexDirection="row" justifyContent="center" marginTop={16}>
+                        <Box
+                            flexDirection="row"
+                            justifyContent="center"
+                            marginTop={16}
+                            accessibilityLabel="Sign in prompt">
                             <Text color="#64748b" marginRight={4}>
-                                Already have an account?
+                                {SignUpStrings.signInLink.prompt}
                             </Text>
-                            <MyTouchable onPress={() => RootNavigator.goBack()}>
+                            <MyTouchable
+                                onPress={onSignInPress}
+                                disabled={isSubmitting}
+                                accessibilityLabel={SignUpStrings.signInLink.accessibilityLabel}>
                                 <Text color={Colors.primaryColor} fontWeight="bold">
-                                    Sign In
+                                    {SignUpStrings.signInLink.text}
                                 </Text>
                             </MyTouchable>
                         </Box>

@@ -49,7 +49,7 @@ module.exports = {
         '^@react-native-vector-icons/(.*)$': '<rootDir>/__mocks__/react-native-vector-icons.js',
     },
     setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
-    testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.history/'],
+    testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.history/', '<rootDir>/.opencode/'],
     globals: {
         __DEV__: true,
     },
