@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useShallow } from 'zustand/react/shallow';
 import store from '@/app/store';
 
 import { MyTouchable } from '@/presentation/components/touchable';
@@ -29,11 +30,13 @@ CounterButton.displayName = 'CounterButton';
 
 const Counter = () => {
     const count = store.useCounterStore((state) => state.count);
-    const { increment, decrement, reset } = store.useCounterStore((state) => ({
-        increment: state.increment,
-        decrement: state.decrement,
-        reset: state.reset,
-    }));
+    const { increment, decrement, reset } = store.useCounterStore(
+        useShallow((state) => ({
+            increment: state.increment,
+            decrement: state.decrement,
+            reset: state.reset,
+        }))
+    );
 
     const handleIncrement = React.useCallback(() => {
         increment();
