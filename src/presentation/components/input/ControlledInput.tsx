@@ -4,10 +4,7 @@ import { Control, FieldValues, Path, useController } from 'react-hook-form';
 import Input, { InputProps } from './Input';
 
 interface ControlledInputProps<T extends FieldValues>
-    extends Omit<
-        InputProps,
-        'value' | 'onChangeValue' | 'fieldName'
-    > {
+    extends Omit<InputProps, 'value' | 'onChangeValue' | 'fieldName'> {
     name: Path<T>;
     control: Control<T>;
     error?: string;
