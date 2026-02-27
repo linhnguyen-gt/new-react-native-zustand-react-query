@@ -2,12 +2,13 @@
     "compilerOptions": {
         "target": "esnext",
         "module": "esnext",
-        "lib": ["es2021"],
+        "lib": [
+            "es2021"
+        ],
         "allowJs": true,
         "jsx": "react-native",
         "noEmit": true,
         "isolatedModules": true,
-        "resolveJsonModule": true,
         "strict": true,
         "useUnknownInCatchVariables": false,
         "moduleResolution": "bundler",
@@ -18,11 +19,21 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"],
-            "@presentation/*": ["./src/presentation/*"],
-            "@app/*": ["./src/app/*"],
-            "@data/*": ["./src/data/*"],
-            "@shared/*": ["./src/shared/*"]
+            "@/*": [
+                "./src/*"
+            ],
+            "@presentation/*": [
+                "./src/presentation/*"
+            ],
+            "@app/*": [
+                "./src/app/*"
+            ],
+            "@data/*": [
+                "./src/data/*"
+            ],
+            "@shared/*": [
+                "./src/shared/*"
+            ]
         }
     },
     "include": [
@@ -43,6 +54,8 @@
         "app.config.ts",
         "global.css"
     ],
-    "exclude": ["node_modules"],
+    "exclude": [
+        "node_modules"
+    ],
     "extends": "expo/tsconfig.base.json"
 }
