@@ -1,0 +1,65 @@
+name: iOS Build
+
+on:
+    push:
+        branches: [main, develop]
+        paths:
+            - 'src/**'
+            - 'ios/**'
+            - 'package.json'
+            - 'yarn.lock'
+            - 'app.json'
+            - 'app.config.ts'
+    pull_request:
+        branches: [main, develop]
+        paths:
+            - 'src/**'
+            - 'ios/**'
+            - 'package.json'
+            - 'yarn.lock'
+            - 'app.json'
+            - 'app.config.ts'
+    workflow_dispatch:
+
+jobs:
+    build-ios:
+        name: Build iOS
+        runs-on: macos-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24'
+                  cache: 'yarn'
+
+            - name: Install dependencies
+              run: yarn install --immutable
+
+            - name: Setup Xcode
+              uses: maxim-lobanov/setup-xcode@v1
+              with:
+                  xcode-version: 'latest'
+
+            - name: Setup CocoaPods
+              run: |
+                  cd ios
+                  pod install
+
+            - name: Build iOS
+              run: |
+                  xcodebuild -workspace ios/NewReactNativeZustandRNQ.xcworkspace \
+                    -scheme NewReactNativeZustandRNQ \
+                    -configuration Debug \
+                    -destination "platform=iOS Simulator,name=iPhone 16" \
+                    build
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v4
+              if: success()
+              with:
+                  name: ios-build
+                  path: ios/build/
+                  retention-days: 7

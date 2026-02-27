@@ -43,8 +43,7 @@ class Logger {
         const sanitizedArgs = args.map((arg) => this.sanitizeData(arg));
 
         if (__DEV__) {
-            // eslint-disable-next-line no-console
-            console.log(`[${tag}]`, sanitizedMessage, ...sanitizedArgs);
+            console.warn(`[${tag}]`, sanitizedMessage, ...sanitizedArgs);
         }
     }
 
@@ -61,8 +60,7 @@ class Logger {
         if (__DEV__) {
             const sanitizedMessage = this.sanitizeData(message);
             const sanitizedArgs = args.map((arg) => this.sanitizeData(arg));
-            // eslint-disable-next-line no-console
-            console.log(`[DEBUG][${tag}]`, sanitizedMessage, ...sanitizedArgs);
+            console.warn(`[DEBUG][${tag}]`, sanitizedMessage, ...sanitizedArgs);
         }
     }
 }

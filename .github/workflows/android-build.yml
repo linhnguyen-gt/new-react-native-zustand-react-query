@@ -1,0 +1,55 @@
+name: Android Build
+
+on:
+    push:
+        branches: [main, develop]
+        paths:
+            - 'src/**'
+            - 'android/**'
+            - 'package.json'
+            - 'yarn.lock'
+            - 'app.json'
+            - 'app.config.ts'
+    pull_request:
+        branches: [main, develop]
+        paths:
+            - 'src/**'
+            - 'android/**'
+            - 'package.json'
+            - 'yarn.lock'
+            - 'app.json'
+            - 'app.config.ts'
+    workflow_dispatch:
+
+jobs:
+    build-android:
+        name: Build Android
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24'
+                  cache: 'yarn'
+
+            - name: Install dependencies
+              run: yarn install --immutable
+
+            - name: Setup JDK
+              uses: actions/setup-java@v4
+              with:
+                  distribution: 'temurin'
+                  java-version: '17'
+
+            - name: Build Android
+              run: npx expo export --platform android
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: android-build
+                  path: dist/
+                  retention-days: 7

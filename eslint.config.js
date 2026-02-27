@@ -25,6 +25,7 @@ export default [
             'ios/**',
             '**/*.d.ts',
             'scripts/**',
+            '.opencode/**',
             '*.js',
             'tsconfig.json',
         ],
