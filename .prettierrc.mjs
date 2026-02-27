@@ -10,6 +10,6 @@ export default {
     endOfLine: 'lf',
     embeddedLanguageFormatting: 'auto',
     quoteProps: 'as-needed',
-    plugins: ["prettier-plugin-tailwindcss"],
-    tailwindFunctions: ["tva"]
+    plugins: ['prettier-plugin-tailwindcss'],
+    tailwindFunctions: ['tva'],
 };
