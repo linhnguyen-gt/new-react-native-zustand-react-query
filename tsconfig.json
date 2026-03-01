@@ -9,6 +9,7 @@
         "jsx": "react-native",
         "noEmit": true,
         "isolatedModules": true,
+        "resolveJsonModule": true,
         "strict": true,
         "useUnknownInCatchVariables": false,
         "moduleResolution": "bundler",
