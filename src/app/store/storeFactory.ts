@@ -4,10 +4,17 @@ import { reactotron } from '@/data/services';
 
 const storeResetFns = new Set<() => void>();
 
+const getEnhancer = <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> => {
+    if (__DEV__ && reactotron?.zustand) {
+        return reactotron.zustand.enhancer(storeName, config);
+    }
+    return config;
+};
+
 export const createStore = <T extends object>(storeName: string, storeCreator: StateCreator<T>) => {
     const createFn = () => {
         if (__DEV__) {
-            return create<T>()(reactotron.zustand.enhancer(storeName, storeCreator));
+            return create<T>()(getEnhancer(storeName, storeCreator));
         }
         return create<T>()(storeCreator);
     };

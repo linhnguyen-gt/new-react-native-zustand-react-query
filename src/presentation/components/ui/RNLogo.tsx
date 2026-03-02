@@ -1,4 +1,5 @@
-import { Box, Text } from '@/presentation/components/ui';
+import Box from './box';
+import Text from './text';
 import { Colors } from '@/shared/constants';
 import React from 'react';
 

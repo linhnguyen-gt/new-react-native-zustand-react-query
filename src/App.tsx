@@ -9,8 +9,11 @@ import { GluestackUIProvider } from '@presentation/components/ui';
 import { AppStack } from '@presentation/navigator';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
+
+LogBox.ignoreLogs(['SafeAreaView has been deprecated', 'InteractionManager has been deprecated']);
 
 import ErrorBoundary from '@presentation/components/ErrorBoundary';
 
