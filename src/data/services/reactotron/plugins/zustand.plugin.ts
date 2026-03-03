@@ -3,9 +3,12 @@ import { StateCreator } from 'zustand';
 import { ReactotronCore } from '../reactotron.core';
 
 export const zustandPlugin = (core: ReactotronCore) => ({
-    enhancer:
-        <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> =>
-        (set, get, store) => {
+    enhancer: <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> => {
+        if (!config || typeof config !== 'function') {
+            console.warn('Zustand config is invalid, returning as-is');
+            return config;
+        }
+        return (set, get, store): T => {
             let previousState: T | null = null;
 
             return config(
@@ -46,7 +49,8 @@ export const zustandPlugin = (core: ReactotronCore) => ({
                 get,
                 store
             );
-        },
+        };
+    },
 });
 
 function findObjectDifferences(oldObj: any, newObj: any): Record<string, any> {
