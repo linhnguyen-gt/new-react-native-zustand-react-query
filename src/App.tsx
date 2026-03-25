@@ -16,6 +16,7 @@ import '../global.css';
 LogBox.ignoreLogs(['SafeAreaView has been deprecated', 'InteractionManager has been deprecated']);
 
 import ErrorBoundary from '@presentation/components/ErrorBoundary';
+import { AppUpdateModal } from '@presentation/components/AppUpdateModal';
 
 const App = () => {
     return (
@@ -24,6 +25,7 @@ const App = () => {
                 <SafeAreaProvider>
                     <GluestackUIProvider>
                         <AppStack />
+                        <AppUpdateModal />
                     </GluestackUIProvider>
                 </SafeAreaProvider>
             </GestureHandlerRootView>

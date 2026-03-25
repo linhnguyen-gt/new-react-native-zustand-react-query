@@ -94,6 +94,34 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
         envVars.APP_NAME = appName || defaultAppName;
     }
 
+    // Expo Updates configuration
+    console.log('\n📦 Expo Updates Configuration:');
+    console.log('   Get your project ID from https://expo.dev/projects');
+
+    if (!envVars.EXPO_PROJECT_ID) {
+        const defaultProjectId = envKey === 'development' ? '' : envVarsFromVault.EXPO_PROJECT_ID || '';
+        const projectId = await question(
+            `Enter EXPO_PROJECT_ID for ${envDisplayName}${defaultProjectId ? ` (default: ${defaultProjectId})` : ''}: `
+        );
+        envVars.EXPO_PROJECT_ID = projectId || defaultProjectId;
+    }
+
+    if (!envVars.EXPO_UPDATE_URL && envVars.EXPO_PROJECT_ID) {
+        const defaultUpdateUrl = `https://u.expo.dev/${envVars.EXPO_PROJECT_ID}`;
+        const updateUrl = await question(
+            `Enter EXPO_UPDATE_URL for ${envDisplayName} (default: ${defaultUpdateUrl}): `
+        );
+        envVars.EXPO_UPDATE_URL = updateUrl || defaultUpdateUrl;
+    }
+
+    if (!envVars.EXPO_UPDATE_CHANNEL) {
+        const defaultChannel = envKey === 'development' ? 'development' : envKey;
+        const channel = await question(
+            `Enter EXPO_UPDATE_CHANNEL for ${envDisplayName} (default: ${defaultChannel}): `
+        );
+        envVars.EXPO_UPDATE_CHANNEL = channel || defaultChannel;
+    }
+
     console.log('\nCurrent environment variables:');
     Object.entries(envVars)
         .filter(([key]) => key !== 'DOTENV_VAULT')
@@ -176,6 +204,12 @@ VERSION_NAME=1.0.0
 # API Configuration
 API_URL=http://localhost:3000
 
+# Expo Updates Configuration
+# Get these from your Expo project settings (expo.dev)
+EXPO_PROJECT_ID=your-project-id-here
+EXPO_UPDATE_URL=https://u.expo.dev/your-project-id-here
+EXPO_UPDATE_CHANNEL=development # (development|staging|production)
+
 # Add your other environment variables below
 GOOGLE_API_KEY=
 FACEBOOK_APP_ID=
@@ -183,7 +217,18 @@ SOME_OTHER_VAR=
 
 ${Object.keys(envVars)
     .filter(
-        (key) => !['APP_FLAVOR', 'VERSION_CODE', 'VERSION_NAME', 'API_URL', 'APP_NAME', 'DOTENV_VAULT'].includes(key)
+        (key) =>
+            ![
+                'APP_FLAVOR',
+                'VERSION_CODE',
+                'VERSION_NAME',
+                'API_URL',
+                'APP_NAME',
+                'DOTENV_VAULT',
+                'EXPO_PROJECT_ID',
+                'EXPO_UPDATE_URL',
+                'EXPO_UPDATE_CHANNEL',
+            ].includes(key)
     )
     .map((key) => `${key}=`)
     .join('\n')}
