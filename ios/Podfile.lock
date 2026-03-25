@@ -1,7 +1,7 @@
 PODS:
   - EXConstants (55.0.7):
     - ExpoModulesCore
-  - Expo (55.0.3):
+  - Expo (55.0.4):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -2565,7 +2565,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   EXConstants: a16ad8db13865e97aaecf64bb92e8ad8e8ce1ae8
-  Expo: a9b1f74f083f67a05b79b5c16ca37fe715b902a3
+  Expo: c71804d329301c4b0840cfa6432707e63898c538
   ExpoAsset: 4fc5f72f8a74135c522fa61df0bfb869e5b3c3e6
   ExpoDomWebView: d4f2ed3c3fa31d0ce89e79501a0c041c2f233189
   ExpoFileSystem: 0d267067930a744555ff6ab842fd79d3eeb2c33b

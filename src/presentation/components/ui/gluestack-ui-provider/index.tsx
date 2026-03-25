@@ -10,7 +10,7 @@ type ModeType = 'light' | 'dark' | 'system';
 
 const getColorSchemeName = (colorScheme: ColorSchemeName, mode: ModeType): 'light' | 'dark' => {
     if (mode === 'system') {
-        return colorScheme ?? 'light';
+        return colorScheme === 'dark' ? 'dark' : 'light';
     }
     return mode;
 };

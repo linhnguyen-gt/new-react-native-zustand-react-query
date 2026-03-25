@@ -10,11 +10,11 @@ export class SecureStorageService {
 
     private constructor() {
         const keyArray = new Uint8Array(32);
-        crypto.getRandomValues(keyArray);
+        crypto.getRandomValues(keyArray as unknown as Uint8Array<ArrayBuffer>);
         this.encryptionKey = keyArray;
 
         this.iv = new Uint8Array(16);
-        crypto.getRandomValues(this.iv);
+        crypto.getRandomValues(this.iv as unknown as Uint8Array<ArrayBuffer>);
     }
 
     static getInstance(): SecureStorageService {

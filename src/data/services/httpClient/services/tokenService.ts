@@ -30,7 +30,7 @@ export class TokenService implements ITokenService {
                     this.refreshToken();
                 }, refreshTime);
 
-                this.httpClient.setRefreshTokenTimeout(timeoutId);
+                this.httpClient.setRefreshTokenTimeout(Number(timeoutId));
             }
         }
     }
