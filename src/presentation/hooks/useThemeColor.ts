@@ -1,9 +1,23 @@
 import resolveConfig from 'tailwindcss/resolveConfig';
+import type { Config } from 'tailwindcss';
 
-import tailwindConfig from '../../../tailwind.config.cjs';
+import tailwindConfig, { ColorPath } from '../../../tailwind.config';
 
-const fullConfig = resolveConfig(tailwindConfig);
+let cachedConfig: ReturnType<typeof resolveConfig<Config>> | null = null;
 
-export const getColor = (colorPath: string) => {
-    return colorPath.split('.').reduce((obj: any, key) => obj[key], fullConfig.theme.colors);
+const getFullConfig = () => {
+    if (!cachedConfig) {
+        cachedConfig = resolveConfig(tailwindConfig as unknown as Config);
+    }
+    return cachedConfig;
+};
+
+export type { ColorPath };
+
+export const getColor = (colorPath: ColorPath): string => {
+    const fullConfig = getFullConfig();
+    const colorsMap = fullConfig.theme.colors as unknown as Record<string, unknown>;
+    return colorPath
+        .split('.')
+        .reduce<unknown>((obj, key) => (obj as Record<string, unknown>)[key], colorsMap) as string;
 };

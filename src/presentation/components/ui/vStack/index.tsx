@@ -22,17 +22,17 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
 };
 
 const VStack = React.forwardRef<React.ComponentRef<typeof View>, IVStackProps>(
-    ({ className, space, reversed, style, onPress, ...props }, ref) => {
+    ({ className, space, reversed, style, onPress, children, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 
         return (
             <Touchable
                 className={vstackStyle({ space, reversed, class: className })}
                 style={[styleProps, style]}
-                {...props}
                 ref={ref}
-                onPress={onPress}
-            />
+                onPress={onPress}>
+                {children}
+            </Touchable>
         );
     }
 );

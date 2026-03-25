@@ -264,5 +264,11 @@ export default [
             '@typescript-eslint/no-var-requires': 'off',
         },
     },
+    {
+        files: ['tailwind.config.ts'],
+        rules: {
+            '@typescript-eslint/no-require-imports': 'off',
+        },
+    },
     prettierConfig,
 ];

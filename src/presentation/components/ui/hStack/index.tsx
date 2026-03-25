@@ -22,7 +22,7 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
 };
 
 const HStack = React.forwardRef<React.ComponentRef<typeof View>, IHStackProps>(
-    ({ className, space, reversed, style, onPress, ...props }, ref) => {
+    ({ className, space, reversed, style, onPress, children, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
 
         return (
@@ -30,9 +30,9 @@ const HStack = React.forwardRef<React.ComponentRef<typeof View>, IHStackProps>(
                 onPress={onPress}
                 className={hstackStyle({ space, reversed, class: className })}
                 style={[styleProps, style]}
-                {...props}
-                ref={ref}
-            />
+                ref={ref}>
+                {children}
+            </Touchable>
         );
     }
 );
