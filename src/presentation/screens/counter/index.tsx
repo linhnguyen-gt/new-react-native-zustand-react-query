@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useShallow } from 'zustand/react/shallow';
 import store from '@/app/store';
+import { useShallow } from 'zustand/react/shallow';
 
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, HStack, Text, VStack } from '@/presentation/components/ui';
@@ -11,18 +11,8 @@ const CounterButton = React.memo<{
     children: React.ReactNode;
     testId?: string;
 }>(({ onPress, children, testId }) => (
-    <MyTouchable
-        borderWidth={2}
-        borderRadius={8}
-        width={80}
-        height={44}
-        alignItems="center"
-        backgroundColor="white"
-        onPress={onPress}
-        testID={testId}>
-        <Text size="2xl" fontWeight="bold">
-            {children}
-        </Text>
+    <MyTouchable className="h-11 w-20 items-center rounded-lg border-2 bg-white" onPress={onPress} testID={testId}>
+        <Text className="text-2xl font-bold">{children}</Text>
     </MyTouchable>
 ));
 
@@ -51,16 +41,12 @@ const Counter = () => {
     }, [reset]);
 
     return (
-        <Box flex={1} justifyContent="center" alignItems="center" backgroundColor="white">
-            <VStack space="xl" alignItems="center">
-                <Text size="4xl" fontWeight="bold">
-                    Counter
-                </Text>
+        <Box className="flex-1 items-center justify-center bg-white">
+            <VStack space="xl" className="flex-1 items-center justify-center">
+                <Text className="text-4xl font-bold">Counter</Text>
 
-                <Box backgroundColor="gray" padding={32} borderRadius={16} borderWidth={2} borderColor="black">
-                    <Text size="6xl" fontWeight="bold" color="black">
-                        {count}
-                    </Text>
+                <Box className="rounded-3xl border-2 border-black bg-gray-100 p-8">
+                    <Text className="text-6xl font-bold text-black">{count}</Text>
                 </Box>
 
                 <HStack space="md">
@@ -73,17 +59,10 @@ const Counter = () => {
                     </CounterButton>
 
                     <MyTouchable
-                        borderWidth={2}
-                        borderRadius={8}
-                        width={80}
-                        height={44}
-                        alignItems="center"
-                        backgroundColor="white"
+                        className="h-11 w-20 items-center rounded-lg border-2 bg-white"
                         onPress={handleReset}
                         testID="reset-button">
-                        <Text size="xl" fontWeight="bold">
-                            Reset
-                        </Text>
+                        <Text className="text-xl font-bold">Reset</Text>
                     </MyTouchable>
                 </HStack>
             </VStack>
