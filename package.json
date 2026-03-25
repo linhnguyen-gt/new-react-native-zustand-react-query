@@ -11,6 +11,7 @@
         "ios:prod": "npm run check:env && ENVFILE=.env.production npx expo run:ios --scheme Product --configuration Product.Debug --device",
         "check:env": "node scripts/check-env.js",
         "lint": "eslint .",
+        "lint:tsc": "npx tsc --noEmit --pretty false --project tsconfig.json",
         "lint:fix": "eslint . --fix",
         "start": "npx expo start",
         "test": "jest",

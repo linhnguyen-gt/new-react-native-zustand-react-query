@@ -1,1 +1,0 @@
-export { AppUpdateModal } from './AppUpdateModal';
