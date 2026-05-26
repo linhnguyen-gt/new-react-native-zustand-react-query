@@ -393,7 +393,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Staging;
+				APP_DISPLAY_NAME = NewStaging;
 				APP_VARIANT = staging;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -462,7 +462,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 71196BDA86D31F761AF9C757 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Dev;
+				APP_DISPLAY_NAME = NewDev;
 				APP_VARIANT = development;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -505,7 +505,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 41DBCA3912DBF226CC4C9C40 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Dev;
+				APP_DISPLAY_NAME = NewDev;
 				APP_VARIANT = development;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -542,7 +542,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB5BFFFC19C8A0E3DB08FA9B /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Product;
+				APP_DISPLAY_NAME = NewProduct;
 				APP_VARIANT = production;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -585,7 +585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Product;
+				APP_DISPLAY_NAME = NewProduct;
 				APP_VARIANT = production;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -661,7 +661,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8B3084BF91EFB3692FCD255A /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Staging;
+				APP_DISPLAY_NAME = NewStaging;
 				APP_VARIANT = staging;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -698,7 +698,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Dev;
+				APP_DISPLAY_NAME = NewDev;
 				APP_VARIANT = development;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -775,7 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Dev;
+				APP_DISPLAY_NAME = NewDev;
 				APP_VARIANT = development;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -844,7 +844,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3495E89E1DF1EE6E8685E677 /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Product;
+				APP_DISPLAY_NAME = NewProduct;
 				APP_VARIANT = production;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -881,7 +881,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Product;
+				APP_DISPLAY_NAME = NewProduct;
 				APP_VARIANT = production;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -950,7 +950,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7D5AFD89CC053CA61AE85D2 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */;
 			buildSettings = {
-				APP_DISPLAY_NAME = Staging;
+				APP_DISPLAY_NAME = NewStaging;
 				APP_VARIANT = staging;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -993,7 +993,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = Staging;
+				APP_DISPLAY_NAME = NewStaging;
 				APP_VARIANT = staging;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";

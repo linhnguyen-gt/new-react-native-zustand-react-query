@@ -183,6 +183,14 @@ pnpm android:prod
 pnpm ios:prod
 ```
 
+These scripts run `scripts/sync-native-env.cjs` before invoking Expo so generated Android/iOS display names follow `APP_NAME` in `.env*`.
+
+Sync native display names manually before building directly from Xcode or Android Studio after changing `APP_NAME`:
+
+```bash
+pnpm native:sync-env
+```
+
 Regenerate native folders:
 
 ```bash
