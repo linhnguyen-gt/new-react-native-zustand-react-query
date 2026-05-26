@@ -50,11 +50,11 @@ if (fs.existsSync(envPath)) {
         console.log('  ✅ Environment variables configured');
     } else {
         console.log('  ❌ Missing Expo Updates environment variables');
-        console.log('     Run: yarn env:setup\n');
+        console.log('     Run: pnpm env:setup\n');
     }
 } else {
     console.log('  ❌ .env file not found');
-    console.log('     Run: yarn env:setup\n');
+    console.log('     Run: pnpm env:setup\n');
 }
 
 console.log('\n═══════════════════════════════════════════════════════════\n');
@@ -63,14 +63,14 @@ console.log('\n═════════════════════�
 console.log('📝 Test Steps:\n');
 
 console.log('Step 1: Build a development client');
-console.log('  Command: yarn android:dev  # or yarn ios:dev');
+console.log('  Command: pnpm android  # or pnpm ios');
 console.log('  Note: This creates the native binary that will receive updates\n');
 
 console.log('Step 2: Make a small code change');
 console.log('  Example: Edit src/App.tsx and change some text\n');
 
 console.log('Step 3: Publish an update');
-console.log('  Command: yarn update:push');
+console.log('  Command: pnpm update:push');
 console.log('  Channel: development');
 console.log('  Message: "Test update 1"\n');
 
@@ -87,7 +87,7 @@ console.log('══════════════════════�
 
 console.log('🔧 Alternative: Quick Local Test\n');
 console.log('If you want to test without publishing:');
-console.log('  1. Run: yarn start --clear');
+console.log('  1. Run: pnpm clear:expo');
 console.log('  2. Open app on device');
 console.log('  3. Make code change');
 console.log('  4. Save file (hot reload)');

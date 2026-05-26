@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
-import Config from 'react-native-config';
 import { z } from 'zod';
 
 import { RootNavigator } from '@/data/services';
@@ -10,6 +9,7 @@ import { RootNavigator } from '@/data/services';
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { appConfig } from '@/shared/config/appConfig';
 import { Colors, RouteName } from '@/shared/constants';
 import { loginSchema } from '@/shared/validation/schemas';
 
@@ -73,7 +73,7 @@ const AppInfoBadge = React.memo(() => (
                 Flavor:
             </Text>
             <Text size="sm" color="#0f172a" marginLeft={6}>
-                {Config.APP_FLAVOR}
+                {appConfig.variant}
             </Text>
         </Box>
         <VStack space="xs" marginTop={8}>
@@ -82,7 +82,7 @@ const AppInfoBadge = React.memo(() => (
                     App Name:
                 </Text>
                 <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {Config.APP_NAME}
+                    {appConfig.appName}
                 </Text>
             </Box>
             <Box flexDirection="row" justifyContent="center">
@@ -90,7 +90,7 @@ const AppInfoBadge = React.memo(() => (
                     Version:
                 </Text>
                 <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {Config.VERSION_NAME}
+                    {appConfig.versionName}
                 </Text>
             </Box>
             <Box flexDirection="row" justifyContent="center">
@@ -98,7 +98,7 @@ const AppInfoBadge = React.memo(() => (
                     Build:
                 </Text>
                 <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {Config.VERSION_CODE}
+                    {appConfig.versionCode}
                 </Text>
             </Box>
         </VStack>

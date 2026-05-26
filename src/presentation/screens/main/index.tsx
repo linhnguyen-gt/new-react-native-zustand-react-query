@@ -1,6 +1,5 @@
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
-import Config from 'react-native-config';
 
 import { RootNavigator } from '@/data/services';
 
@@ -9,6 +8,7 @@ import { useResponse } from '@/presentation/hooks';
 import { Loading } from '@/presentation/components/loading';
 import { MyTouchable } from '@/presentation/components/touchable';
 import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { appConfig } from '@/shared/config/appConfig';
 import { RouteName } from '@/shared/constants';
 
 const ItemSeparator = () => <Box className="h-4" />;
@@ -115,7 +115,7 @@ const MainPage = () => {
                                         Environment
                                     </Text>
                                     <Text size="lg" className="mt-1 font-bold text-indigo-400">
-                                        {Config.APP_FLAVOR}
+                                        {appConfig.variant}
                                     </Text>
                                 </Box>
                             </Box>

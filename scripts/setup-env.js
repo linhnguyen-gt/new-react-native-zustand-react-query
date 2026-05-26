@@ -63,6 +63,7 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
 
     let envContent = envKey === 'development' ? '# development\n' : `# ${envKey}\n`;
 
+    envVars.APP_VARIANT = envKey;
     envVars.APP_FLAVOR = envDisplayName;
 
     if (vaultKey) {
@@ -192,7 +193,8 @@ const createEnvExample = (envVars) => {
 # Copy this file to .env, .env.staging, or .env.production and update the values
 
 # Environment
-APP_FLAVOR=development # (development|staging|production)
+APP_VARIANT=development # (development|staging|production)
+APP_FLAVOR=development # legacy alias
 
 # App Configuration
 APP_NAME=MyApp
@@ -219,6 +221,7 @@ ${Object.keys(envVars)
     .filter(
         (key) =>
             ![
+                'APP_VARIANT',
                 'APP_FLAVOR',
                 'VERSION_CODE',
                 'VERSION_NAME',

@@ -2,38 +2,43 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-project.ext.envConfigFiles = [
-    dev              : ".env",
-    staging          : ".env.staging",
-    production       : ".env.production",
-]
-
-apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
-
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
-project.ext.vectoricons = [
-        iconFontNames: ['AntDesign.ttf', 'Entypo.ttf', 'EvilIcons.ttf', 'Feather.ttf',
-                        'FontAwesome.ttf', '>FontAwesome5_Brands.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Solid.ttf', 'Foundation.ttf',
-                        'Ionicons.ttf', 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf', 'SimpleLineIcons.ttf', 'Octicons.ttf',
-                        'Zocial.ttf', 'Fontisto.ttf'] // Specify font files
-]
+// @generated begin environment support - android node wrapper
+def appVariantNames = ['development', 'staging', 'production']
+def resolveAppVariantFromGradleTasks = {
+    def taskNames = gradle.startParameter.taskNames.collect { it.toLowerCase() }
+    def taskVariant = appVariantNames.find { variantName ->
+        taskNames.any { taskName -> taskName.contains(variantName.toLowerCase()) }
+    }
+
+    return taskVariant ?: (findProperty('appVariant') ?: System.getenv('APP_VARIANT') ?: 'development').toString()
+}
+def appVariantNodeCommand = { List commandArgs ->
+    return ['node', file("${projectRoot}/scripts/node-with-app-variant.cjs").absolutePath, resolveAppVariantFromGradleTasks()] + commandArgs
+}
+// @generated end environment support - android node wrapper
 
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
  */
 react {
-    entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", projectRoot, "android", "absolute"].execute(null, rootDir).text.trim())
-    reactNativeDir = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
-    hermesCommand = new File(["node", "--print", "require.resolve('hermes-compiler/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/hermesc/%OS-BIN%/hermesc"
-    codegenDir = new File(["node", "--print", "require.resolve('@react-native/codegen/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
+    entryFile = file(appVariantNodeCommand(["-e", "require('expo/scripts/resolveAppEntry')", projectRoot, "android", "absolute"]).execute(null, rootDir).text.trim())
+    reactNativeDir = new File(appVariantNodeCommand(["--print", "require.resolve('react-native/package.json')"]).execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
+    hermesCommand = new File(appVariantNodeCommand(["--print", "require.resolve('hermes-compiler/package.json', { paths: [require.resolve('react-native/package.json')] })"]).execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/hermesc/%OS-BIN%/hermesc"
+    codegenDir = new File(appVariantNodeCommand(["--print", "require.resolve('@react-native/codegen/package.json', { paths: [require.resolve('react-native/package.json')] })"]).execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
 
     enableBundleCompression = (findProperty('android.enableBundleCompression') ?: false).toBoolean()
     // Use Expo CLI to bundle the app, this ensures the Metro config
     // works correctly with Expo projects.
-    cliFile = new File(["node", "--print", "require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })"].execute(null, rootDir).text.trim())
+    cliFile = new File(appVariantNodeCommand(["--print", "require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })"]).execute(null, rootDir).text.trim())
     bundleCommand = "export:embed"
+
+    // @generated begin environment support - react settings
+    debuggableVariants = ['developmentDebug', 'stagingDebug', 'productionDebug']
+    nodeExecutableAndArgs = ['node', file("${projectRoot}/scripts/node-with-app-variant.cjs").absolutePath, resolveAppVariantFromGradleTasks()]
+    // @generated end environment support - react settings
 
     /* Folders */
      //   The root of your project, i.e. where "package.json" lives. Default is '../..'
@@ -104,17 +109,56 @@ android {
 
     namespace 'com.newreactnativezustandrnq'
     defaultConfig {
-        // applicationId 'com.newreactnativezustandrnq'
+        applicationId 'com.newreactnativezustandrnq'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        
-        def rnReleaseLevel = (findProperty('reactNativeReleaseLevel') ?: 'stable')
-        buildConfigField 'String', 'REACT_NATIVE_RELEASE_LEVEL', '"' + rnReleaseLevel + '"'
+        versionCode 1
+        versionName "1.0.0"
 
-        versionCode project.env.get("VERSION_CODE").toInteger()
-        versionName project.env.get("VERSION_NAME")
-
+        buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
+    // @generated begin environment support - product flavors
+    flavorDimensions 'environment'
+    productFlavors {
+        development {
+            dimension 'environment'
+            isDefault = true
+            applicationId 'com.newreactnativezustandrnq.dev'
+            versionCode 1
+            versionName '1.0.0'
+            resValue 'string', 'app_name', 'Dev'
+            manifestPlaceholders = [
+                appVariant: 'development',
+                updateChannel: 'development'
+            ]
+        }
+
+        staging {
+            dimension 'environment'
+            applicationId 'com.newreactnativezustandrnq.stg'
+            versionCode 1
+            versionName '1.0.0'
+            resValue 'string', 'app_name', 'Staging'
+            manifestPlaceholders = [
+                appVariant: 'staging',
+                updateChannel: 'staging'
+            ]
+        }
+
+        production {
+            dimension 'environment'
+            applicationId 'com.newreactnativezustandrnq'
+            versionCode 2
+            versionName '1.0.0'
+            resValue 'string', 'app_name', 'Product'
+            manifestPlaceholders = [
+                appVariant: 'production',
+                updateChannel: 'production'
+            ]
+        }
+    }
+    // @generated end environment support - product flavors
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -137,34 +181,6 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             def enablePngCrunchInRelease = findProperty('android.enablePngCrunchInReleaseBuilds') ?: 'true'
             crunchPngs enablePngCrunchInRelease.toBoolean()
-        }
-    }
-    
-    flavorDimensions 'default'
-    productFlavors {
-        dev {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-        }
-        staging {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.stg'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-        }
-        production {
-            dimension 'default'
-            applicationId 'com.newreactnativezustandrnq.prod'
-            resValue 'string', 'build_config_package', 'com.newreactnativezustandrnq'
-        }
-    }
-    // Split APKs per ABI
-    splits {
-        abi {
-            reset()
-            enable true
-            universalApk true
-            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
     packagingOptions {
@@ -201,7 +217,6 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation project(':react-native-config')
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

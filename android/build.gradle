@@ -1,3 +1,27 @@
+
+// @generated begin environment support - root android node environment
+def appVariantNames = ['development', 'staging', 'production']
+def appVariantEnvFiles = ['development': '.env', 'staging': '.env.staging', 'production': '.env.production']
+def resolveAppVariantFromGradleTasks = {
+    def taskNames = gradle.startParameter.taskNames.collect { it.toLowerCase() }
+    def taskVariant = appVariantNames.find { variantName ->
+        taskNames.any { taskName -> taskName.contains(variantName.toLowerCase()) }
+    }
+
+    return taskVariant ?: (findProperty('appVariant') ?: System.getenv('APP_VARIANT') ?: 'development').toString()
+}
+subprojects { subproject ->
+    subproject.afterEvaluate {
+        subproject.tasks.matching { task -> task.name == 'createExpoConfig' }.configureEach { task ->
+            def appVariant = resolveAppVariantFromGradleTasks()
+            task.environment('APP_VARIANT', appVariant)
+            task.environment('APP_FLAVOR', appVariant)
+            task.environment('ENVFILE', appVariantEnvFiles[appVariant] ?: '.env')
+        }
+    }
+}
+// @generated end environment support - root android node environment
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {

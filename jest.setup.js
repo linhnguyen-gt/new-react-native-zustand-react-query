@@ -14,10 +14,12 @@ jest.mock('expo-constants', () => ({
     default: {
         expoConfig: {
             extra: {
-                API_URL: 'https://api.example.com',
-                APP_FLAVOR: 'development',
-                VERSION_NAME: '1.0.0',
-                VERSION_CODE: '1',
+                apiUrl: 'https://api.example.com',
+                appName: 'NewReactNativeZustandRNQ Dev',
+                appVariant: 'development',
+                updateChannel: 'development',
+                versionCode: '1',
+                versionName: '1.0.0',
             },
         },
     },

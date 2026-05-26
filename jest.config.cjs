@@ -1,5 +1,5 @@
 module.exports = {
-    preset: 'react-native',
+    preset: '@react-native/jest-preset',
     transform: {
         '^.+.(js|jsx|ts|tsx)$': 'babel-jest',
     },
@@ -14,7 +14,6 @@ module.exports = {
             '|react-native-css-interop' +
             '|react-redux' +
             '|@react-native-aria' +
-            '|react-native-config' +
             '|@react-native-async-storage' +
             '|reactotron-react-native' +
             '|reactotron-redux' +

@@ -32,6 +32,9 @@ function loadEnvFile(channel) {
     const envFile = ENV_FILES[channel];
     const envPath = path.resolve(__dirname, '..', envFile);
 
+    process.env.APP_VARIANT = channel;
+    process.env.ENVFILE = envFile;
+
     if (fs.existsSync(envPath)) {
         console.log(`📄 Loading environment from ${envFile}`);
         const envContent = fs.readFileSync(envPath, 'utf8');

@@ -1,10 +1,12 @@
 const Constants = {
     expoConfig: {
         extra: {
-            APP_FLAVOR: 'development',
-            VERSION_CODE: '1',
-            VERSION_NAME: '1.0.0',
-            API_BASE_URL: 'https://api.test.com',
+            apiUrl: 'https://api.test.com',
+            appName: 'NewReactNativeZustandRNQ Dev',
+            appVariant: 'development',
+            updateChannel: 'development',
+            versionCode: '1',
+            versionName: '1.0.0',
         },
         version: '1.0.0',
         ios: {

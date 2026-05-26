@@ -13,22 +13,24 @@ def ccache_enabled?(podfile_properties)
 end
 
 ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] ||= podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
-ENV['RCT_USE_RN_DEP'] ||= '1' if podfile_properties['ios.buildReactNativeFromSource'] != 'true'
-ENV['RCT_USE_PREBUILT_RNCORE'] ||= '1' if podfile_properties['ios.buildReactNativeFromSource'] != 'true'
+ENV['RCT_USE_RN_DEP'] ||= podfile_properties['ios.buildReactNativeFromSource'] == 'true' ? '0' : '1'
+ENV['RCT_USE_PREBUILT_RNCORE'] ||= podfile_properties['ios.buildReactNativeFromSource'] == 'true' ? '0' : '1'
 ENV['RCT_HERMES_V1_ENABLED'] ||= '1' if podfile_properties['expo.useHermesV1'] == 'true'
-platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
+ENV['EXPO_USE_PRECOMPILED_MODULES'] ||= '1' if podfile_properties['EXPO_USE_PRECOMPILED_MODULES'] != 'false'
+platform :ios, podfile_properties['ios.deploymentTarget'] || '16.4'
+
+# @generated begin environment support - podfile project mappings
+project 'NewReactNativeZustandRNQ', {
+  'Debug' => :debug,
+  'Release' => :release,
+  'Staging.Debug' => :debug,
+  'Staging.Release' => :release,
+  'Production.Debug' => :debug,
+  'Production.Release' => :release,
+}
+# @generated end environment support - podfile project mappings
 
 prepare_react_native_project!
-
-# configuration name environment
-project 'NewReactNativeZustandRNQ',{
-        'Debug' => :debug,
-        'Release' => :release,
-        'Staging.Debug' => :debug,
-        'Staging.Release' => :release,
-        'Product.Debug' => :debug,
-        'Product.Release' => :release,
-}
 
 target 'NewReactNativeZustandRNQ' do
   use_expo_modules!
@@ -62,15 +64,6 @@ target 'NewReactNativeZustandRNQ' do
     :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
   )
 
-  ENVFILES = {
-    'Debug' => '$(PODS_ROOT)/../../.env', 
-    'Release' => '$(PODS_ROOT)/../../.env',
-    'Staging.Debug' => '$(PODS_ROOT)/../../.env.staging',
-    'Staging.Release' => '$(PODS_ROOT)/../../.env.staging',
-    'Product.Debug' => '$(PODS_ROOT)/../../.env.production',
-    'Product.Release' => '$(PODS_ROOT)/../../.env.production',
-  }
-
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -78,12 +71,5 @@ target 'NewReactNativeZustandRNQ' do
       :mac_catalyst_enabled => false,
       :ccache_enabled => ccache_enabled?(podfile_properties),
     )
-    installer.pods_project.targets.each do |target|
-      target.build_configurations.each do |config|
-        if target.name == 'react-native-config'
-          config.build_settings['ENVFILE'] = ENVFILES[config.name]
-        end
-      end
-    end
   end
 end

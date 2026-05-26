@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+        "types": [
+            "jest"
+        ],
         "target": "esnext",
         "module": "esnext",
         "lib": [
@@ -9,6 +12,7 @@
         "jsx": "react-native",
         "noEmit": true,
         "isolatedModules": true,
+        "ignoreDeprecations": "6.0",
         "resolveJsonModule": true,
         "strict": true,
         "useUnknownInCatchVariables": false,
@@ -49,7 +53,6 @@
         "tailwind.config.cjs",
         "nativewind-env.d.ts",
         "global.css.d.ts",
-        "react-native-config.d.ts",
         "gesture-handler.native.js",
         "jest.setup.js",
         "app.config.ts",

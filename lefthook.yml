@@ -3,15 +3,15 @@ pre-commit:
     commands:
         versions:
             glob: 'package.json'
-            run: yarn update-versions && git add README.md
+            run: pnpm update-versions && git add README.md
         lint-staged:
             glob: '*.{js,ts,jsx,tsx}'
-            run: yarn lint-staged
+            run: pnpm exec lint-staged
         test:
             glob: 'src/**/*.{js,ts,jsx,tsx}'
-            run: yarn test --passWithNoTests
+            run: pnpm test --passWithNoTests
 
 commit-msg:
     commands:
         commitlint:
-            run: yarn commitlint --edit .git/COMMIT_EDITMSG
+            run: pnpm exec commitlint --edit .git/COMMIT_EDITMSG
