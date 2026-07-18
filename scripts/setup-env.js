@@ -31,7 +31,7 @@ const runCommand = (command) => {
     try {
         execSync(command, { stdio: 'inherit' });
         return true;
-    } catch (error) {
+    } catch {
         console.error(`Failed to execute ${command}`);
         return false;
     }
@@ -56,7 +56,7 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
                     return envVars;
                 }
             }
-        } catch (error) {}
+        } catch {}
     }
 
     console.log(`\n📝 Setting up ${envDisplayName} environment in ${envFileName}...`);

@@ -131,3 +131,6 @@ plans/
 
 .shared/
 .opencode/
+
+# CodeGraph local index
+.codegraph/
