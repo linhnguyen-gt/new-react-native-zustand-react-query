@@ -1,5 +1,7 @@
 import { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
 
+import { AuthError, TokenExpiredError } from '@/shared/errors';
+
 import { ITokenService } from '../interfaces/IHttpClient';
 
 interface ErrorResponseData {
@@ -22,32 +24,31 @@ export class RequestInterceptor {
                     await this.tokenService.refreshToken();
                     return this.axiosInstance.request(error.config!);
                 } catch {
-                    return Promise.reject({
-                        message: 'Session expired, please login again',
-                        status: HttpStatusCode.Unauthorized,
-                        code: 'TOKEN_EXPIRED',
-                    });
+                    return Promise.reject(
+                        new TokenExpiredError('Session expired, please login again', {
+                            endpoint: error.config?.url,
+                            method: error.config?.method?.toUpperCase(),
+                        })
+                    );
                 }
             }
 
             if (this.isUserNotFoundError(error)) {
                 await this.tokenService.logout();
-                return Promise.reject({
-                    message: 'Account not found, please login again',
-                    status: HttpStatusCode.BadRequest,
-                    code: 'USER_NOT_FOUND',
-                });
+                return Promise.reject(
+                    new AuthError('Account not found, please login again', {
+                        endpoint: error.config?.url,
+                        method: error.config?.method?.toUpperCase(),
+                    })
+                );
             }
 
-            if (error.response?.data) {
-                const errorData = error.response.data as ErrorResponseData;
-                return Promise.reject({
-                    ...error,
-                    message: errorData.message,
-                    status: error.response.status,
-                });
-            }
-
+            // Reject the original AxiosError rather than a spread copy. A spread drops
+            // the prototype, so downstream `instanceof AxiosError` checks fail and the
+            // error degrades to the String(error) fallback ("[object Object]").
+            // The server message is read off error.response.data downstream by
+            // extractErrorMessage, so error.message is left intact as the carrier of
+            // the transport-level status text.
             return Promise.reject(error);
         });
     }

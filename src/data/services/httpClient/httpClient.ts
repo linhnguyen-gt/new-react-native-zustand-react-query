@@ -98,7 +98,7 @@ export class HttpClient implements IHttpClient {
         }
     }
 
-    async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T> | undefined> {
+    async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T>> {
         try {
             this.validateRequest(config);
 
@@ -119,8 +119,10 @@ export class HttpClient implements IHttpClient {
                 headers: response.headers,
             };
         } catch (e) {
-            this.errorHandler.handleError(e);
-            return;
+            // handleError classifies and throws (Promise<never>). Awaiting it
+            // propagates the typed AppError; dropping the promise here would both
+            // swallow the error and leave an unhandled rejection.
+            return await this.errorHandler.handleError(e);
         }
     }
 

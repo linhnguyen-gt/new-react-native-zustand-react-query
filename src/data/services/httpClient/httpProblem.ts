@@ -63,5 +63,7 @@ declare global {
         data: D | unknown;
         status?: S;
     };
-    type BaseResponse<D extends Data> = SuccessfulResponse<D> | ErrorResponse<D> | undefined;
+    // No `| undefined`: a failed request throws rather than resolving to nothing,
+    // so an API function either returns a response or rejects.
+    type BaseResponse<D extends Data> = SuccessfulResponse<D> | ErrorResponse<D>;
 }

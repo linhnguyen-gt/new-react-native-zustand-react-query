@@ -7,10 +7,6 @@ export const responseApi = {
             method: ApiMethod.GET,
         });
 
-        if (!response?.ok) {
-            return;
-        }
-
         return { ok: response.ok, data: response.data };
     },
 
@@ -19,10 +15,6 @@ export const responseApi = {
             endpoint: `posts/${id}`,
             method: ApiMethod.GET,
         });
-
-        if (!response?.ok) {
-            return;
-        }
 
         return { ok: response.ok, data: response.data };
     },

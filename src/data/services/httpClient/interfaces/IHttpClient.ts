@@ -28,7 +28,7 @@ type NonPostHttpRequestConfig = BaseHttpRequestConfig & {
 export type HttpRequestConfig = PostHttpRequestConfig | NonPostHttpRequestConfig;
 
 export interface IHttpClient {
-    request<T>(config: HttpRequestConfig): Promise<HttpResponse<T> | undefined>;
+    request<T>(config: HttpRequestConfig): Promise<HttpResponse<T>>;
     clearSession(): void;
     setAccessToken(accessToken: string): void;
 }

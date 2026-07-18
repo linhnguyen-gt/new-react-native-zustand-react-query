@@ -15,7 +15,7 @@
         "ignoreDeprecations": "6.0",
         "resolveJsonModule": true,
         "strict": true,
-        "useUnknownInCatchVariables": false,
+        "useUnknownInCatchVariables": true,
         "moduleResolution": "bundler",
         "moduleDetection": "force",
         "allowSyntheticDefaultImports": true,

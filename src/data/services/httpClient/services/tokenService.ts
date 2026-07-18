@@ -60,7 +60,7 @@ export class TokenService implements ITokenService {
                 method: ApiMethod.GET,
             });
 
-            if (!response?.ok) {
+            if (!response.ok) {
                 await this.logout();
                 return false;
             }
@@ -74,7 +74,17 @@ export class TokenService implements ITokenService {
             return true;
         } catch (e) {
             Logger.error('TokenService', 'Error refreshing token', e);
-            await this.clearSession();
+            // logout(), not clearSession(): clearSession delegates to
+            // setToken({ refreshToken: null }), which is a no-op because setToken
+            // early-returns on a falsy token. Only logout() reaches clearToken().
+            //
+            // A failed request used to resolve undefined and fall into the !ok branch
+            // below, so every failure cleared the token. Now that request() throws,
+            // that path arrives here instead, and this preserves the behaviour
+            // exactly. It clears on transient network failures too, which is wrong —
+            // narrowing it to server-rejected credentials (401/403) belongs with the
+            // rest of the refresh work, not here.
+            await this.logout();
             return false;
         }
     }
