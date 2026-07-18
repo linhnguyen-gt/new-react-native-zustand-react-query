@@ -8,12 +8,28 @@ interface Props {
     children: ReactNode;
     fallback?: ReactNode;
     onError?: (error: Error, errorInfo: ErrorInfo) => void;
+    /**
+     * Values that identify the content being rendered. When any of them changes the
+     * boundary clears its error state.
+     *
+     * Without this, "Try Again" only re-rendered the identical subtree, so a
+     * deterministic error (a bad prop, bad cached data) re-threw immediately and the
+     * user was left tapping a button that could never succeed. Pass something that
+     * actually changes — a route key, a query key — so retrying can differ.
+     */
+    resetKeys?: readonly unknown[];
 }
 
 interface State {
     hasError: boolean;
     error?: Error;
 }
+
+const haveResetKeysChanged = (previous?: readonly unknown[], next?: readonly unknown[]): boolean => {
+    if (!previous || !next) return false;
+    if (previous.length !== next.length) return true;
+    return previous.some((value, index) => !Object.is(value, next[index]));
+};
 
 class ErrorBoundary extends Component<Props, State> {
     constructor(props: Props) {
@@ -23,6 +39,12 @@ class ErrorBoundary extends Component<Props, State> {
 
     static getDerivedStateFromError(error: Error): State {
         return { hasError: true, error };
+    }
+
+    componentDidUpdate(previousProps: Props) {
+        if (this.state.hasError && haveResetKeysChanged(previousProps.resetKeys, this.props.resetKeys)) {
+            this.setState({ hasError: false, error: undefined });
+        }
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -41,6 +63,9 @@ class ErrorBoundary extends Component<Props, State> {
     }
 
     private handleRetry = () => {
+        // Clears the error so the subtree remounts. If the underlying cause is
+        // deterministic this will re-throw — pass `resetKeys` so a retry can actually
+        // render something different.
         this.setState({ hasError: false, error: undefined });
     };
 

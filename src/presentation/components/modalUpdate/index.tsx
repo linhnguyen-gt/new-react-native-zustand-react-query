@@ -69,7 +69,20 @@ const ModalUpdate: React.FC<ModalUpdateProps> = ({ showNonCritical = false, onCh
 
     const isMounted = useRef(true);
 
+    // Held in a ref so checkAndFetchUpdate does not depend on it. The prop is
+    // documented for callers, but a caller passing an inline arrow made the callback
+    // a new identity every render, which changed checkAndFetchUpdate, which re-ran the
+    // effect below that calls it — an unbounded loop of update checks.
+    const onCheckCompleteRef = useRef(onCheckComplete);
     useEffect(() => {
+        onCheckCompleteRef.current = onCheckComplete;
+    }, [onCheckComplete]);
+
+    useEffect(() => {
+        // Re-armed on mount, not only cleared on unmount. Setting it false in cleanup
+        // alone meant that after any remount every guard below short-circuited and the
+        // modal stuck on "Checking for Updates" forever.
+        isMounted.current = true;
         return () => {
             isMounted.current = false;
         };
@@ -100,7 +113,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = ({ showNonCritical = false, onCh
                 }
             }
 
-            onCheckComplete?.(result.isAvailable);
+            onCheckCompleteRef.current?.(result.isAvailable);
         } catch (err) {
             if (!isMounted.current) return;
 
@@ -123,7 +136,7 @@ const ModalUpdate: React.FC<ModalUpdateProps> = ({ showNonCritical = false, onCh
                 setIsChecking(false);
             }
         }
-    }, [onCheckComplete]);
+    }, []);
 
     const handleRestart = useCallback(async () => {
         try {

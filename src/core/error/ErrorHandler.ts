@@ -56,7 +56,20 @@ export class UnifiedErrorHandler {
     static getInstance(config?: ErrorHandlerConfig): UnifiedErrorHandler {
         if (!UnifiedErrorHandler.instance) {
             UnifiedErrorHandler.instance = new UnifiedErrorHandler(config);
+            return UnifiedErrorHandler.instance;
         }
+
+        // The module-level getInstance() call at the bottom of this file constructs the
+        // instance before any caller can configure it, so a later getInstance({...})
+        // used to drop its config without a word — onAuthError never wired, Sentry
+        // never enabled. Warn and point at the method that does work.
+        if (config) {
+            Logger.warn(
+                'ErrorHandler',
+                'getInstance() called with config after the instance already exists; config ignored. Use updateConfig() instead.'
+            );
+        }
+
         return UnifiedErrorHandler.instance;
     }
 
@@ -88,8 +101,13 @@ export class UnifiedErrorHandler {
      * Categorize error into specific AppError type
      */
     private categorizeError(error: unknown, context?: Partial<ErrorContext>): AppError {
-        // Already an AppError
+        // Already an AppError. Merge the caller's context instead of discarding it —
+        // httpClient passes { endpoint, method }, which would otherwise never reach an
+        // error the interceptor had already typed.
         if (error instanceof AppError) {
+            if (context) {
+                Object.assign(error.context, { ...context, ...error.context });
+            }
             return error;
         }
 
@@ -142,27 +160,30 @@ export class UnifiedErrorHandler {
 
         // Detect error type from message or name
         if (error.name === 'ValidationError' || message.includes('validation')) {
-            return new ValidationError(message, {}, context);
+            return new ValidationError(message, {}, { ...context, originalError: error });
         }
 
         if (error.name === 'SchemaValidationError' || message.includes('schema')) {
-            return new SchemaValidationError(message, [], context);
+            return new SchemaValidationError(message, [], { ...context, originalError: error });
         }
 
         if (error.name === 'StorageError' || message.includes('storage')) {
-            return new StorageError(message, context);
+            return new StorageError(message, { ...context, originalError: error });
         }
 
         if (error.name === 'EncryptionError' || message.includes('encryption')) {
-            return new EncryptionError(message, context);
+            return new EncryptionError(message, { ...context, originalError: error });
+        }
+
+        // Specific before generic: 'auth token expired' contains both 'auth' and
+        // 'token expired'. With the generic test first it became an AuthError, which
+        // leaves shouldLogout unset, instead of a TokenExpiredError, which sets it.
+        if (error.name === 'TokenExpiredError' || message.includes('token expired')) {
+            return new TokenExpiredError(message, { ...context, originalError: error });
         }
 
         if (error.name === 'AuthError' || message.includes('auth')) {
-            return new AuthError(message, context);
-        }
-
-        if (error.name === 'TokenExpiredError' || message.includes('token expired')) {
-            return new TokenExpiredError(message, context);
+            return new AuthError(message, { ...context, originalError: error });
         }
 
         // Generic error
@@ -197,12 +218,8 @@ export class UnifiedErrorHandler {
         }
 
         // Call specific handlers
-        if (error instanceof AuthError || error instanceof TokenExpiredError) {
-            if (error instanceof TokenExpiredError && this.config.onAuthError) {
-                this.config.onAuthError(error);
-            } else if (error instanceof AuthError && this.config.onAuthError) {
-                this.config.onAuthError(error);
-            }
+        if ((error instanceof AuthError || error instanceof TokenExpiredError) && this.config.onAuthError) {
+            this.config.onAuthError(error);
         }
 
         if (error instanceof NetworkError || error instanceof TimeoutError) {
