@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
 
 import { RouteName } from '@/shared/constants';
+import { Logger } from '@/shared/helper';
 import { signUpSchema, type SignUpFormData } from '@/shared/validation/schemas';
 
 export interface UseSignUpFormReturn {
@@ -31,16 +32,17 @@ export const useSignUpForm = (): UseSignUpFormReturn => {
     });
 
     const onSubmit = React.useCallback(
-        async (data: SignUpFormData) => {
+        // `_data` is unused until the real signup API call replaces the TODO below.
+        // It must never be logged: it carries password and confirmPassword.
+        async (_data: SignUpFormData) => {
             if (!formState.isValid || isSubmitting) return;
 
             Keyboard.dismiss();
             setIsSubmitting(true);
 
             try {
-                // TODO: Replace with actual API call
-                // For now, just log to warn (allowed by ESLint)
-                console.warn('Sign up data (simulated):', data);
+                // TODO: Replace with actual API call.
+                // Do not log `data` here — it carries password and confirmPassword.
 
                 // Simulate API call delay
                 await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -51,7 +53,7 @@ export const useSignUpForm = (): UseSignUpFormReturn => {
                     routes: [{ name: RouteName.Main as never }],
                 });
             } catch (error) {
-                console.error('Sign up error:', error);
+                Logger.error('SignUpForm', 'Sign up failed', error);
                 // TODO: Handle error (show toast, etc.)
             } finally {
                 setIsSubmitting(false);

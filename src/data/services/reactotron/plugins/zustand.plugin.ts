@@ -1,11 +1,13 @@
 import { StateCreator } from 'zustand';
 
+import { Logger } from '@/shared/helper';
+
 import { ReactotronCore } from '../reactotron.core';
 
 export const zustandPlugin = (core: ReactotronCore) => ({
     enhancer: <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> => {
         if (!config || typeof config !== 'function') {
-            console.warn('Zustand config is invalid, returning as-is');
+            Logger.warn('ReactotronZustand', 'Zustand config is invalid, returning as-is');
             return config;
         }
         return (set, get, store): T => {

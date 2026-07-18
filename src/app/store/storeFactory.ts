@@ -1,6 +1,7 @@
 import { StateCreator, create } from 'zustand';
 
 import { reactotron } from '@/data/services';
+import { Logger } from '@/shared/helper';
 
 const storeResetFns = new Set<() => void>();
 
@@ -9,7 +10,7 @@ const getEnhancer = <T extends object>(storeName: string, config: StateCreator<T
         try {
             return reactotron.zustand.enhancer(storeName, config);
         } catch (error) {
-            console.warn('Reactotron zustand enhancer failed, using default:', error);
+            Logger.warn('StoreFactory', 'Reactotron zustand enhancer failed, using default', error);
         }
     }
     return config;
