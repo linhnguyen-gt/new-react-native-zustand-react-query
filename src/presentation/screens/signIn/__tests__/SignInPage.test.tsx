@@ -23,11 +23,6 @@ jest.mock('@/data/services', () => ({
         isStaging: () => false,
         isProduction: () => false,
     },
-    reactotron: {
-        zustand: {
-            enhancer: jest.fn((name, creator) => creator),
-        },
-    },
 }));
 
 const mockLoginSchema = z.object({

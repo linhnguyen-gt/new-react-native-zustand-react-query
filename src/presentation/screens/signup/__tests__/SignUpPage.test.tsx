@@ -23,11 +23,6 @@ jest.mock('@/data/services', () => ({
         replaceName: jest.fn(),
         goBack: jest.fn(),
     },
-    reactotron: {
-        zustand: {
-            enhancer: jest.fn((name, creator) => creator),
-        },
-    },
 }));
 
 const mockSignUpSchema = z

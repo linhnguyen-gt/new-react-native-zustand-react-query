@@ -30,20 +30,29 @@ export class ReactotronCore {
     private tron: typeof Reactotron;
 
     private constructor() {
-        this.tron = Reactotron.setAsyncStorageHandler(AsyncStorage)
-            .configure({
-                name: appName,
-            })
-            .useReactNative({
-                networking: true,
-                asyncStorage: true,
-                editor: true,
-                overlay: true,
-                errors: true,
-            })
-            .connect();
+        this.tron = Reactotron.setAsyncStorageHandler(AsyncStorage).configure({
+            name: appName,
+        });
 
+        // `networking: true` monkey-patches global XHR and forwards every request and
+        // response — including the Authorization: Bearer header — to .connect(), an
+        // unauthenticated cleartext socket on port 9090. In a release build that host
+        // resolves to loopback, so any other process on a rooted or jailbroken device
+        // that binds 9090 receives the full authenticated traffic stream.
+        //
+        // Callers should already be requiring this module only under __DEV__; this
+        // guard is the second line of defence, so an accidental import cannot connect.
         if (__DEV__) {
+            this.tron = this.tron
+                .useReactNative({
+                    networking: true,
+                    asyncStorage: true,
+                    editor: true,
+                    overlay: true,
+                    errors: true,
+                })
+                .connect();
+
             this.tron.clear!();
         }
     }

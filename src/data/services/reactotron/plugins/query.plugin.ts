@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 
 import { ReactotronCore } from '../reactotron.core';
 
@@ -23,18 +23,13 @@ interface MutationDetails {
     timestamp: string;
 }
 
-export const queryPlugin = (core: ReactotronCore) => {
-    const client = new QueryClient({
-        defaultOptions: {
-            queries: {
-                staleTime: 5 * 60 * 1000, // 5 minutes
-                gcTime: 10 * 60 * 1000, // 10 minutes (garbage collection time)
-                retry: 2, // Number of retries
-                refetchOnWindowFocus: false, // Disable refetch on window focus
-            },
-        },
-    });
-
+/**
+ * Observes the application's QueryClient and mirrors cache activity into Reactotron.
+ *
+ * The client is passed in rather than created here: production query behaviour must
+ * not be owned by a debug tool. See app/providers/queryClient.ts.
+ */
+export const queryPlugin = (core: ReactotronCore, client: QueryClient) => {
     if (__DEV__) {
         client.getQueryCache().subscribe(({ type, query }) => {
             const queryName = Array.isArray(query.queryKey)
