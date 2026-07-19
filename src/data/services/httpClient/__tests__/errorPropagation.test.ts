@@ -45,6 +45,62 @@ const makeFailingClient = (status: number, data: unknown): AxiosInstance => {
     return instance;
 };
 
+/**
+ * Builds an axios instance whose adapter fails with NO response at all — the shape
+ * axios produces when the request never reached a server.
+ *
+ * @param code axios error code; `ECONNABORTED` is what a timeout looks like.
+ */
+const makeUnreachableClient = (code?: string): AxiosInstance => {
+    const instance = axios.create({ baseURL: 'https://example.test' });
+
+    instance.defaults.adapter = async (config) => {
+        // No response argument: that absence is exactly what handleAxiosError keys on.
+        throw new AxiosError('Network Error', code, config as never, {});
+    };
+
+    new RequestInterceptor(instance, tokenServiceStub).setupInterceptors();
+    return instance;
+};
+
+describe('offline classification', () => {
+    /**
+     * A request that never reached a server did not produce a 500.
+     *
+     * There used to be a second axios mapper (`extractErrorData`) that defaulted a
+     * missing status to 500 and returned an HttpError, so the same offline failure
+     * classified as NETWORK_ERROR on one path and SERVER_ERROR on the other. That
+     * mapper was deleted as unreferenced, leaving one. This pins the surviving
+     * behaviour through the real interceptor chain so a future mapper cannot
+     * quietly reintroduce the synthetic 500.
+     */
+    it('classifies an unreachable server as NETWORK_ERROR, not a synthetic 500', async () => {
+        const client = makeUnreachableClient();
+
+        const rejection = await client.get('/posts').then(
+            () => null,
+            (e: unknown) => e
+        );
+        const appError = errorHandler.handle(rejection);
+
+        expect(appError.code).toBe(ErrorCode.NETWORK_ERROR);
+        expect(appError.code).not.toBe(ErrorCode.SERVER_ERROR);
+        expect(appError.context?.statusCode).not.toBe(500);
+    });
+
+    it('classifies an aborted connection as TIMEOUT_ERROR', async () => {
+        const client = makeUnreachableClient('ECONNABORTED');
+
+        const rejection = await client.get('/posts').then(
+            () => null,
+            (e: unknown) => e
+        );
+        const appError = errorHandler.handle(rejection);
+
+        expect(appError.code).toBe(ErrorCode.TIMEOUT_ERROR);
+    });
+});
+
 describe('HttpClient.request failure contract', () => {
     it('rejects instead of resolving undefined', async () => {
         const failing = makeFailingClient(500, { message: 'Server exploded' });

@@ -2,6 +2,8 @@ import { HttpStatusCode } from 'axios';
 
 import { ReactotronCore } from '../reactotron.core';
 
+import { formatError } from './format-error';
+
 export const apiPlugin = (core: ReactotronCore) => ({
     logRequest: (method: string, url: string, data?: object | null, headers?: object) => {
         core.log({
@@ -83,18 +85,4 @@ function getStatusText(status: number): string {
     };
 
     return statusTexts[status] || 'Unknown';
-}
-
-function formatError(error: any): any {
-    if (!error) return 'Unknown error';
-
-    if (error instanceof Error) {
-        return {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-        };
-    }
-
-    return error;
 }

@@ -2,6 +2,8 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import { ReactotronCore } from '../reactotron.core';
 
+import { formatError } from './format-error';
+
 // Define a proper interface for our details object
 interface QueryDetails {
     queryKey: any;
@@ -171,17 +173,3 @@ export const queryPlugin = (core: ReactotronCore, client: QueryClient) => {
 
     return { client };
 };
-
-function formatError(error: unknown): any {
-    if (!error) return 'Unknown error';
-
-    if (error instanceof Error) {
-        return {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-        };
-    }
-
-    return error;
-}

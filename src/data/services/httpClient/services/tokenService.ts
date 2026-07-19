@@ -60,11 +60,6 @@ export class TokenService implements ITokenService {
                 method: ApiMethod.GET,
             });
 
-            if (!response.ok) {
-                await this.logout();
-                return false;
-            }
-
             const data = response.data?.data;
 
             await this.setSession({
@@ -78,12 +73,14 @@ export class TokenService implements ITokenService {
             // setToken({ refreshToken: null }), which is a no-op because setToken
             // early-returns on a falsy token. Only logout() reaches clearToken().
             //
-            // A failed request used to resolve undefined and fall into the !ok branch
-            // below, so every failure cleared the token. Now that request() throws,
-            // that path arrives here instead, and this preserves the behaviour
-            // exactly. It clears on transient network failures too, which is wrong —
-            // narrowing it to server-rejected credentials (401/403) belongs with the
-            // rest of the refresh work, not here.
+            // A failed request used to resolve undefined and fall into an `if
+            // (!response.ok)` branch above, so every failure cleared the token. That
+            // branch is now gone: `request()` throws, so `HttpResponse` no longer
+            // carries an `ok` flag it could never set to false. Failures arrive here
+            // instead, and this preserves the old behaviour exactly. It still clears
+            // on transient network failures too, which is wrong — narrowing it to
+            // server-rejected credentials (401/403) belongs with the rest of the
+            // refresh work, not here.
             await this.logout();
             return false;
         }

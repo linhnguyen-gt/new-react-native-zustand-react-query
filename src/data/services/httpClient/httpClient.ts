@@ -113,7 +113,6 @@ export class HttpClient implements IHttpClient {
             });
 
             return {
-                ok: true,
                 data: response.data,
                 status: response.status,
                 headers: response.headers,

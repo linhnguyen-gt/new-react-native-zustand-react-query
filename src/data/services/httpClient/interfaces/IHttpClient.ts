@@ -41,16 +41,28 @@ export interface ITokenService {
     logout(): Promise<void>;
 }
 
+/**
+ * A response that was actually received.
+ *
+ * There is deliberately no `ok` flag and no `error` field. `HttpClient.request`
+ * either returns this shape or throws a typed `AppError` — the catch delegates to
+ * `errorHandler.handleError`, which is `Promise<never>`. So a value of this type is
+ * already proof the request succeeded.
+ *
+ * The previous shape carried `ok: boolean` and `error?: HttpError`, neither of which
+ * any code path could ever populate. That is worse than merely redundant: it let a
+ * caller write `if (!res.ok) { handle(res.error) }` and get a clean typecheck, a
+ * clean build, and a branch that never runs, because the throw bypasses it. The
+ * `HttpError` interface those fields referenced also collided with the `HttpError`
+ * *class* in `shared/errors/AppError.ts`, which names the same field `statusCode`
+ * rather than `status` — so reading `res.error.status` returned `undefined` and
+ * still typechecked.
+ *
+ * If a caller needs failures as values rather than exceptions, add a `Result` wrapper
+ * around `request` deliberately. Do not reinstate a flag nothing sets.
+ */
 export interface HttpResponse<T> {
-    ok: boolean;
     data?: T;
-    error?: HttpError;
     status: number;
     headers?: Record<string, any>;
-}
-
-export interface HttpError {
-    message: string;
-    code?: string;
-    status?: number;
 }
