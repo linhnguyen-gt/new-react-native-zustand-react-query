@@ -6,16 +6,13 @@ import path from 'path';
 // The one parser shared by every build script, so this gate reads a file exactly the
 // way app.config.ts and push-update.cjs do.
 import { parseEnv } from './lib/parse-env-file.cjs';
+// Same table run-native.cjs, sync-native-env.cjs and app.config.ts read, so this gate
+// cannot come to disagree with them about which file a variant uses.
+import { DEFAULT_VARIANT, VARIANT_ENV_FILES } from './lib/variant-config.cjs';
 
 console.log('🔍 Checking environment configuration...');
 
-const VARIANT_ENV_FILES = {
-    development: '.env',
-    staging: '.env.staging',
-    production: '.env.production',
-};
-
-const requestedVariant = process.env.APP_VARIANT || 'development';
+const requestedVariant = process.env.APP_VARIANT || DEFAULT_VARIANT;
 if (!Object.hasOwn(VARIANT_ENV_FILES, requestedVariant)) {
     console.error(`❌ Unsupported APP_VARIANT: ${requestedVariant}`);
     console.error('Use one of: development, staging, production.');

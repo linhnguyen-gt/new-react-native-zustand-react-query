@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { writeFileAtomic } = require('../scripts/lib/write-file-atomic.cjs');
 const path = require('path');
 const xcode = require('xcode');
 const {
@@ -431,7 +432,7 @@ function withIosEnvironmentSchemes(config) {
 
             for (const variant of explicitVariants) {
                 const schemePath = path.join(schemesDir, `${variant.scheme}.xcscheme`);
-                fs.writeFileSync(schemePath, createSchemeXml({ projectName, target, variant }), 'utf8');
+                writeFileAtomic(schemePath, createSchemeXml({ projectName, target, variant }));
             }
 
             updatePodfileProjectMappings(iosRoot, projectName, explicitVariants);
@@ -556,7 +557,7 @@ ${marker.end}
         file: 'ios/Podfile',
         description: 'ios per-variant pod configurations',
     });
-    fs.writeFileSync(podfilePath, contents, 'utf8');
+    writeFileAtomic(podfilePath, contents);
 }
 
 function withEnvironmentSupport(config) {

@@ -11,17 +11,14 @@ const path = require('path');
 const readline = require('readline');
 
 const { parseEnvFile } = require('./lib/parse-env-file.cjs');
+// The shared variant table, so this cannot come to disagree with check-env.js or
+// app.config.ts about which file a channel reads.
+const { VARIANT_ENV_FILES: ENV_FILES } = require('./lib/variant-config.cjs');
 
 const CHANNELS = {
     d: 'development',
     s: 'staging',
     p: 'production',
-};
-
-const ENV_FILES = {
-    development: '.env',
-    staging: '.env.staging',
-    production: '.env.production',
 };
 
 const PLATFORMS = {
