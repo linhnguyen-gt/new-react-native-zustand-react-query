@@ -129,31 +129,3 @@ export const getTokenMetadata = async (): Promise<{ createdAt?: number; expiresA
         return null;
     }
 };
-
-export const secureStore = async (key: string, value: string): Promise<void> => {
-    try {
-        await SecureStorageService.setItem(key, value);
-    } catch {
-        throw new Error('Failed to store data securely');
-    }
-};
-
-export const secureRetrieve = async (key: string): Promise<string | null> => {
-    try {
-        return await SecureStorageService.getItem(key);
-    } catch {
-        return null;
-    }
-};
-
-export const secureRemove = async (key: string): Promise<void> => {
-    try {
-        await SecureStorageService.removeItem(key);
-    } catch {
-        /* empty */
-    }
-};
-
-export const isSecureStorageAvailable = async (): Promise<boolean> => {
-    return await SecureStorageService.isSecureStoreAvailable();
-};
