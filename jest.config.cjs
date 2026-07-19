@@ -10,22 +10,13 @@ module.exports = {
             '|@react-native' +
             '|@react-navigation' +
             '|react-native-vector-icons' +
-            '|@gluestack-ui' +
             '|react-native-css-interop' +
             '|react-redux' +
-            '|@react-native-aria' +
             '|@react-native-async-storage' +
             '|reactotron-react-native' +
             '|reactotron-redux' +
             '|reactotron-redux-saga' +
             '|reactotron-core-client' +
-            '|@gluestack-ui/overlay' +
-            '|@gluestack-ui/button' +
-            '|@gluestack-ui/toast' +
-            '|@gluestack-ui/image' +
-            '|@gluestack-ui/icon' +
-            '|@gluestack-ui/nativewind-utils' +
-            '|@legendapp/motion' +
             '|nativewind' +
             '|expo-constants' +
             '|expo-secure-store' +

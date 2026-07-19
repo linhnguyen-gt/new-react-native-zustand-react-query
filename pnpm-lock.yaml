@@ -8,30 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@gluestack-ui/button':
-        specifier: ^1.0.14
-        version: 1.0.14(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/icon':
-        specifier: ^0.1.27
-        version: 0.1.27(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/image':
-        specifier: ^0.1.17
-        version: 0.1.17(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/nativewind-utils':
-        specifier: ^1.0.28
-        version: 1.0.28(nativewind@4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f))(react@19.2.3)(tailwindcss@3.4.19(yaml@2.9.0))
-      '@gluestack-ui/overlay':
-        specifier: ^0.1.22
-        version: 0.1.22(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/toast':
-        specifier: ^1.0.9
-        version: 1.0.9(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
       '@hookform/resolvers':
         specifier: ^5.4.0
         version: 5.4.0(react-hook-form@7.76.1(react@19.2.3))
-      '@legendapp/motion':
-        specifier: ^2.5.3
-        version: 2.5.3(nativewind@4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
       '@react-native-async-storage/async-storage':
         specifier: 2.2.0
         version: 2.2.0(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))
@@ -137,6 +116,9 @@ importers:
       reactotron-react-native:
         specifier: ^5.1.18
         version: 5.1.18(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))
+      tailwind-merge:
+        specifier: ^3.6.0
+        version: 3.6.0
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.19(yaml@2.9.0)
@@ -290,24 +272,6 @@ importers:
         version: 6.0.3
 
 packages:
-
-  '@adobe/react-spectrum-ui@1.2.1':
-    resolution: {integrity: sha512-wcrbEE2O/9WnEn6avBnaVRRx88S5PLFsPLr4wffzlbMfXeQsy+RMQwaJd3cbzrn18/j04Isit7f7Emfn0dhrJA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-
-  '@adobe/react-spectrum-workflow@2.3.5':
-    resolution: {integrity: sha512-b53VIPwPWKb/T5gzE3qs+QlGP5gVrw/LnWV3xMksDU+CRl3rzOKUwxIGiZO8ICyYh1WiyqY4myGlPU/nAynBUg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
-
-  '@adobe/react-spectrum@3.47.0':
-    resolution: {integrity: sha512-EDQuMzz0kUeiMUUlxoeLFQyyxOXaAC7qlBw2PYOUfFLYd87xcV7VVV0JxiYx8zGk1IIY3UgQHgXrS1fv7CgezQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -1282,72 +1246,6 @@ packages:
     resolution: {integrity: sha512-4aQzz9vgxcNXFfo/iyNgDDYfsU5XGKKxWxZopw0cVotHiW+U8IJbIxMaxsINs6bHhtkG3StKNPcOrn3eBuxKPw==}
     hasBin: true
 
-  '@gluestack-ui/button@1.0.14':
-    resolution: {integrity: sha512-Rqv5PY18jzeVACBwsVxXlyDbHjBiSXGVqY29VO6KHZGMMokCPW6MXYXT8ZpriLxMc1DRkgTtpTVYZCJBFaYTbg==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/hooks@0.1.13':
-    resolution: {integrity: sha512-2x5EGcAuvdWFoOaqBRJsilR9Nx07tDvuAr3MI5SOmDdn7Bjzi+3CVAZwwDE2nGwAL3ldJvbAlzVkiNCw4TsSeA==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/icon@0.1.27':
-    resolution: {integrity: sha512-mIsfgdVUihtRORoeDxn3kMFph5XOXK+Scnj1JXLufbt7h9kbfaZLGhYDc9cp2zpPc1Xki9SC1yXYfw8y4FAAdA==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/image@0.1.17':
-    resolution: {integrity: sha512-hcyTVBUw55bSjEpyynIZJVm3Ff6lcjKXFT55f890oy2PNGyFdsKr6V+t/jy5n/2fwbv1eR2KU0uDDiI2vmBh+A==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/nativewind-utils@1.0.28':
-    resolution: {integrity: sha512-POWYUK99Y9zRbDbTv0/FF6YtPmymaAmqgWKU3QYFjraK3HPAgF9HjovJVEN8SycEDylJAnACw53AoHFQ3Bxh+A==}
-    peerDependencies:
-      nativewind: '>=4.0'
-      react: '>=16'
-
-  '@gluestack-ui/overlay@0.1.22':
-    resolution: {integrity: sha512-ttlSjO/ysN9NuTq5JPoVwOAU8aKMaj738xTCxOVgBRr1+kbBUVpmBnygVlC6PvHvJF1A00a0ZTzw48CIVL5aNw==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/provider@0.1.19':
-    resolution: {integrity: sha512-+MbL2VpGK7kkSNccgNeMay/nslDA4BzgjHFWwnys+dSvyCMgt7yfSxrfWziTvAyaQ4cRkq/lXCfJK0B1nuCZ4A==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/react-native-aria@0.1.7':
-    resolution: {integrity: sha512-mdK/M6RQafAYiHyJnDNjaE9+ttr9eg48f2InmO3rvcrjsdaLcu/vwHlwrO9N3xYcb3wb9z2+YZ4OIgtymFNTOw==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/toast@1.0.9':
-    resolution: {integrity: sha512-aMlPczeoH/PZTMnhV29fqqW1Xc/9QmYEsR0bU9BfLyAGM9UMjW3vGe4yZSgxX7xjQ9C7+KO5WnTH0FmPoAbVtg==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/transitions@0.1.11':
-    resolution: {integrity: sha512-GuCprzasuU8GKXm1GUmaVJ1Njiq72pQ4Ni0g+rg6kRQ7hyR0K4d0wdHRyFldHKmfLcQkM3i70rvYq/468hLKLw==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
-  '@gluestack-ui/utils@0.1.15':
-    resolution: {integrity: sha512-LRBMv+tr+bV4falMYS2zSt94PxL0vpvUN6F9d6oTqOYKhkiAkU6k2ROfNlT323m0CoTQto1LkJhPxULisQ2oeQ==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
 
@@ -1387,15 +1285,6 @@ packages:
     peerDependenciesMeta:
       '@types/node':
         optional: true
-
-  '@internationalized/date@3.12.1':
-    resolution: {integrity: sha512-6IedsVWXyq4P9Tj+TxuU8WGWM70hYLl12nbYU8jkikVpa6WXapFazPUcHUMDMoWftIDE2ILDkFFte6W2nFCkRQ==}
-
-  '@internationalized/number@3.6.6':
-    resolution: {integrity: sha512-iFgmQaXHE0vytNfpLZWOC2mEJCBRzcUxt53Xf/yCXG93lRvqas237i3r7X4RKMwO3txiyZD4mQjKAByFv6UGSQ==}
-
-  '@internationalized/string@3.2.8':
-    resolution: {integrity: sha512-NdbMQUSfXLYIQol5VyMtinm9pZDciiMfN7RtmSuSB78io1hqwJ0naYfxyW6vgxWBkzWymQa/3uLDlbfmshtCaA==}
 
   '@isaacs/ttlcache@1.4.1':
     resolution: {integrity: sha512-RQgQ4uQ+pLbqXfOmieB91ejmLwvSgv9nLx6sT6sD83s7umBypgg+OIBOBbEUiJXrfpnp9j0mRhYYdzp9uqq3lA==}
@@ -1513,21 +1402,6 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@legendapp/motion@2.5.3':
-    resolution: {integrity: sha512-IcNiStiK3qG5LaIPLC8fVV0BHIrkf7EY5HfOv3xbuMH0z4D945yaaEDafP5bboHf/uj9XRjTQHVTtZgwpMNlHw==}
-    peerDependencies:
-      nativewind: '>=4.0.0'
-      react: '>=16'
-      react-native: '*'
-
-  '@legendapp/tools@2.0.1':
-    resolution: {integrity: sha512-Kxt0HWvWElRK6oybHRzcYxdgaKGwuaiRNreS7usW7QuHXRIHaH4yMcW2YNRG4DHE5fpefv+Bno/BohQcCE4FaA==}
-    peerDependencies:
-      react: '>=16'
-    peerDependenciesMeta:
-      react:
-        optional: true
-
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.4':
     resolution: {integrity: sha512-LCkGo6JDfaBhgST7UpPWgNgLINpcpabaHfyz5OBx75nUYxBsaEPxjnyNjWpeb/xBup/682QnBfRBy2/LvPutZQ==}
     cpu: [arm64]
@@ -1614,62 +1488,6 @@ packages:
   '@pkgr/core@0.2.9':
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
-
-  '@react-aria/focus@3.22.0':
-    resolution: {integrity: sha512-ZfDOVuVhqDsM9mkNji3QUZ/d40JhlVgXrDkrfXylM1035QCrcTHN7m2DpbE95sU2A8EQb4wikvt5jM6K/73BPg==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-aria/interactions@3.28.0':
-    resolution: {integrity: sha512-OXwdU1EWFdMxmr/K1CXNGJzmNlCClByb+PuCaqUyzBymHPCGVhawirLIon/CrIN5psh3AiWpHSh4H0WeJdVpng==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-aria/overlays@3.32.0':
-    resolution: {integrity: sha512-H9meBB14/M0bDwk8gZl8Fu8bwZN2El9LDlk5cNkgAozbEiRuQvTFOeE3RoP6XI6bwEnSBvb0ovPmx3/kNyOehQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-aria/ssr@3.10.0':
-    resolution: {integrity: sha512-mnelvACtfNWWKFCT1YHebxJRmfBmmANGwHQhCFPByMVTx1L8RumcaLxChYkE87g2KPuP5xX2il/oRn1DytW+qQ==}
-    engines: {node: '>= 12'}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-aria/utils@3.34.0':
-    resolution: {integrity: sha512-ZM1ZXIqpwGTJjjL6o3JhlZkEaBpQdxuOCqLEvwEwooaj5GsYI3E9UfOl5vy3UW6bYiEEWl9pNBntrb9CR9kItQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-native-aria/focus@0.2.9':
-    resolution: {integrity: sha512-zVgOIzKwnsyyurUxlZnzUKB2ekK/cmK64sQJIKKUlkJKVxd2EAFf7Sjz/NVEoMhTODN3qGRASTv9bMk/pBzzVA==}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
-
-  '@react-native-aria/interactions@0.2.16':
-    resolution: {integrity: sha512-tJ7mhG0P6cElLTcL4yfV3HSfqdD8tpAwHKjtamyeua8i6tsu7BOxGmfGmPQ5ueJl7/mHqf8xyTv1xGW288CKXQ==}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
-
-  '@react-native-aria/overlays@0.3.15':
-    resolution: {integrity: sha512-ialIMsXmiQe6A2cWv4O62nJs8raAEkC27BYUu0Z6BEWbhYn+3MhrujxFzsozJ6bwDZgsfNOqtfwk1ScXJxXjkQ==}
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-      react-native: '*'
-
-  '@react-native-aria/utils@0.2.12':
-    resolution: {integrity: sha512-752/tQ5fjDdc/3Gw8cKqml4NucfiFrO8wPmlg0bBgaCvfQDJaUMi4grme3/fBPCUoK2wk9/yJHfwkv45Gi5Eew==}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
 
   '@react-native-async-storage/async-storage@2.2.0':
     resolution: {integrity: sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==}
@@ -1947,36 +1765,6 @@ packages:
       react-native-safe-area-context: '>= 4.0.0'
       react-native-screens: '>= 4.0.0'
 
-  '@react-spectrum/overlays@5.10.0':
-    resolution: {integrity: sha512-iGHXE5wdF4wNqdkgTKWAoeJUeKec+ki1BeRdiguywjY/SGMIx8Htd4dWyglDsOboBBJuEWMHKFAmTbMDhz6B9w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-spectrum/provider@3.11.0':
-    resolution: {integrity: sha512-W2Gxbj8AcG5OR2K5Ua3K8qQqxdsiytEiz+2rhr6oQyBM8VafEgDcNPYSOTtfjrQM3snl2Uhp8LzwN0jwQe/6nQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-stately/overlays@3.7.0':
-    resolution: {integrity: sha512-VyFlju6JqEUTyr+igrEjTeUi2MXw7IBOxWYzLoq26UJxf+45okqUWfyKRdXTvNjGJqQol9fqIg5Nv8fU4H/CvQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-types/overlays@3.10.0':
-    resolution: {integrity: sha512-cgrcOTxy6ac0kiphQOkc8mj5artZMB/XVrFgukRZ2FcbYNEERpg2VQ5ztd0+H1ER7O0kx7AmwHxdut+x1EAjrw==}
-    peerDependencies:
-      '@react-spectrum/provider': ^3.0.0
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@react-types/shared@3.34.0':
-    resolution: {integrity: sha512-gp6xo/s2lX54AlTjOiqwDnxA7UW79BNvI9dB9pr3LZTzRKCd1ZA+ZbgKw/ReIiWuvvVw/8QFJpnqeeFyLocMcQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
@@ -2008,25 +1796,8 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@spectrum-icons/ui@3.7.0':
-    resolution: {integrity: sha512-86iQSDfJb3Ama1WSJ/mEiFy4DJT7e/v4pSmEuX4aKKMzbNYft+O40N18S2POUnmblrb7MQneLC/pgIp1SDBwEQ==}
-    peerDependencies:
-      '@adobe/react-spectrum': ^3.47.0
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@spectrum-icons/workflow@4.3.0':
-    resolution: {integrity: sha512-ILuhgWh9jMXaEVMRuOYgTAjMc22cKyvCtUDyZmc8OEMfOYuejj+Gcp5t6DhaCfE0M9rORtVxCrRgsO2WyEgfUw==}
-    peerDependencies:
-      '@adobe/react-spectrum': ^3.47.0
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
-
-  '@swc/helpers@0.5.21':
-    resolution: {integrity: sha512-jI/VAmtdjB/RnI8GTnokyX7Ug8c+g+ffD6QRLa6XQewtnGyukKkKSk3wLTM3b5cjt1jNh9x0jfVlagdN2gDKQg==}
 
   '@tanstack/query-core@5.100.14':
     resolution: {integrity: sha512-5X41dGpxgeaHISCRW2oYwcSycZeULZzAunaudXT9ov1KOTj9xwt0CH6hbwqP1/z74ZWF7rYFnDpyYH07XFcZew==}
@@ -2142,12 +1913,6 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
-
-  '@types/strip-bom@3.0.0':
-    resolution: {integrity: sha512-xevGOReSYGM7g/kUBZzPqCrR/KYAo+F0yiPc85WFTJa0MSLtyFTVTU6cJu/aV4mid7IffDIWqo69THF2o4JiEQ==}
-
-  '@types/strip-json-comments@0.0.30':
-    resolution: {integrity: sha512-7NQmHra/JILCd1QqpSzl8+mJRc8ZHz3uDm8YV1Ks9IhK0epEiTw8aIErbvH9PI+6XbqhyIQy3462nEsn7UVzjQ==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2348,9 +2113,6 @@ packages:
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
 
-  '@yarnpkg/lockfile@1.1.0':
-    resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
-
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -2461,10 +2223,6 @@ packages:
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
-
-  aria-hidden@1.2.6:
-    resolution: {integrity: sha512-ik3ZgC9dY/lYVVM++OISsaYDeg1tb0VtP5uL3ouh1koGOaUMDPpbFIei4JkFimWUFPn90sbMNMXQAIVOlnYKJA==}
-    engines: {node: '>=10'}
 
   aria-query@5.3.2:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
@@ -2824,9 +2582,6 @@ packages:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
 
-  client-only@0.0.1:
-    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
-
   cliui@6.0.0:
     resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
 
@@ -2837,10 +2592,6 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
-
-  clsx@2.1.1:
-    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
-    engines: {node: '>=6'}
 
   co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
@@ -3128,9 +2879,6 @@ packages:
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
-
-  dom-helpers@5.2.1:
-    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
 
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
@@ -3771,9 +3519,6 @@ packages:
   find-up@8.0.0:
     resolution: {integrity: sha512-JGG8pvDi2C+JxidYdIwQDyS/CgcrIdh18cvgxcBge3wSHRQOrooMD3GlFBcmMJAN9M42SAZjDp5zv1dglJjwww==}
     engines: {node: '>=20'}
-
-  find-yarn-workspace-root@2.0.0:
-    resolution: {integrity: sha512-1IMnbjt4KzsQfnhnzNd8wUEgXZ44IzZaZmnLYx7D5FZlaHt2gW20Cri8Q+E/t5tIj4+epTBub+2Zxu/vNILzqQ==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -4478,10 +4223,6 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  json-stable-stringify@1.3.0:
-    resolution: {integrity: sha512-qtYiSSFlwot9XHtF9bD9c7rwKjr+RecWT//ZnPvSmEjpV5mmPOCN4j8UjY5hbjNkOwZ/jQv3J6R1/pL7RwgMsg==}
-    engines: {node: '>= 0.4'}
-
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
     hasBin: true
@@ -4497,9 +4238,6 @@ packages:
   jsonfile@6.2.1:
     resolution: {integrity: sha512-zwOTdL3rFQ/lRdBnntKVOX6k5cKJwEc1HdilT71BWEu7J41gXIB2MRp+vxduPSwZJPWBxEzv4yH1wYLJGUHX4Q==}
 
-  jsonify@0.0.1:
-    resolution: {integrity: sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==}
-
   jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
@@ -4510,9 +4248,6 @@ packages:
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
-
-  klaw-sync@6.0.0:
-    resolution: {integrity: sha512-nIeuVSzdCCs6TDPTqI8w1Yre34sSq7AkZ4B3sfOBbI2CgVSB4Du4aLQijFU2+lhAFCwt9+42Hel6lQNIv6AntQ==}
 
   kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
@@ -5230,10 +4965,6 @@ packages:
     resolution: {integrity: sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==}
     engines: {node: '>=10'}
 
-  os-tmpdir@1.0.2:
-    resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
-    engines: {node: '>=0.10.0'}
-
   own-keys@1.0.1:
     resolution: {integrity: sha512-qFOyK5PjiWZd+QQIh+1jhdb9LpxTF0qs7Pm8o5QHYZ0M3vKqSqzsZaEB6oWlxZ+q2sJBMI/Ktgd2N5ZwQoRHfg==}
     engines: {node: '>= 0.4'}
@@ -5292,11 +5023,6 @@ packages:
 
   password-prompt@1.1.3:
     resolution: {integrity: sha512-HkrjG2aJlvF0t2BMH0e2LB/EHf3Lcq3fNMzy4GYHcQblAvOl+QQji1Lx7WRBMqpVK8p+KR7bCg7oqAMXtdgqyw==}
-
-  patch-package@8.0.0:
-    resolution: {integrity: sha512-da8BVIhzjtgScwDJ2TtKsfT5JFWz1hYoBl9rUQ1f38MC2HwnEIkK8VN3dKMKcP7P7bvvgzNDbfNHtx3MsQb5vA==}
-    engines: {node: '>=14', npm: '>5'}
-    hasBin: true
 
   path-exists@3.0.0:
     resolution: {integrity: sha512-bpC7GYwiDYQ4wYLe+FA8lhRjhQCMcQGuSgGGqDkg/QerRWw9CmGRT0iSOVRSZJ29NMLZgIzqaljJ63oaL4NIJQ==}
@@ -5558,18 +5284,6 @@ packages:
     resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
 
-  react-aria-components@1.17.0:
-    resolution: {integrity: sha512-0EyisMgvsFJ2aML3crDYv2tW5vT2Ryf8PGzY/g63JjDdCbLshlwazhS8JNtPF1vkTkungJJ6sVJbKyX+YKSoFA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  react-aria@3.48.0:
-    resolution: {integrity: sha512-jQjd4rBEIMqecBaAKYJbVGK6EqIHLa5znVQ7jwFyK5vCyljoj6KhgtiahmcIPsG5vG5vEDLw+ba+bEWn6A2P4w==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   react-devtools-core@6.1.5:
     resolution: {integrity: sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA==}
 
@@ -5688,21 +5402,10 @@ packages:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
 
-  react-stately@3.46.0:
-    resolution: {integrity: sha512-OdxhWvHgs2L4OJGIs7hnuTr5WjjMM6enhNEAMRqiekhF8+ITvA2LRwNftOZwcogaoCslGYq5S2VQTQwnm0GbCA==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
   react-test-renderer@19.2.3:
     resolution: {integrity: sha512-TMR1LnSFiWZMJkCgNf5ATSvAheTT2NvKIwiVwdBPHxjBI7n/JbWd4gaZ16DVd9foAXdvDz+sB5yxZTwMjPRxpw==}
     peerDependencies:
       react: ^19.2.3
-
-  react-transition-group@4.4.5:
-    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
-    peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
 
   react@19.2.3:
     resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
@@ -5835,11 +5538,6 @@ packages:
   rfdc@1.4.1:
     resolution: {integrity: sha512-q1b3N5QkRUWUl7iyylaaj3kOpIT0N2i9MqIEQXP73GVsN9cw3fdx8X63cEmWhJGi2PPCF23Ijp7ktmd39rawIA==}
 
-  rimraf@2.7.1:
-    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    deprecated: Rimraf versions prior to v4 are no longer supported
-    hasBin: true
-
   run-async@2.4.1:
     resolution: {integrity: sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==}
     engines: {node: '>=0.12.0'}
@@ -5957,10 +5655,6 @@ packages:
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
-
-  slash@2.0.0:
-    resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}
-    engines: {node: '>=6'}
 
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
@@ -6127,10 +5821,6 @@ packages:
     resolution: {integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==}
     engines: {node: '>=8'}
 
-  strip-json-comments@2.0.1:
-    resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
-    engines: {node: '>=0.10.0'}
-
   strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
@@ -6170,14 +5860,8 @@ packages:
     resolution: {integrity: sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  tailwind-merge@1.14.0:
-    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
-
-  tailwind-variants@0.1.20:
-    resolution: {integrity: sha512-AMh7x313t/V+eTySKB0Dal08RHY7ggYK0MSn/ad8wKWOrDUIzyiWNayRUm2PIJ4VRkvRnfNuyRuKbLV3EN+ewQ==}
-    engines: {node: '>=16.x', pnpm: '>=7.x'}
-    peerDependencies:
-      tailwindcss: '*'
+  tailwind-merge@3.6.0:
+    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
   tailwindcss@3.4.19:
     resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
@@ -6229,10 +5913,6 @@ packages:
     resolution: {integrity: sha512-pn99VhoACYR8nFHhxqix+uvsbXineAasWm5ojXoN8xEwK5Kd3/TrhNn1wByuD52UxWRLy8pu+kRMniEi6Eq9Zg==}
     engines: {node: '>=12.0.0'}
 
-  tmp@0.0.33:
-    resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
-    engines: {node: '>=0.6.0'}
-
   tmpl@1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
 
@@ -6272,9 +5952,6 @@ packages:
 
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
-
-  tsconfig@7.0.0:
-    resolution: {integrity: sha512-vZXmzPrL+EmC4T/4rVlT2jNVMWCi/O4DIiSj3UHg1OE5kCKbk4mfrXc6dZksLgRM/TZlKnousKH9bbTazUWRRw==}
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -6317,11 +5994,6 @@ packages:
   typed-array-length@1.0.7:
     resolution: {integrity: sha512-3KS2b+kL7fsuk/eJZ7EQdnEmQoaho/r6KUef7hxvltNA5DR8NAUM+8wJMbJyZ4G9/7i3v5zPBIMN5aybAh2/Jg==}
     engines: {node: '>= 0.4'}
-
-  typescript@5.9.3:
-    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
 
   typescript@6.0.3:
     resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
@@ -6628,33 +6300,6 @@ packages:
         optional: true
 
 snapshots:
-
-  '@adobe/react-spectrum-ui@1.2.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@adobe/react-spectrum-workflow@2.3.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@adobe/react-spectrum@3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@internationalized/date': 3.12.1
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      '@spectrum-icons/ui': 3.7.0(@adobe/react-spectrum@3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@spectrum-icons/workflow': 4.3.0(@adobe/react-spectrum@3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      client-only: 0.0.1
-      clsx: 2.1.1
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-aria-components: 1.17.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-      react-stately: 3.46.0(react@19.2.3)
-      react-transition-group: 4.4.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      use-sync-external-store: 1.6.0(react@19.2.3)
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -8050,113 +7695,6 @@ snapshots:
       chalk: 4.1.2
       js-yaml: 4.1.1
 
-  '@gluestack-ui/button@1.0.14(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@gluestack-ui/utils': 0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/interactions': 0.2.16(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - react-native
-
-  '@gluestack-ui/hooks@0.1.13(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@gluestack-ui/icon@0.1.27(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@gluestack-ui/provider': 0.1.19(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/utils': 0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - react-native
-
-  '@gluestack-ui/image@0.1.17(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@gluestack-ui/utils': 0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/interactions': 0.2.16(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - react-native
-
-  '@gluestack-ui/nativewind-utils@1.0.28(nativewind@4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f))(react@19.2.3)(tailwindcss@3.4.19(yaml@2.9.0))':
-    dependencies:
-      find-yarn-workspace-root: 2.0.0
-      nativewind: 4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f)
-      patch-package: 8.0.0
-      react: 19.2.3
-      tailwind-variants: 0.1.20(tailwindcss@3.4.19(yaml@2.9.0))
-    transitivePeerDependencies:
-      - tailwindcss
-
-  '@gluestack-ui/overlay@0.1.22(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/interactions': 0.2.16(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/overlays': 0.3.15(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - '@react-spectrum/provider'
-      - react-native
-
-  '@gluestack-ui/provider@0.1.19(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-native-aria/interactions': 0.2.16(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      tsconfig: 7.0.0
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - react-native
-
-  '@gluestack-ui/react-native-aria@0.1.7(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - react-native
-
-  '@gluestack-ui/toast@1.0.9(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@gluestack-ui/hooks': 0.1.13(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/overlay': 0.1.22(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/transitions': 0.1.11(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/utils': 0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - '@react-spectrum/provider'
-      - react-native
-
-  '@gluestack-ui/transitions@0.1.11(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@gluestack-ui/overlay': 0.1.22(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/react-native-aria': 0.1.7(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@gluestack-ui/utils': 0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - '@react-spectrum/provider'
-      - react-native
-
-  '@gluestack-ui/utils@0.1.15(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-native-aria/focus': 0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-    transitivePeerDependencies:
-      - react-native
-
   '@hapi/hoek@9.3.0': {}
 
   '@hapi/topo@5.1.0':
@@ -8190,18 +7728,6 @@ snapshots:
       iconv-lite: 0.7.2
     optionalDependencies:
       '@types/node': 25.9.1
-
-  '@internationalized/date@3.12.1':
-    dependencies:
-      '@swc/helpers': 0.5.21
-
-  '@internationalized/number@3.6.6':
-    dependencies:
-      '@swc/helpers': 0.5.21
-
-  '@internationalized/string@3.2.8':
-    dependencies:
-      '@swc/helpers': 0.5.21
 
   '@isaacs/ttlcache@1.4.1': {}
 
@@ -8418,17 +7944,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@legendapp/motion@2.5.3(nativewind@4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@legendapp/tools': 2.0.1(react@19.2.3)
-      nativewind: 4.2.4(cf6a7c7b83891b9883dc17a5a23ec05f)
-      react: 19.2.3
-      react-native: 0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
-
-  '@legendapp/tools@2.0.1(react@19.2.3)':
-    optionalDependencies:
-      react: 19.2.3
-
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.4':
     optional: true
 
@@ -8598,84 +8113,6 @@ snapshots:
   '@oclif/screen@3.0.8': {}
 
   '@pkgr/core@0.2.9': {}
-
-  '@react-aria/focus@3.22.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-aria/interactions@3.28.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-aria/overlays@3.32.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-aria/ssr@3.10.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-aria/utils@3.34.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-      react-stately: 3.46.0(react@19.2.3)
-
-  '@react-native-aria/focus@0.2.9(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-aria/focus': 3.22.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-native: 0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
-    transitivePeerDependencies:
-      - react-dom
-
-  '@react-native-aria/interactions@0.2.16(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-aria/interactions': 3.28.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-aria/utils': 3.34.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/utils': 0.2.12(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-native: 0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
-    transitivePeerDependencies:
-      - react-dom
-
-  '@react-native-aria/overlays@0.3.15(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-aria/interactions': 3.28.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-aria/overlays': 3.32.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-native-aria/utils': 0.2.12(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)
-      '@react-stately/overlays': 3.7.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-types/overlays': 3.10.0(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      dom-helpers: 5.2.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-native: 0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
-    transitivePeerDependencies:
-      - '@react-spectrum/provider'
-
-  '@react-native-aria/utils@0.2.12(react-dom@19.2.3(react@19.2.3))(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-aria/ssr': 3.10.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-aria/utils': 3.34.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react: 19.2.3
-      react-native: 0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3)
-    transitivePeerDependencies:
-      - react-dom
 
   '@react-native-async-storage/async-storage@2.2.0(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))':
     dependencies:
@@ -9135,41 +8572,6 @@ snapshots:
     transitivePeerDependencies:
       - '@react-native-masked-view/masked-view'
 
-  '@react-spectrum/overlays@5.10.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@adobe/react-spectrum': 3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@adobe/react-spectrum': 3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-stately/overlays@3.7.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-stately: 3.46.0(react@19.2.3)
-
-  '@react-types/overlays@3.10.0(@react-spectrum/provider@3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@react-aria/overlays': 3.32.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-spectrum/overlays': 5.10.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-spectrum/provider': 3.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-stately/overlays': 3.7.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@react-types/shared@3.34.0(react@19.2.3)':
-    dependencies:
-      react: 19.2.3
-
   '@rtsao/scc@1.1.0': {}
 
   '@shopify/flash-list@2.0.2(@babel/runtime@7.29.7)(react-native@0.85.3(@babel/core@7.29.7)(@react-native-community/cli@20.1.0(typescript@6.0.3))(@react-native/jest-preset@0.85.3(@babel/core@7.29.7)(react@19.2.3))(@react-native/metro-config@0.85.3(@babel/core@7.29.7))(@types/react@19.2.15)(react@19.2.3))(react@19.2.3)':
@@ -9199,28 +8601,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@spectrum-icons/ui@3.7.0(@adobe/react-spectrum@3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@adobe/react-spectrum': 3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@adobe/react-spectrum-ui': 1.2.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@babel/runtime': 7.29.7
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
-  '@spectrum-icons/workflow@4.3.0(@adobe/react-spectrum@3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
-    dependencies:
-      '@adobe/react-spectrum': 3.47.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@adobe/react-spectrum-workflow': 2.3.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-
   '@standard-schema/utils@0.3.0': {}
-
-  '@swc/helpers@0.5.21':
-    dependencies:
-      tslib: 2.8.1
 
   '@tanstack/query-core@5.100.14': {}
 
@@ -9347,10 +8728,6 @@ snapshots:
       csstype: 3.2.3
 
   '@types/stack-utils@2.0.3': {}
-
-  '@types/strip-bom@3.0.0': {}
-
-  '@types/strip-json-comments@0.0.30': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -9527,8 +8904,6 @@ snapshots:
 
   '@xmldom/xmldom@0.9.10': {}
 
-  '@yarnpkg/lockfile@1.1.0': {}
-
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -9634,10 +9009,6 @@ snapshots:
       sprintf-js: 1.0.3
 
   argparse@2.0.1: {}
-
-  aria-hidden@1.2.6:
-    dependencies:
-      tslib: 2.8.1
 
   aria-query@5.3.2: {}
 
@@ -10119,8 +9490,6 @@ snapshots:
 
   cli-width@3.0.0: {}
 
-  client-only@0.0.1: {}
-
   cliui@6.0.0:
     dependencies:
       string-width: 4.2.3
@@ -10134,8 +9503,6 @@ snapshots:
       wrap-ansi: 7.0.0
 
   clone@1.0.4: {}
-
-  clsx@2.1.1: {}
 
   co@4.6.0: {}
 
@@ -10396,11 +9763,6 @@ snapshots:
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
-
-  dom-helpers@5.2.1:
-    dependencies:
-      '@babel/runtime': 7.29.7
-      csstype: 3.2.3
 
   dom-serializer@2.0.0:
     dependencies:
@@ -11197,10 +10559,6 @@ snapshots:
     dependencies:
       locate-path: 8.0.0
       unicorn-magic: 0.3.0
-
-  find-yarn-workspace-root@2.0.0:
-    dependencies:
-      micromatch: 4.0.8
 
   flat-cache@4.0.1:
     dependencies:
@@ -12106,14 +11464,6 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json-stable-stringify@1.3.0:
-    dependencies:
-      call-bind: 1.0.9
-      call-bound: 1.0.4
-      isarray: 2.0.5
-      jsonify: 0.0.1
-      object-keys: 1.1.1
-
   json5@1.0.2:
     dependencies:
       minimist: 1.2.8
@@ -12130,8 +11480,6 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  jsonify@0.0.1: {}
-
   jsonparse@1.3.1: {}
 
   jsx-ast-utils@3.3.5:
@@ -12144,10 +11492,6 @@ snapshots:
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
-
-  klaw-sync@6.0.0:
-    dependencies:
-      graceful-fs: 4.2.11
 
   kleur@3.0.3: {}
 
@@ -12907,8 +12251,6 @@ snapshots:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
 
-  os-tmpdir@1.0.2: {}
-
   own-keys@1.0.1:
     dependencies:
       get-intrinsic: 1.3.0
@@ -12971,24 +12313,6 @@ snapshots:
     dependencies:
       ansi-escapes: 4.3.2
       cross-spawn: 7.0.6
-
-  patch-package@8.0.0:
-    dependencies:
-      '@yarnpkg/lockfile': 1.1.0
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      cross-spawn: 7.0.6
-      find-yarn-workspace-root: 2.0.0
-      fs-extra: 9.1.0
-      json-stable-stringify: 1.3.0
-      klaw-sync: 6.0.0
-      minimist: 1.2.8
-      open: 7.4.2
-      rimraf: 2.7.1
-      semver: 7.8.1
-      slash: 2.0.0
-      tmp: 0.0.33
-      yaml: 2.9.0
 
   path-exists@3.0.0: {}
 
@@ -13163,31 +12487,6 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-aria-components@1.17.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
-    dependencies:
-      '@internationalized/date': 3.12.1
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      client-only: 0.0.1
-      react: 19.2.3
-      react-aria: 3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      react-dom: 19.2.3(react@19.2.3)
-      react-stately: 3.46.0(react@19.2.3)
-
-  react-aria@3.48.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
-    dependencies:
-      '@internationalized/date': 3.12.1
-      '@internationalized/number': 3.6.6
-      '@internationalized/string': 3.2.8
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      aria-hidden: 1.2.6
-      clsx: 2.1.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-stately: 3.46.0(react@19.2.3)
-      use-sync-external-store: 1.6.0(react@19.2.3)
-
   react-devtools-core@6.1.5:
     dependencies:
       shell-quote: 1.8.4
@@ -13353,30 +12652,11 @@ snapshots:
 
   react-refresh@0.14.2: {}
 
-  react-stately@3.46.0(react@19.2.3):
-    dependencies:
-      '@internationalized/date': 3.12.1
-      '@internationalized/number': 3.6.6
-      '@internationalized/string': 3.2.8
-      '@react-types/shared': 3.34.0(react@19.2.3)
-      '@swc/helpers': 0.5.21
-      react: 19.2.3
-      use-sync-external-store: 1.6.0(react@19.2.3)
-
   react-test-renderer@19.2.3(react@19.2.3):
     dependencies:
       react: 19.2.3
       react-is: 19.2.6
       scheduler: 0.27.0
-
-  react-transition-group@4.4.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
-    dependencies:
-      '@babel/runtime': 7.29.7
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
 
   react@19.2.3: {}
 
@@ -13516,10 +12796,6 @@ snapshots:
   reusify@1.1.0: {}
 
   rfdc@1.4.1: {}
-
-  rimraf@2.7.1:
-    dependencies:
-      glob: 7.2.3
 
   run-async@2.4.1: {}
 
@@ -13668,8 +12944,6 @@ snapshots:
       is-arrayish: 0.3.4
 
   sisteransi@1.0.5: {}
-
-  slash@2.0.0: {}
 
   slash@3.0.0: {}
 
@@ -13846,8 +13120,6 @@ snapshots:
     dependencies:
       min-indent: 1.0.1
 
-  strip-json-comments@2.0.1: {}
-
   strip-json-comments@3.1.1: {}
 
   strnum@1.1.2: {}
@@ -13887,12 +13159,7 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.2.9
 
-  tailwind-merge@1.14.0: {}
-
-  tailwind-variants@0.1.20(tailwindcss@3.4.19(yaml@2.9.0)):
-    dependencies:
-      tailwind-merge: 1.14.0
-      tailwindcss: 3.4.19(yaml@2.9.0)
+  tailwind-merge@3.6.0: {}
 
   tailwindcss@3.4.19(yaml@2.9.0):
     dependencies:
@@ -13976,10 +13243,6 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
 
-  tmp@0.0.33:
-    dependencies:
-      os-tmpdir: 1.0.2
-
   tmpl@1.0.5: {}
 
   to-regex-range@5.0.1:
@@ -14020,13 +13283,6 @@ snapshots:
       json5: 1.0.2
       minimist: 1.2.8
       strip-bom: 3.0.0
-
-  tsconfig@7.0.0:
-    dependencies:
-      '@types/strip-bom': 3.0.0
-      '@types/strip-json-comments': 0.0.30
-      strip-bom: 3.0.0
-      strip-json-comments: 2.0.1
 
   tslib@2.8.1: {}
 
@@ -14081,8 +13337,6 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
-
-  typescript@5.9.3: {}
 
   typescript@6.0.3: {}
 

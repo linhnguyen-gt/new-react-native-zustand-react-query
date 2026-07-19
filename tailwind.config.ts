@@ -1,5 +1,4 @@
 const nativewindPreset = require('nativewind/preset');
-const gluestackPlugin = require('@gluestack-ui/nativewind-utils/tailwind-plugin');
 
 export const colors = {
     primary: {
@@ -204,5 +203,4 @@ export default {
             },
         },
     },
-    plugins: [gluestackPlugin],
 };
