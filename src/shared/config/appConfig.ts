@@ -36,5 +36,3 @@ export const appConfig = {
     versionCode,
     versionName: extra.versionName || Constants.expoConfig?.version || '1.0.0',
 } as const;
-
-export type RuntimeAppConfig = typeof appConfig;

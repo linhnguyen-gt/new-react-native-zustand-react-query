@@ -4,7 +4,8 @@ import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native
 
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
 
-export const touchableStyle = tva({});
+// Not exported: consumed only by TouchableComponentProps and the render below.
+const touchableStyle = tva({});
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 

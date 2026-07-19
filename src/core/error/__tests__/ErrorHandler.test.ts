@@ -196,24 +196,6 @@ describe('UnifiedErrorHandler', () => {
         });
     });
 
-    describe('handleAndThrow', () => {
-        it('should throw error', () => {
-            const error = new Error('Test error');
-
-            expect(() => {
-                handler.handleAndThrow(error);
-            }).toThrow();
-        });
-
-        it('should throw AppError', () => {
-            const error = new Error('Test error');
-
-            expect(() => {
-                handler.handleAndThrow(error);
-            }).toThrow(AppError);
-        });
-    });
-
     describe('Configuration', () => {
         it('should update configuration', () => {
             const handler2 = UnifiedErrorHandler.getInstance();

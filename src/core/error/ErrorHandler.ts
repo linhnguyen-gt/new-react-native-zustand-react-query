@@ -90,14 +90,6 @@ export class UnifiedErrorHandler {
     }
 
     /**
-     * Handle error and throw it
-     */
-    handleAndThrow(_error: unknown, context?: Partial<ErrorContext>): never {
-        const appError = this.handle(_error, context);
-        throw appError;
-    }
-
-    /**
      * Categorize error into specific AppError type
      */
     private categorizeError(error: unknown, context?: Partial<ErrorContext>): AppError {
