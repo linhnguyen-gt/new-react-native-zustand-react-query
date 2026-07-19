@@ -1,16 +1,14 @@
 'use client';
 
-import { createImage } from '@gluestack-ui/image';
-import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import { cssInterop } from 'nativewind';
 import React from 'react';
 import { ImageStyle, Platform, Image as RNImage } from 'react-native';
 
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import { tv, type VariantProps } from '@/shared/style';
 
 type StyleProps = Omit<ImageStyle, 'transform'>;
 
-const imageStyle = tva({
+const imageStyle = tv({
     base: 'max-w-full',
     variants: {
         size: {
@@ -26,7 +24,10 @@ const imageStyle = tva({
     },
 });
 
-const UIImage = createImage({ Root: RNImage });
+// Was createImage({ Root: RNImage }) from @gluestack-ui/image. That factory only added
+// `alt` forwarding and a dev warning for a missing `alt`; no call site in this repo
+// passes `alt`, and neither does anything on native.
+const UIImage = RNImage;
 cssInterop(UIImage, { className: 'style' });
 
 export type ImageProps = Omit<React.ComponentProps<typeof UIImage>, keyof StyleProps> &

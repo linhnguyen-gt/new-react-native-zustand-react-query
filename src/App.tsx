@@ -5,7 +5,7 @@
  * @format
  */
 
-import { GluestackUIProvider } from '@presentation/components/ui';
+import { ThemeProvider } from '@presentation/components/ui';
 import { AppStack } from '@presentation/navigator';
 import React from 'react';
 import { LogBox } from 'react-native';
@@ -38,10 +38,10 @@ const App = () => {
         <ErrorBoundary>
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <SafeAreaProvider>
-                    <GluestackUIProvider>
+                    <ThemeProvider>
                         <AppStack />
                         <ModalUpdate />
-                    </GluestackUIProvider>
+                    </ThemeProvider>
                 </SafeAreaProvider>
             </GestureHandlerRootView>
         </ErrorBoundary>

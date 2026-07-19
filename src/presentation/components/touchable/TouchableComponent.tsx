@@ -1,17 +1,10 @@
-import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
-
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
-
-// Not exported: consumed only by TouchableComponentProps and the render below.
-const touchableStyle = tva({});
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 
 export type TouchableComponentProps = Omit<TouchableOpacityProps, keyof StyleProps> &
-    StyleProps &
-    VariantProps<typeof touchableStyle> & {
+    StyleProps & {
         className?: string;
     };
 
@@ -33,7 +26,7 @@ const TouchableComponent = React.forwardRef<React.ComponentRef<typeof TouchableO
                 // text and give no affordance that they can be pressed. Spread after
                 // this so a call site can override with link/tab/etc.
                 accessibilityRole="button"
-                className={touchableStyle({ class: className })}
+                className={className}
                 style={[styleProps, style]}
                 {...props}
                 ref={ref}

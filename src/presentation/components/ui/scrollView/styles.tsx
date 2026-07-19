@@ -1,12 +1,9 @@
-import { isWeb } from '@gluestack-ui/nativewind-utils/IsWeb';
-import { tva } from '@gluestack-ui/nativewind-utils/tva';
+import { tv } from '@/shared/style';
 
-const baseStyle = isWeb
-    ? 'flex flex-col relative z-0 box-border border-0 list-none min-w-0 min-h-0 bg-transparent m-0 p-0'
-    : 'w-full flex-1';
-
-export const scrollViewStyle = tva({
-    base: baseStyle,
+// Web-only base string dropped — no web target exists. Note the native branch here
+// was not empty, unlike the other primitives.
+export const scrollViewStyle = tv({
+    base: 'w-full flex-1',
     variants: {
         flex: {
             1: 'flex-1',

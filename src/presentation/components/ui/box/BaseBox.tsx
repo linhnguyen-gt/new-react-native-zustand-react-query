@@ -3,7 +3,7 @@ import { View, ViewStyle } from 'react-native';
 
 import { boxStyle } from './styles';
 
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import type { VariantProps } from '@/shared/style';
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 

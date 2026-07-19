@@ -1,5 +1,3 @@
-import { OverlayProvider } from '@gluestack-ui/overlay';
-import { ToastProvider } from '@gluestack-ui/toast';
 import { colorScheme as colorSchemeNW } from 'nativewind';
 import React from 'react';
 import { ColorSchemeName, useColorScheme, View, ViewProps } from 'react-native';
@@ -15,11 +13,19 @@ const getColorSchemeName = (colorScheme: ColorSchemeName, mode: ModeType): 'ligh
     return mode;
 };
 
-export function GluestackUIProvider({
+/**
+ * Applies the NativeWind theme variables backing every `--color-*` Tailwind colour.
+ *
+ * Was GluestackUIProvider, which additionally mounted OverlayProvider and
+ * ToastProvider. The toast module is gone, and nothing renders a gluestack overlay —
+ * the update modal uses React Native's own Modal — so both wrappers went with the
+ * dependency. The theme View itself is unchanged.
+ */
+export function ThemeProvider({
     mode = 'light',
     ...props
 }: {
-    mode?: 'light' | 'dark' | 'system';
+    mode?: ModeType;
     children?: React.ReactNode;
     style?: ViewProps['style'];
 }) {
@@ -31,9 +37,7 @@ export function GluestackUIProvider({
 
     return (
         <View style={[config[colorSchemeName], { flex: 1, height: '100%', width: '100%' }, props.style]}>
-            <OverlayProvider>
-                <ToastProvider>{props.children}</ToastProvider>
-            </OverlayProvider>
+            {props.children}
         </View>
     );
 }
