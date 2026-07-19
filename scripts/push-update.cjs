@@ -10,6 +10,8 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+const { parseEnvFile } = require('./lib/parse-env-file.cjs');
+
 const CHANNELS = {
     d: 'development',
     s: 'staging',
@@ -37,13 +39,7 @@ function loadEnvFile(channel) {
 
     if (fs.existsSync(envPath)) {
         console.log(`📄 Loading environment from ${envFile}`);
-        const envContent = fs.readFileSync(envPath, 'utf8');
-        envContent.split('\n').forEach((line) => {
-            const [key, ...valueParts] = line.split('=');
-            if (key && valueParts.length > 0 && !key.startsWith('#')) {
-                process.env[key.trim()] = valueParts.join('=').trim();
-            }
-        });
+        Object.assign(process.env, parseEnvFile(envPath));
         return true;
     } else {
         console.warn(`⚠️  ${envFile} not found, using existing environment variables`);

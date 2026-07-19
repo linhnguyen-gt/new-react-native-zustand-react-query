@@ -17,28 +17,7 @@ const variants = {
     },
 };
 
-const parseEnv = (contents) =>
-    contents.split(/\r?\n/).reduce((env, line) => {
-        const nextLine = line.trim();
-
-        if (!nextLine || nextLine.startsWith('#')) {
-            return env;
-        }
-
-        const separatorIndex = nextLine.indexOf('=');
-        if (separatorIndex === -1) {
-            return env;
-        }
-
-        const key = nextLine.slice(0, separatorIndex).trim();
-        const rawValue = nextLine.slice(separatorIndex + 1).trim();
-        const value = rawValue.replace(/^(['"])(.*)\1$/, '$2');
-
-        return {
-            ...env,
-            [key]: value,
-        };
-    }, {});
+const { parseEnv } = require('./lib/parse-env-file.cjs');
 
 const readVariantEnv = (variantName) => {
     const envPath = path.join(projectRoot, variants[variantName].envFile);
@@ -78,13 +57,45 @@ const getDisplayNames = () =>
         })
     );
 
+/**
+ * Anchors that never match are the failure mode this script is built to avoid.
+ *
+ * `String.replace` returns its input unchanged when nothing matched, so a drifted
+ * anchor and a successful sync are indistinguishable from the outside. This tracks
+ * both facts separately: whether the anchor was found at all, and whether the value
+ * actually changed. A value that is already correct is a legitimate no-op; a missing
+ * anchor means the native project is not in the shape this script assumes.
+ */
+const missingAnchors = [];
+const changes = [];
+
+const applyAnchored = ({ contents, pattern, replacement, file, description }) => {
+    if (!pattern.test(contents)) {
+        missingAnchors.push(`${file} — ${description}`);
+        return contents;
+    }
+
+    const next = contents.replace(pattern, replacement);
+    if (next !== contents) {
+        changes.push(`${file} — ${description}`);
+    }
+
+    return next;
+};
+
 const replaceGradleFlavorAppName = (contents, variantName, displayName) => {
     const escapedDisplayName = escapeSingleQuotedGradle(displayName);
     const flavorPattern = new RegExp(
         `(${variantName}\\s*\\{[\\s\\S]*?resValue\\s+'string',\\s+'app_name',\\s+')[^']*(')`
     );
 
-    return contents.replace(flavorPattern, `$1${escapedDisplayName}$2`);
+    return applyAnchored({
+        contents,
+        pattern: flavorPattern,
+        replacement: `$1${escapedDisplayName}$2`,
+        file: 'android/app/build.gradle',
+        description: `${variantName} flavor app_name`,
+    });
 };
 
 const syncAndroidDisplayNames = (displayNames) => {
@@ -102,12 +113,13 @@ const syncAndroidDisplayNames = (displayNames) => {
     const stringsPath = path.join(projectRoot, 'android/app/src/main/res/values/strings.xml');
     if (fs.existsSync(stringsPath)) {
         const developmentDisplayName = displayNames.development;
-        const contents = fs
-            .readFileSync(stringsPath, 'utf8')
-            .replace(
-                /<string name="app_name">[^<]*<\/string>/,
-                `<string name="app_name">${escapeXml(developmentDisplayName)}</string>`
-            );
+        const contents = applyAnchored({
+            contents: fs.readFileSync(stringsPath, 'utf8'),
+            pattern: /<string name="app_name">[^<]*<\/string>/,
+            replacement: `<string name="app_name">${escapeXml(developmentDisplayName)}</string>`,
+            file: 'android/app/src/main/res/values/strings.xml',
+            description: 'app_name string',
+        });
 
         fs.writeFileSync(stringsPath, contents);
     }
@@ -115,17 +127,28 @@ const syncAndroidDisplayNames = (displayNames) => {
 
 const replaceXcodeConfigAppName = (contents, variantName, displayName) => {
     const formattedDisplayName = formatXcodeValue(displayName);
+    let matchedSection = false;
 
-    return contents
+    const next = contents
         .split(/(\n\t\t\};)/)
         .map((section) => {
             if (!section.includes(`APP_VARIANT = ${variantName};`)) {
                 return section;
             }
 
+            matchedSection = true;
             return section.replace(/APP_DISPLAY_NAME = .*?;/, `APP_DISPLAY_NAME = ${formattedDisplayName};`);
         })
         .join('');
+
+    const file = 'ios/NewReactNativeZustandRNQ.xcodeproj/project.pbxproj';
+    if (!matchedSection) {
+        missingAnchors.push(`${file} — no build configuration declares APP_VARIANT = ${variantName}`);
+    } else if (next !== contents) {
+        changes.push(`${file} — ${variantName} APP_DISPLAY_NAME`);
+    }
+
+    return next;
 };
 
 const syncIosDisplayNames = (displayNames) => {
@@ -150,8 +173,26 @@ const displayNames = getDisplayNames();
 syncAndroidDisplayNames(displayNames);
 syncIosDisplayNames(displayNames);
 
-console.log(
-    `✅ Synced native APP_NAME values: ${Object.entries(displayNames)
-        .map(([variantName, displayName]) => `${variantName}=${displayName}`)
-        .join(', ')}`
-);
+// Report what actually happened, per file. The previous unconditional success line
+// printed "✅ Synced" even when every anchor had missed and nothing was written.
+if (missingAnchors.length > 0) {
+    console.error('❌ Native sync could not find these anchors:');
+    for (const anchor of missingAnchors) {
+        console.error(`   • ${anchor}`);
+    }
+    console.error('');
+    console.error('The native project is not in the shape this script expects — usually because');
+    console.error('`expo prebuild` has not run, or a template update reformatted the anchor.');
+    console.error('Run `pnpm prebuild` and retry. If it still fails, update the anchors in');
+    console.error('scripts/sync-native-env.cjs.');
+    process.exit(1);
+}
+
+if (changes.length === 0) {
+    console.log('✅ Native APP_NAME values already up to date, nothing to write.');
+} else {
+    console.log('✅ Synced native APP_NAME values:');
+    for (const change of changes) {
+        console.log(`   • ${change}`);
+    }
+}
