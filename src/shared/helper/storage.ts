@@ -108,6 +108,18 @@ export const clearToken = async (): Promise<void> => {
     }
 };
 
+/**
+ * Deliberately retained despite having no production caller today.
+ *
+ * The four one-line `secure*` wrappers that used to sit below were deleted for
+ * exactly the reason this one survives: they delegated straight to
+ * `SecureStorageService`, so their tests asserted that a passthrough passes
+ * through. These two carry real logic — expiry and format-version handling — and
+ * the token lifecycle work needs them, so deleting and re-adding would be churn.
+ *
+ * Treat them as unproven, not as working code: neither has run against a real
+ * `SecureStorageService`, only against a mock.
+ */
 export const hasValidToken = async (): Promise<boolean> => {
     const token = await getToken();
     return !!token;
