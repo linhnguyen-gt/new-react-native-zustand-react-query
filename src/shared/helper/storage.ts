@@ -5,7 +5,24 @@ enum TypeToken {
     RefreshToken = 'REFRESH_TOKEN',
 }
 
+/**
+ * Current stored-payload format.
+ *
+ * Bump whenever the shape changes. Without a tag, an older build reading a newer
+ * payload (or the reverse) cannot tell "different format" from "corrupt", and
+ * `expo-updates` makes downgrade a supported operation — an OTA rollback would
+ * otherwise silently sign out everyone holding the newer format with nothing in the
+ * logs to explain it.
+ *
+ * Version 1 is the pre-tag format written by builds that stored AES ciphertext. No
+ * install ever held a readable one (the cipher threw on every write), so treating it
+ * as unreadable strands nothing.
+ */
+const TOKEN_FORMAT_VERSION = 2;
+
 interface TokenData {
+    /** Format tag. Absent means a pre-versioning payload. */
+    v?: number;
     refreshToken?: string | null;
     expiresAt?: number;
     createdAt?: number;
@@ -27,6 +44,7 @@ export const setToken = async ({ refreshToken }: { refreshToken?: string | undef
     }
 
     const tokenData: TokenData = {
+        v: TOKEN_FORMAT_VERSION,
         refreshToken,
         createdAt: Date.now(),
         expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
@@ -51,6 +69,13 @@ export const getToken = async (): Promise<string | undefined> => {
         if (!tokenString) return undefined;
 
         const tokenData: TokenData = JSON.parse(tokenString);
+
+        // An untagged or unknown-version payload is not ours to interpret. Clear it
+        // rather than guessing at its shape.
+        if (tokenData.v !== TOKEN_FORMAT_VERSION) {
+            await clearToken();
+            return undefined;
+        }
 
         if (isTokenExpired(tokenData.expiresAt)) {
             await clearToken();
@@ -94,6 +119,8 @@ export const getTokenMetadata = async (): Promise<{ createdAt?: number; expiresA
         if (!tokenString) return null;
 
         const tokenData: TokenData = JSON.parse(tokenString);
+        if (tokenData.v !== TOKEN_FORMAT_VERSION) return null;
+
         return {
             createdAt: tokenData.createdAt,
             expiresAt: tokenData.expiresAt,

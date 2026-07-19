@@ -31,7 +31,6 @@ module.exports = {
             '|expo-secure-store' +
             '|react-native-get-random-values' +
             '|react-native-url-polyfill' +
-            '|aes-js' +
             '|react-native-gesture-handler' +
             '|react-native-reanimated' +
             '|react-native-svg' +
