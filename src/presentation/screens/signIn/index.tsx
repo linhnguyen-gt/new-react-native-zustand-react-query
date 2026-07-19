@@ -77,18 +77,26 @@ const AppInfoBadge = React.memo(() => (
 
 AppInfoBadge.displayName = 'AppInfoBadge';
 
-const SignUpLink = React.memo(() => (
-    <Box flexDirection="row" justifyContent="center" marginTop={16}>
-        <Text color="#64748b" marginRight={4}>
-            Don&apos;t have an account?
-        </Text>
-        <MyTouchable onPress={() => RootNavigator.navigate(RouteName.SignUp)}>
-            <Text color={Colors.primaryColor} fontWeight="bold">
-                Sign Up
+const SignUpLink = React.memo(() => {
+    // Stable identity. An inline arrow here hands a new function to a memoised
+    // touchable on every render, defeating the memo.
+    const goToSignUp = React.useCallback(() => {
+        RootNavigator.navigate(RouteName.SignUp);
+    }, []);
+
+    return (
+        <Box flexDirection="row" justifyContent="center" marginTop={16}>
+            <Text color="#64748b" marginRight={4}>
+                Don&apos;t have an account?
             </Text>
-        </MyTouchable>
-    </Box>
-));
+            <MyTouchable onPress={goToSignUp}>
+                <Text color={Colors.primaryColor} fontWeight="bold">
+                    Sign Up
+                </Text>
+            </MyTouchable>
+        </Box>
+    );
+});
 
 SignUpLink.displayName = 'SignUpLink';
 
