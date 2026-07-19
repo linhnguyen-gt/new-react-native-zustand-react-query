@@ -63,6 +63,26 @@ function ListView<T extends Data>(
 
     const _renderLoadingLoadMore = React.useMemo(() => <LoadingFooter isLoading={isLoadingMore} />, [isLoadingMore]);
 
+    /**
+     * Skeletons are only fed to the list when there is something to draw for them.
+     *
+     * `skeletonRenderItem` returns `null` when no `skeletonComponent` was supplied, so the
+     * loading pass used to hand FlashList `skeletonCount` rows of zero height. FlashList
+     * builds its layout model from those measurements and does not recover when the real
+     * data swaps in: every row is then treated as if it costs nothing, the whole list fits
+     * the viewport by that model, and nothing is virtualised.
+     *
+     * Measured on device with a mount probe in the row component — 100 posts, no scrolling:
+     *
+     *   zero-height skeletons -> real data   100 mounts, 0 unmounts
+     *   sized skeletons       -> real data     7 mounts
+     *   no skeleton pass at all                6 mounts
+     *
+     * Callers that pass no `skeletonComponent` (the `main` screen is one) now keep their
+     * real data throughout and rely on their own loading indicator.
+     */
+    const showSkeletons = Boolean(isLoading && skeletonComponent);
+
     const dummyArray = React.useMemo(() => {
         return Array(skeletonCount)
             .fill(null)
@@ -123,8 +143,8 @@ function ListView<T extends Data>(
             refreshControl={_refreshControl || undefined}
             onEndReached={onPressLoadMore}
             keyExtractor={_keyExtractor}
-            data={isLoading ? dummyArray : data}
-            renderItem={isLoading ? skeletonRenderItem : renderItem}
+            data={showSkeletons ? dummyArray : data}
+            renderItem={showSkeletons ? skeletonRenderItem : renderItem}
             numColumns={numColumns}
             contentContainerStyle={{
                 paddingTop: pt,
