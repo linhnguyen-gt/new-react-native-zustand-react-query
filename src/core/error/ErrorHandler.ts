@@ -3,7 +3,7 @@
  * Handles error categorization, logging, recovery, and user feedback
  */
 
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import {
     AppError,
@@ -14,6 +14,7 @@ import {
     ErrorSeverity,
     HttpError,
     NetworkError,
+    RequestCancelledError,
     SchemaValidationError,
     StorageError,
     TimeoutError,
@@ -131,6 +132,14 @@ export class UnifiedErrorHandler {
             statusCode: status,
             ...context,
         };
+
+        // Cancellation first: axios reports it as an AxiosError with no `.response` and
+        // code ERR_CANCELED, so the network branch below would otherwise claim it. A
+        // request the app deliberately abandoned is not a connectivity failure, and
+        // treating it as one makes every navigate-away a retryable HIGH-severity alert.
+        if (axios.isCancel(error) || error.code === 'ERR_CANCELED') {
+            return new RequestCancelledError(message, errorContext);
+        }
 
         // Network errors
         if (!error.response) {

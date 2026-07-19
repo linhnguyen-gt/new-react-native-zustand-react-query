@@ -10,7 +10,14 @@ global.console = {
     debug: jest.fn(),
 };
 
+// `__esModule: true` is load-bearing. Without it babel's interop treats this factory's
+// return value as a CommonJS namespace and wraps it, so `import Constants from
+// 'expo-constants'` resolved to `{ default: { expoConfig: … } }` rather than the inner
+// object. `Constants.expoConfig` was therefore undefined in every test, and appConfig
+// silently fell back to its defaults — apiUrl '', appName 'App'. That went unnoticed
+// for as long as nothing read those values.
 jest.mock('expo-constants', () => ({
+    __esModule: true,
     default: {
         expoConfig: {
             extra: {

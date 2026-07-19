@@ -53,6 +53,17 @@ jobs:
                   cd ios
                   pod install
 
+            - name: Materialise environment
+              # `expo export` reads .env through app.config.ts, and .env* is gitignored, so
+              # CI had none. The export still succeeded — bundling never constructs the HTTP
+              # client — but the artifact threw "API_URL is not set" on first use, and
+              # nothing caught it. The example file carries valid placeholder values, so
+              # this makes the export representative and lets the gate below actually run.
+              run: cp .env.example .env
+
+            - name: Validate environment
+              run: pnpm check:env
+
             - name: Build iOS
               run: |
                   xcodebuild -workspace ios/NewReactNativeZustandRNQ.xcworkspace \

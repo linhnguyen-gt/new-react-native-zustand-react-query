@@ -6,6 +6,7 @@ export {
     ErrorSeverity,
     HttpError,
     NetworkError,
+    RequestCancelledError,
     SchemaValidationError,
     StorageError,
     TimeoutError,

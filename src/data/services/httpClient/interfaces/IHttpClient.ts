@@ -17,7 +17,17 @@ type BaseHttpRequestConfig = {
     endpoint: string;
     method: ApiMethod;
     headers?: Record<string, string>;
+    /** Per-request deadline in ms, overriding the client default. */
     timeout?: number;
+    /**
+     * Cancellation signal.
+     *
+     * React Query hands its query function an `AbortSignal` and expects it to be
+     * forwarded; without this the signal was accepted nowhere, so cancelling a query —
+     * navigating away from a screen mid-request — left the request running to
+     * completion and its response discarded.
+     */
+    signal?: AbortSignal;
 };
 
 type PostHttpRequestConfig = BaseHttpRequestConfig & {
