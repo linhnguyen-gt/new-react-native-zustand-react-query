@@ -303,13 +303,45 @@ export class UnifiedErrorHandler {
     }
 
     /**
+     * Longest response body still plausibly written for a human to read. A real API error
+     * string ("Invalid credentials") is far below this; a rendered page or a stack trace is
+     * far above it.
+     */
+    private static readonly MAX_PRESENTABLE_MESSAGE_LENGTH = 200;
+
+    /**
+     * Whether a string response body can be shown to a user as-is.
+     *
+     * A failing request does not always come from the API. Gateways, proxies and load
+     * balancers answer with an HTML page, and returning that verbatim put the whole nginx
+     * error document on screen — including the server version and OS — with the app's own
+     * "Error Occurred" heading above it. Reproduced on device against a 502.
+     *
+     * So a string body is only trusted when it looks like prose rather than markup, and is
+     * short enough to have been written as a message rather than rendered as a document.
+     * Rejecting it falls back to `error.message` and then to a generic string, which are
+     * both safe to display.
+     */
+    private isPresentableMessage(value: string): boolean {
+        const trimmed = value.trim();
+
+        if (!trimmed || trimmed.length > UnifiedErrorHandler.MAX_PRESENTABLE_MESSAGE_LENGTH) {
+            return false;
+        }
+
+        // Markup or a document preamble: `<html>`, `<!DOCTYPE …>`, `<?xml …?>`. Checking the
+        // first character alone would miss a leading newline, which nginx and Apache both emit.
+        return !/^[<]/.test(trimmed) && !/<\/?[a-z!?]/i.test(trimmed);
+    }
+
+    /**
      * Extract error message from various sources
      */
     private extractErrorMessage(data: any): string | null {
         if (!data) return null;
 
         if (typeof data === 'string') {
-            return data;
+            return this.isPresentableMessage(data) ? data.trim() : null;
         }
 
         if (data instanceof Error) {

@@ -45,11 +45,47 @@ if (!variants[variant]) {
 
 const config = variants[variant];
 
+/**
+ * How to ask expo for a device.
+ *
+ * A bare `--device` means "prompt me". That works at a terminal and fails everywhere else:
+ * expo exits with `Input is required, but 'npx expo' is in non-interactive mode`, so this
+ * script could not run from CI, a hook, or an agent session.
+ *
+ * `DEVICE` names one explicitly. Note that expo wants the *AVD name* (`Pixel_10_Pro`), not
+ * the adb serial — passing `emulator-5554` fails with `Could not find device with name`.
+ * With no TTY and no `DEVICE`, omit the flag entirely and let expo pick the single attached
+ * device rather than aborting.
+ */
+const deviceArgs = () => {
+    const requested = process.env.DEVICE?.trim();
+
+    if (requested) {
+        return ['--device', requested];
+    }
+
+    return process.stdin.isTTY ? ['--device'] : [];
+};
+
 run(process.execPath, ['scripts/check-env.js']);
 run(process.execPath, ['scripts/sync-native-env.cjs']);
 
 if (platform === 'android') {
-    run('expo', ['run:android', '--variant', config.androidVariant, '--app-id', getAndroidAppId(variant), '--device']);
+    run('expo', [
+        'run:android',
+        '--variant',
+        config.androidVariant,
+        '--app-id',
+        getAndroidAppId(variant),
+        ...deviceArgs(),
+    ]);
 } else {
-    run('expo', ['run:ios', '--scheme', config.iosScheme, '--configuration', config.iosConfiguration, '--device']);
+    run('expo', [
+        'run:ios',
+        '--scheme',
+        config.iosScheme,
+        '--configuration',
+        config.iosConfiguration,
+        ...deviceArgs(),
+    ]);
 }

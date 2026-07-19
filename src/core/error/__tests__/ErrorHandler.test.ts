@@ -225,6 +225,46 @@ describe('UnifiedErrorHandler', () => {
             expect(result.message).toContain('Invalid input');
         });
 
+        it('should not surface an HTML error page as the message', () => {
+            // Verbatim body served by nginx for the 502 reproduced on device. Returning it
+            // put the whole document on screen under the app's "Error Occurred" heading,
+            // leaking the server version and OS to the user.
+            const gatewayHtml =
+                '<html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n' +
+                '<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx/1.18.0 (Ubuntu)</center>\r\n' +
+                '</body>\r\n</html>\r\n';
+
+            const axiosError = new AxiosError('Request failed with status code 502');
+            axiosError.response = {
+                status: 502,
+                data: gatewayHtml,
+                statusText: 'Bad Gateway',
+                headers: {},
+                config: {} as any,
+            };
+
+            const result = handler.handle(axiosError);
+
+            expect(result.message).not.toContain('<html>');
+            expect(result.message).not.toContain('nginx');
+            expect(result.message).toBe('Request failed with status code 502');
+        });
+
+        it('should reject a string body too long to be a human-written message', () => {
+            const axiosError = new AxiosError('Request failed with status code 500');
+            axiosError.response = {
+                status: 500,
+                data: 'x'.repeat(201),
+                statusText: 'Internal Server Error',
+                headers: {},
+                config: {} as any,
+            };
+
+            const result = handler.handle(axiosError);
+
+            expect(result.message).toBe('Request failed with status code 500');
+        });
+
         it('should extract message from object', () => {
             const axiosError = new AxiosError('Error');
             axiosError.response = {
