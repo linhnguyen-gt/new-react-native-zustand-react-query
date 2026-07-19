@@ -119,10 +119,25 @@ describe('Storage Helper', () => {
             expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith('REFRESH_TOKEN');
         });
 
-        it('should return undefined and clear token when SecureStorageService fails', async () => {
+        it('propagates a keystore failure instead of deleting the credential', async () => {
             mockSecureStorageService.getItem.mockRejectedValue(new Error('Storage failed'));
             mockSecureStorageService.removeItem.mockResolvedValue();
 
+            // The token is stored WHEN_UNLOCKED_THIS_DEVICE_ONLY, so a read attempted
+            // while the device is locked — a background wake, say — fails transiently.
+            // Treating "unreadable" as "junk" would destroy a valid credential, which is
+            // the same class of mistake the refresh layer avoids by clearing only on an
+            // explicit 401/403.
+            await expect(storage.getToken()).rejects.toThrow('Storage failed');
+            expect(mockSecureStorageService.removeItem).not.toHaveBeenCalled();
+        });
+
+        it('clears a payload it could read but could not parse', async () => {
+            mockSecureStorageService.getItem.mockResolvedValue('not json at all');
+            mockSecureStorageService.removeItem.mockResolvedValue();
+
+            // Distinct from the case above: this value came back fine and is genuinely
+            // junk, so removing it is right.
             const result = await storage.getToken();
 
             expect(result).toBeUndefined();
