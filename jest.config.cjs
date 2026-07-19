@@ -48,6 +48,21 @@ module.exports = {
     },
     setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
     testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.history/', '<rootDir>/.opencode/'],
+    // Grade every source file, not just the ones a test happened to import.
+    //
+    // Without this, jest's default denominator is "files reachable from a test", which
+    // lets coverage grade itself: 20 source files — App.tsx, the providers, the
+    // reactotron plugins, the navigation service — were absent from their own score.
+    // Two failure modes follow. A new untested module does not move the number at all,
+    // because nothing imports it; and deleting a test suite removes the covered files
+    // from the denominator along with the tests, so the metric partially self-heals
+    // exactly when it should be screaming.
+    //
+    // The gap was not small. Self-selecting: 67.36 / 60.72 / 60.13 / 68.13.
+    // Honest: 60.86 / 48.38 / 54.30 / 61.95. Branch coverage was overstated by 12
+    // points.
+    collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/__tests__/**', '!**/*.d.ts'],
+
     // Ratchet, not a target.
     //
     // `test:ci` has always run --coverage and uploaded to Codecov, but nothing
@@ -60,15 +75,15 @@ module.exports = {
     // blind spot it was meant to close. The gap absorbs ordinary movement while
     // still catching a real slide.
     //
-    // Measured after the dead-code removal settled (260719): statements 67.36,
-    // branches 60.72, functions 60.13, lines 68.13. Raise these as coverage grows;
+    // Measured 260719 against the honest denominator above: statements 60.86,
+    // branches 48.38, functions 54.30, lines 61.95. Raise these as coverage grows;
     // never lower them to make a red build green.
     coverageThreshold: {
         global: {
-            statements: 65,
-            branches: 58,
-            functions: 58,
-            lines: 65,
+            statements: 58,
+            branches: 45,
+            functions: 51,
+            lines: 59,
         },
     },
     globals: {

@@ -21,7 +21,7 @@ interface SerializedError {
  * allows throwing any value, and both call sites pass values originating from a
  * throw or from React Query's error state.
  */
-export const formatError = (error: unknown): string | SerializedError | unknown => {
+export const formatError = (error: unknown): string | SerializedError => {
     if (!error) return 'Unknown error';
 
     if (error instanceof Error) {
@@ -32,5 +32,9 @@ export const formatError = (error: unknown): string | SerializedError | unknown 
         };
     }
 
-    return error;
+    // `String(error)` rather than returning the value untouched: a union including
+    // `unknown` collapses back to `unknown`, erasing the two useful members above.
+    // This also matches how `categorizeError` handles a non-Error throw, so both
+    // paths render a thrown string or object the same way.
+    return String(error);
 };

@@ -71,8 +71,14 @@ describe('offline classification', () => {
      * missing status to 500 and returned an HttpError, so the same offline failure
      * classified as NETWORK_ERROR on one path and SERVER_ERROR on the other. That
      * mapper was deleted as unreferenced, leaving one. This pins the surviving
-     * behaviour through the real interceptor chain so a future mapper cannot
-     * quietly reintroduce the synthetic 500.
+     * behaviour so a future mapper cannot quietly reintroduce the synthetic 500.
+     *
+     * Scope note: for a no-response error the interceptor is a pass-through —
+     * isTokenExpiredError and isUserNotFoundError both read `error.response?.status`,
+     * get undefined, and reject the original. So what this covers is the
+     * interceptor-to-handler seam and the classification, not the HttpClient
+     * contract. The prototype-preservation tests below are the ones that genuinely
+     * depend on the chain.
      */
     it('classifies an unreachable server as NETWORK_ERROR, not a synthetic 500', async () => {
         const client = makeUnreachableClient();
@@ -84,8 +90,10 @@ describe('offline classification', () => {
         const appError = errorHandler.handle(rejection);
 
         expect(appError.code).toBe(ErrorCode.NETWORK_ERROR);
-        expect(appError.code).not.toBe(ErrorCode.SERVER_ERROR);
-        expect(appError.context?.statusCode).not.toBe(500);
+        // Assert the actual value, not merely "not 500" — that would pass for any
+        // wrong status. handleAxiosError uses `error.response?.status || 0`, so a
+        // request that never reached a server carries 0.
+        expect(appError.context?.statusCode).toBe(0);
     });
 
     it('classifies an aborted connection as TIMEOUT_ERROR', async () => {

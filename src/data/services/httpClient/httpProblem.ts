@@ -6,9 +6,13 @@ import { HttpStatusCode } from 'axios';
  *
  * `declare global` augmentation is program-scoped, not import-scoped: every file
  * matched by the tsconfig `include` contributes its globals everywhere, with no
- * import needed. `responseApi.ts` uses `BaseResponse` and `ListView.tsx` uses `Data`
- * without importing this file, which is why a barrel `import './httpProblem'` was
- * removed as the no-op it was.
+ * import needed. `responseApi.ts:4,16` uses `BaseResponse` without importing this
+ * file, which is why a barrel `import './httpProblem'` was removed as the no-op it
+ * was.
+ *
+ * `BaseResponse` is the only global here with an outside consumer. `Data` is used
+ * solely by the `BaseResponse` constraint below — `ListView.tsx:8` declares its own
+ * local `type Data` that shadows this one, so do not count it as a second consumer.
  *
  * The axios import is load-bearing despite appearing unused: `HttpStatusCode` is the
  * default for the `S` type parameter below.

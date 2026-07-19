@@ -73,13 +73,16 @@ export class TokenService implements ITokenService {
             // setToken({ refreshToken: null }), which is a no-op because setToken
             // early-returns on a falsy token. Only logout() reaches clearToken().
             //
-            // A failed request used to resolve undefined and fall into an `if
-            // (!response.ok)` branch above, so every failure cleared the token. That
-            // branch is now gone: `request()` throws, so `HttpResponse` no longer
-            // carries an `ok` flag it could never set to false. Failures arrive here
-            // instead, and this preserves the old behaviour exactly. It still clears
-            // on transient network failures too, which is wrong — narrowing it to
-            // server-rejected credentials (401/403) belongs with the rest of the
+            // Every refresh failure lands here, and always did. Before the error
+            // propagation fix, `request()` resolved `undefined` on failure, so reading
+            // `response.ok` threw a TypeError — into this same catch, calling this same
+            // logout(). The `if (!response.ok)` branch that used to sit above was never
+            // the thing clearing the token; it could not run, because `ok` was a
+            // hardcoded literal on the one success path. It has since been deleted
+            // along with the flag.
+            //
+            // Still clears on transient network failures, which is wrong — narrowing it
+            // to server-rejected credentials (401/403) belongs with the rest of the
             // refresh work, not here.
             await this.logout();
             return false;
