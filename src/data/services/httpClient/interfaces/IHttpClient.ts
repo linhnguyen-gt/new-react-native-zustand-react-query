@@ -3,7 +3,14 @@ import ApiMethod from '../apiMethod';
 export interface Session {
     accessToken?: string;
     refreshToken?: string;
+    /** Access-token expiry, epoch ms. Drives when a refresh is scheduled. */
     expiredAt?: number;
+    /**
+     * Refresh-token expiry, epoch ms — a different value from `expiredAt`, kept as a
+     * separate field so the two cannot be confused. Feeding the access-token expiry
+     * into the refresh token's retention window logs the user out minutes after login.
+     */
+    refreshExpiredAt?: number;
 }
 
 type BaseHttpRequestConfig = {

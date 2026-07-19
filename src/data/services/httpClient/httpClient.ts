@@ -153,6 +153,14 @@ export class HttpClient implements IHttpClient {
         delete this.INSTANCE.defaults.headers.Authorization;
     }
 
+    /**
+     * The shared instance's baseURL, so the refresh client can target the same host
+     * without a second source of truth for it.
+     */
+    getBaseURL(): string | undefined {
+        return this.INSTANCE.defaults.baseURL;
+    }
+
     clearRefreshTokenTimeout(): void {
         if (this.timeoutId) {
             clearTimeout(this.timeoutId);
