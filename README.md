@@ -8,7 +8,7 @@
 
   <p>
     <a href="https://reactnative.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/React_Native-v0.85.3-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
+      <img src="https://img.shields.io/badge/React_Native-v0.86.0-blue?style=for-the-badge&logo=react&logoColor=white" alt="react-native" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">
       <img src="https://img.shields.io/badge/TypeScript-v6.0.3-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript" />
@@ -18,7 +18,7 @@
 ### Core Libraries
 
   <p>
-    <img src="https://img.shields.io/badge/Expo-v56.0.4-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
+    <img src="https://img.shields.io/badge/Expo-v57.0.8-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
     <img src="https://img.shields.io/badge/React_Navigation-v7.2.5-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
@@ -65,7 +65,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Reactotron-v5.1.18-7B61FF?style=for-the-badge" alt="reactotron" />
-    <img src="https://img.shields.io/badge/React_Native_Reanimated-v4.3.1-FF4154?style=for-the-badge" alt="reanimated" />
+    <img src="https://img.shields.io/badge/React_Native_Reanimated-v4.5.0-FF4154?style=for-the-badge" alt="reanimated" />
   </p>
 
 ### Environment Support
