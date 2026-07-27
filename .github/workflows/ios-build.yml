@@ -65,11 +65,31 @@ jobs:
               run: pnpm check:env
 
             - name: Build iOS
+              # `generic/platform=iOS Simulator` rather than a named device. This job only
+              # compiles, and compiling needs no concrete simulator — while a `name=` pins
+              # the workflow to whatever device list the runner image happens to ship.
+              # That pin broke: the runner moved to the iPhone 17 family and every run
+              # failed with `xcodebuild: error: Unable to find a device matching the
+              # provided destination specifier` (exit 70) on a name that had simply aged
+              # out. A generic destination cannot age out. If this job ever runs tests it
+              # will need a real device again — resolve one from `xcrun simctl list` at
+              # runtime rather than hardcoding a name.
+              #
+              # `ARCHS` because a generic destination has no active architecture, so
+              # xcodebuild otherwise builds every simulator arch — measured at exactly
+              # 2490 object files for arm64 and 2490 more for x86_64, double the work to
+              # answer a yes/no question. Reading it from the runner keeps that saving
+              # without reintroducing a hardcode that can rot.
+              #
+              # It must be the `ARCHS=` build setting, not the `-arch` flag: combining
+              # `-arch` with a destination fails with "destination implies architecture,
+              # architecture must not also be specified".
               run: |
                   xcodebuild -workspace ios/NewReactNativeZustandRNQ.xcworkspace \
                     -scheme NewReactNativeZustandRNQ \
                     -configuration Debug \
-                    -destination "platform=iOS Simulator,name=iPhone 16" \
+                    -destination "generic/platform=iOS Simulator" \
+                    ARCHS="$(uname -m)" ONLY_ACTIVE_ARCH=NO \
                     build
 
             - name: Upload build artifacts
