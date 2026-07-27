@@ -303,6 +303,72 @@ Use these locations for durable native customization:
 
 If a native change must survive a clean prebuild, do not leave it only as a direct edit in generated native folders.
 
+## Dependency Upgrade Policy
+
+### Expo pins two manifests, not one
+
+A package is free to move only when it is absent from **both**:
+
+1. `bundledNativeModules.json` for the SDK — native modules
+   (`https://api.expo.dev/v2/sdks/<version>/native-modules`)
+2. `relatedPackages` for the SDK — toolchain and devDependencies
+   (`https://api.expo.dev/v2/versions/latest`)
+
+`npm latest` is not a target for anything either manifest names. `expo install --fix` enforces the first and part of the second; check `relatedPackages` by hand for the rest. Checking only `bundledNativeModules` wrongly clears `react`, `jest`, `typescript`, `@types/react` and `@babel/core`, all of which `relatedPackages` pins.
+
+```bash
+npx expo install --fix
+curl -s https://api.expo.dev/v2/versions/latest \
+  | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).data.sdkVersions['57.0.0'].relatedPackages))"
+```
+
+### Deferred upgrades
+
+Each entry carries a re-check command, never a predicted date.
+
+| deferred | blocked by | re-check with | unblocked when |
+| --- | --- | --- | --- |
+| tailwindcss 4.x | NativeWind 4 is Tailwind-3-only; NativeWind 5 still in preview. Tailwind 4 also drops JS config, so `tailwind.config.ts` and `global.css` both need rewriting | `npm view nativewind dist-tags` | `latest` is `5.x` |
+| typescript 7.x | Expo pins `~6.0.3`; `@typescript-eslint` peer is `>=4.8.4 <6.1.0` | `relatedPackages` | Expo pins `7.x` |
+| eslint 10.x | `eslint-plugin-react` peer stops at `^9.7` | `npm view eslint-plugin-react peerDependencies` | range admits `^10` |
+| jest 30.x | Expo pins `~29.7.0` | `relatedPackages` | Expo pins `30.x` |
+| react 19.2.7 | Expo pins `19.2.3` exactly | `relatedPackages` | Expo moves the pin |
+| react-native-gesture-handler 3.x | SDK 57 pins `~2.32.0` | `https://api.expo.dev/v2/sdks/57.0.0/native-modules` | Expo pins `3.x` |
+| prettier 3.9.5 | reformats the whole codebase, and `lint-staged` runs `prettier --write` on staged files so the churn spreads across later commits | `pnpm prettier --check .` | taken as a standalone formatting task |
+| pnpm 11.x | not worth changing during an SDK upgrade | `pnpm --version` | taken as a standalone task |
+| dev-transitive audit findings | see below | `pnpm audit` | taken as a standalone hygiene task |
+
+### Watch items
+
+**TypeScript.** The repo sits at `~6.0.3`, one minor below `@typescript-eslint`'s `<6.1.0` ceiling. A routine 6.1 bump breaks `pnpm lint` and **no deferral entry above fires** — nothing holds it back except Expo's own pin.
+
+**Config-plugin anchors.** `plugins/with-environment-support.cjs` rewrites generated Gradle and Podfile content by matching verbatim React Native template source. Its regression test corrupts each anchor against a **hardcoded fixture**, so it verifies the throwing behaviour, not that the anchors still match the installed template — it stays green through real drift. After any React Native or Expo SDK bump, run `expo prebuild --clean` in a throwaway worktree **before** touching the real `ios/` and `android/`: `--clean` deletes both directories before the plugin runs, so a late failure leaves nothing to revert.
+
+**Reviewing a regenerated `project.pbxproj`.** The `xcode` library regenerates every 24-hex object ID on each prebuild, so a routine diff is hundreds of lines of noise. Mask the IDs before reviewing:
+
+```bash
+sed -E 's/[0-9A-F]{24}/<ID>/g' <file> | sed -E 's/^[[:space:]]+//' | sort
+```
+
+**Native Android has no CI coverage.** Despite its name, `.github/workflows/android-build.yml` runs `expo export --platform android`, which bundles JavaScript and never invokes Gradle. Android native regressions are caught only by a local build.
+
+**`coverageThreshold` only applies under `test:ci`.** A coverage regression is green under `pnpm test` and red in CI.
+
+**Pre-commit hooks are glob-scoped.** `lefthook.yml` runs `versions` on `package.json`, `lint-staged` on `*.{js,ts,jsx,tsx}` and `test` on `src/**`. A commit touching only `ios/` and `android/` matches none of them and runs no gate at all.
+
+### Known audit findings left open
+
+| package | severity | reached through | why it stays |
+| --- | --- | --- | --- |
+| `uuid` | moderate | `@react-native-vector-icons/ant-design > @expo/config-plugins > xcode > uuid` | build-time config-plugin dependency nested inside a **runtime** package, so a CLI bump cannot clear it. `xcode` is the same library the config plugin imports, so it does execute during prebuild |
+| `postcss` | high | `expo > @expo/metro-config` | build-time; clears when Expo bumps |
+| `brace-expansion`, `js-yaml`, `fast-uri` | high | `@commitlint/cli`, `@react-native/jest-preset`, `babel-plugin-module-resolver` | dev-only transitives |
+| `shell-quote`, `launch-editor`, `joi`, `fast-xml-parser`, `body-parser` | high–low | `@react-native-community/cli` | dev-only transitives |
+
+Several of these declare ranges that already admit a patched version and would clear on a resolution refresh alone. That is a standalone hygiene task — folding it into a dependency upgrade makes the real diff unreviewable.
+
+Measure `form-data` with `pnpm why form-data`, not `pnpm audit`: the advisory database reports the `axios` path only, so a fix scoped to `axios` reads audit-clean while the `dotenv-vault` path stays open.
+
 ## Project Structure
 
 - `src/app/`: providers and Zustand stores
