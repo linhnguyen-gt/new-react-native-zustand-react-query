@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { writeFileAtomic } = require('../scripts/lib/write-file-atomic.cjs');
 const path = require('path');
 const xcode = require('xcode');
 const {
@@ -64,6 +65,41 @@ function removeGeneratedBlock(contents, marker) {
 
 function escapeRegExp(value) {
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Apply an anchored native mutation, refusing to continue if the anchor is gone.
+ *
+ * `String.replace` returns its input unchanged when the pattern does not match, and
+ * nothing downstream can tell that apart from a successful edit. When an Expo or React
+ * Native template bump reformats one of these anchors, prebuild would otherwise exit 0
+ * having silently skipped the mutation.
+ *
+ * Two of the anchors fail loudly on the next build (a missing product flavor surfaces
+ * as `Task 'installProductionDebug' not found`). The react-settings anchor does not: it
+ * governs which `.env` gets embedded, so a silent miss produces a green production build
+ * carrying development configuration. That case is why this asserts rather than warns.
+ */
+function applyAnchoredMutation({ contents, pattern, replacement, file, description }) {
+    const next = contents.replace(pattern, replacement);
+
+    if (next === contents) {
+        throw new Error(
+            [
+                `[with-environment-support] Failed to apply "${description}" in ${file}.`,
+                `The anchor ${pattern} no longer matches, most likely because an Expo or`,
+                'React Native template update reformatted the surrounding code.',
+                '',
+                'The native project is now partially mutated. Restore it before retrying:',
+                '    git checkout android/ ios/',
+                '',
+                'Then update the anchor in plugins/with-environment-support.cjs to match the',
+                'current template.',
+            ].join('\n')
+        );
+    }
+
+    return next;
 }
 
 function withDisplayName(config) {
@@ -169,10 +205,13 @@ ${marker.end}
 `;
 
     contents = removeGeneratedBlock(contents, marker);
-    return contents.replace(
-        /def projectRoot = rootDir\.getAbsoluteFile\(\)\.getParentFile\(\)\.getAbsolutePath\(\)\n/,
-        (match) => `${match}${block}`
-    );
+    return applyAnchoredMutation({
+        contents,
+        pattern: /def projectRoot = rootDir\.getAbsoluteFile\(\)\.getParentFile\(\)\.getAbsolutePath\(\)\n/,
+        replacement: (match) => `${match}${block}`,
+        file: 'android/app/build.gradle',
+        description: 'android node wrapper',
+    });
 }
 
 function ensureAndroidReactSettings(contents, variants) {
@@ -189,7 +228,13 @@ function ensureAndroidReactSettings(contents, variants) {
 `;
 
     contents = removeGeneratedBlock(contents, marker);
-    return contents.replace(/(\s*bundleCommand = "export:embed"\n)/, `$1${block}`);
+    return applyAnchoredMutation({
+        contents,
+        pattern: /(\s*bundleCommand = "export:embed"\n)/,
+        replacement: `$1${block}`,
+        file: 'android/app/build.gradle',
+        description: 'react settings (selects the .env embedded in the bundle)',
+    });
 }
 
 function ensureAndroidFlavors(contents, variants) {
@@ -222,7 +267,13 @@ function ensureAndroidFlavors(contents, variants) {
 `;
 
     contents = removeGeneratedBlock(contents, marker);
-    return contents.replace(/(\n\s*signingConfigs\s*\{)/, `${block}$1`);
+    return applyAnchoredMutation({
+        contents,
+        pattern: /(\n\s*signingConfigs\s*\{)/,
+        replacement: `${block}$1`,
+        file: 'android/app/build.gradle',
+        description: 'product flavors',
+    });
 }
 
 function replaceAndroidNodeCommands(contents) {
@@ -250,7 +301,22 @@ function replaceAndroidNodeCommands(contents) {
     ]);
 
     for (const [from, to] of replacements) {
-        contents = contents.replaceAll(from, to);
+        // Already-rewritten content is not a failure: this plugin is re-entrant and
+        // prebuild may run over a project it has mutated before.
+        if (contents.includes(to)) {
+            continue;
+        }
+
+        contents = applyAnchoredMutation({
+            contents,
+            // A global regex, not the bare string: `String.replace` with a string
+            // pattern rewrites only the first occurrence, and these commands appear
+            // more than once in the template.
+            pattern: new RegExp(escapeRegExp(from), 'g'),
+            replacement: to,
+            file: 'android/app/build.gradle',
+            description: `node command rewrite (${from.slice(0, 60)}…)`,
+        });
     }
 
     return contents;
@@ -366,7 +432,7 @@ function withIosEnvironmentSchemes(config) {
 
             for (const variant of explicitVariants) {
                 const schemePath = path.join(schemesDir, `${variant.scheme}.xcscheme`);
-                fs.writeFileSync(schemePath, createSchemeXml({ projectName, target, variant }), 'utf8');
+                writeFileAtomic(schemePath, createSchemeXml({ projectName, target, variant }));
             }
 
             updatePodfileProjectMappings(iosRoot, projectName, explicitVariants);
@@ -484,8 +550,14 @@ ${marker.end}
 `;
 
     contents = removeGeneratedBlock(contents, marker);
-    contents = contents.replace(/(platform :ios, .*?\n)/, `$1${block}`);
-    fs.writeFileSync(podfilePath, contents, 'utf8');
+    contents = applyAnchoredMutation({
+        contents,
+        pattern: /(platform :ios, .*?\n)/,
+        replacement: `$1${block}`,
+        file: 'ios/Podfile',
+        description: 'ios per-variant pod configurations',
+    });
+    writeFileAtomic(podfilePath, contents);
 }
 
 function withEnvironmentSupport(config) {
@@ -505,3 +577,14 @@ function withEnvironmentSupport(config) {
 }
 
 module.exports = withEnvironmentSupport;
+
+// Expo requires this module to *be* the plugin function, so the internals hang off it
+// as a property. Exposed for tests: the anchored mutations are the part that fails
+// silently in production, and a test is the only place a drifted anchor gets caught
+// before a build ships the wrong .env.
+module.exports.internal = {
+    applyAnchoredMutation,
+    ensureAndroidNodeWrapper,
+    ensureAndroidReactSettings,
+    ensureAndroidFlavors,
+};

@@ -14,7 +14,6 @@ const packagesToUpdate = {
     React_Native: packageJson.dependencies['react-native'],
     TypeScript: packageJson.devDependencies.typescript,
     Expo: packageJson.dependencies.expo,
-    Gluestack_UI: packageJson.dependencies['@gluestack-ui/themed'],
     React_Navigation: packageJson.dependencies['@react-navigation/native'],
     Redux_Toolkit: packageJson.dependencies['@reduxjs/toolkit'],
     Redux_Saga: packageJson.dependencies['redux-saga'],

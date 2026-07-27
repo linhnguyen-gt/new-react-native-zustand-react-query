@@ -10,16 +10,15 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+const { parseEnvFile } = require('./lib/parse-env-file.cjs');
+// The shared variant table, so this cannot come to disagree with check-env.js or
+// app.config.ts about which file a channel reads.
+const { VARIANT_ENV_FILES: ENV_FILES } = require('./lib/variant-config.cjs');
+
 const CHANNELS = {
     d: 'development',
     s: 'staging',
     p: 'production',
-};
-
-const ENV_FILES = {
-    development: '.env',
-    staging: '.env.staging',
-    production: '.env.production',
 };
 
 const PLATFORMS = {
@@ -37,13 +36,7 @@ function loadEnvFile(channel) {
 
     if (fs.existsSync(envPath)) {
         console.log(`📄 Loading environment from ${envFile}`);
-        const envContent = fs.readFileSync(envPath, 'utf8');
-        envContent.split('\n').forEach((line) => {
-            const [key, ...valueParts] = line.split('=');
-            if (key && valueParts.length > 0 && !key.startsWith('#')) {
-                process.env[key.trim()] = valueParts.join('=').trim();
-            }
-        });
+        Object.assign(process.env, parseEnvFile(envPath));
         return true;
     } else {
         console.warn(`⚠️  ${envFile} not found, using existing environment variables`);

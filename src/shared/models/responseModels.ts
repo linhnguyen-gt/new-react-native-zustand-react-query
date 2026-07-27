@@ -9,9 +9,4 @@ export const ResponseSchema = z.object({
 
 declare global {
     type ResponseData = z.infer<typeof ResponseSchema>;
-
-    export type ResponseStateData = {
-        response: ResponseData[];
-        responseDetail: ResponseData | null;
-    };
 }

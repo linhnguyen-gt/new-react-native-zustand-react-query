@@ -57,56 +57,47 @@ const Input = React.forwardRef<TextInput, InputProps>(
             [_handleSecure, isShowPassword]
         );
 
+        const { onChangeText } = rest;
+
         const handleChangeText = React.useCallback(
             (text: string) => {
                 if (fieldName) {
                     return onChangeValue?.(fieldName, text);
                 }
-                rest.onChangeText?.(text);
+                onChangeText?.(text);
             },
-            [fieldName, onChangeValue, rest]
+            // Depends on the specific handler, not the whole `rest` object, which is
+            // rebuilt every render and so made this cache miss every time.
+            [fieldName, onChangeValue, onChangeText]
         );
 
-        const _renderInput = React.useMemo(() => {
-            return (
-                <HStack
-                    style={{ height }}
-                    className={`w-full items-center rounded-2xl border ${!enable && 'bg-inputDisable'} border-2 px-5 ${
-                        error ? 'border-red' : 'border-gray-100'
-                    } `}>
-                    <HStack className="h-full flex-1 items-center" space="md">
-                        {prefixIcon}
-                        <TextInput
-                            testID={testID}
-                            ref={ref}
-                            {...rest}
-                            className="font-body mt-1 h-full w-full font-semibold"
-                            style={{ textAlignVertical: 'top' }}
-                            placeholder={placeholder}
-                            secureTextEntry={isShowPassword}
-                            onChangeText={handleChangeText}
-                            editable={enable}
-                            placeholderTextColor={getColor('iconGrey')}
-                        />
-                    </HStack>
-                    <Box className="pl-3">{suffixIcon ?? (isPassword && _renderShowPassword)}</Box>
+        // Not memoised. `rest` is a fresh object each render, so a memo depending on
+        // it never hit — it only paid for a 13-entry dependency comparison and then
+        // rebuilt the subtree anyway.
+        const _renderInput = (
+            <HStack
+                style={{ height }}
+                className={`w-full items-center rounded-2xl border ${!enable && 'bg-inputDisable'} border-2 px-5 ${
+                    error ? 'border-red' : 'border-gray-100'
+                } `}>
+                <HStack className="h-full flex-1 items-center" space="md">
+                    {prefixIcon}
+                    <TextInput
+                        testID={testID}
+                        ref={ref}
+                        {...rest}
+                        className="font-body mt-1 h-full w-full font-semibold"
+                        style={{ textAlignVertical: 'top' }}
+                        placeholder={placeholder}
+                        secureTextEntry={isShowPassword}
+                        onChangeText={handleChangeText}
+                        editable={enable}
+                        placeholderTextColor={getColor('iconGrey')}
+                    />
                 </HStack>
-            );
-        }, [
-            _renderShowPassword,
-            enable,
-            error,
-            handleChangeText,
-            height,
-            isPassword,
-            isShowPassword,
-            placeholder,
-            prefixIcon,
-            ref,
-            rest,
-            suffixIcon,
-            testID,
-        ]);
+                <Box className="pl-3">{suffixIcon ?? (isPassword && _renderShowPassword)}</Box>
+            </HStack>
+        );
 
         return (
             <VStack space="sm">
@@ -127,7 +118,3 @@ const Input = React.forwardRef<TextInput, InputProps>(
 );
 
 export default Input;
-
-declare global {
-    export type TypeInput = 'dropdown' | 'phone' | 'date' | 'otp';
-}

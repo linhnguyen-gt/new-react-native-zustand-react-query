@@ -1,15 +1,24 @@
 import { StateCreator, create } from 'zustand';
 
-import { reactotron } from '@/data/services';
+import { Logger } from '@/shared/helper';
 
 const storeResetFns = new Set<() => void>();
 
 const getEnhancer = <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> => {
-    if (__DEV__ && reactotron?.zustand) {
+    if (__DEV__) {
         try {
-            return reactotron.zustand.enhancer(storeName, config);
+            // Inline require inside the __DEV__ block, not a module-scope import.
+            // Metro does no cross-module dead-code elimination, so a static import
+            // would ship Reactotron into release bundles even though this branch is
+            // unreachable there. The minifier folds away a require() guarded by the
+            // __DEV__ constant.
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
+            const { reactotron } = require('@/data/services/reactotron');
+            if (reactotron?.zustand) {
+                return reactotron.zustand.enhancer(storeName, config);
+            }
         } catch (error) {
-            console.warn('Reactotron zustand enhancer failed, using default:', error);
+            Logger.warn('StoreFactory', 'Reactotron zustand enhancer failed, using default', error);
         }
     }
     return config;

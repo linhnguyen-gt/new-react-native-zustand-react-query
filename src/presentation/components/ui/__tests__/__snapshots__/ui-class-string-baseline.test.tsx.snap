@@ -1,0 +1,287 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`class string baseline Image sizes: size=2xl 1`] = `
+<Image
+  className="max-w-full h-64 w-64"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=2xs 1`] = `
+<Image
+  className="max-w-full h-6 w-6"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=full 1`] = `
+<Image
+  className="max-w-full h-full w-full"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=lg 1`] = `
+<Image
+  className="max-w-full h-24 w-24"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=md 1`] = `
+<Image
+  className="max-w-full h-20 w-20"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=sm 1`] = `
+<Image
+  className="max-w-full h-16 w-16"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=xl 1`] = `
+<Image
+  className="max-w-full h-32 w-32"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline Image sizes: size=xs 1`] = `
+<Image
+  className="max-w-full h-10 w-10"
+  source={
+    {
+      "uri": "https://example.invalid/a.png",
+    }
+  }
+  style={
+    [
+      {
+        "source": {
+          "uri": "https://example.invalid/a.png",
+        },
+      },
+      undefined,
+      undefined,
+    ]
+  }
+/>
+`;
+
+exports[`class string baseline boxStyle: base 1`] = `""`;
+
+exports[`class string baseline boxStyle: with caller class 1`] = `"flex-1 bg-white"`;
+
+exports[`class string baseline buttonStyle at its real call sites: every action x variant 1`] = `
+{
+  "default/link": "group/button flex-row items-center justify-center gap-2 rounded bg-transparent h-10 px-5",
+  "default/outline": "group/button flex-row items-center justify-center gap-2 rounded border bg-transparent h-10 px-5",
+  "default/solid": "group/button flex-row items-center justify-center gap-2 rounded bg-transparent h-10 px-5",
+  "negative/link": "group/button flex-row items-center justify-center gap-2 rounded border-error-300 h-10 bg-transparent px-0",
+  "negative/outline": "group/button flex-row items-center justify-center gap-2 rounded border-error-300 border h-10 px-5 bg-transparent",
+  "negative/solid": "group/button flex-row items-center justify-center gap-2 rounded border-error-300 bg-error-500 h-10 px-5",
+  "positive/link": "group/button flex-row items-center justify-center gap-2 rounded border-success-300 h-10 bg-transparent px-0",
+  "positive/outline": "group/button flex-row items-center justify-center gap-2 rounded border-success-300 border h-10 px-5 bg-transparent",
+  "positive/solid": "group/button flex-row items-center justify-center gap-2 rounded border-success-300 bg-success-500 h-10 px-5",
+  "primary/link": "group/button flex-row items-center justify-center gap-2 rounded border-primary-300 h-10 bg-transparent px-0",
+  "primary/outline": "group/button flex-row items-center justify-center gap-2 rounded border-primary-300 border h-10 px-5 bg-transparent",
+  "primary/solid": "group/button flex-row items-center justify-center gap-2 rounded border-primary-300 bg-primary-500 h-10 px-5",
+  "secondary/link": "group/button flex-row items-center justify-center gap-2 rounded border-secondary-300 h-10 bg-transparent px-0",
+  "secondary/outline": "group/button flex-row items-center justify-center gap-2 rounded border-secondary-300 border h-10 px-5 bg-transparent",
+  "secondary/solid": "group/button flex-row items-center justify-center gap-2 rounded border-secondary-300 bg-secondary-500 h-10 px-5",
+}
+`;
+
+exports[`class string baseline buttonStyle at its real call sites: negative 1`] = `"group/button flex-row items-center justify-center gap-2 rounded border-error-300 bg-error-500 h-10 px-5"`;
+
+exports[`class string baseline buttonStyle at its real call sites: positive + caller class 1`] = `"group/button flex-row items-center justify-center gap-2 border-success-300 bg-success-500 h-10 px-5 w-full rounded-xl py-3.5"`;
+
+exports[`class string baseline buttonStyle at its real call sites: secondary 1`] = `"group/button flex-row items-center justify-center gap-2 rounded border-secondary-300 bg-secondary-500 h-10 px-5"`;
+
+exports[`class string baseline buttonStyle at its real call sites: sizes 1`] = `
+{
+  "lg": "group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 h-11 px-6",
+  "md": "group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 h-10 px-5",
+  "sm": "group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 h-9 px-4",
+  "xl": "group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 h-12 px-7",
+  "xs": "group/button flex-row items-center justify-center gap-2 rounded bg-primary-500 h-8 px-3.5",
+}
+`;
+
+exports[`class string baseline hstackStyle: Input.tsx border collision 1`] = `"flex-row w-full items-center rounded-2xl border-2 px-5 border-red"`;
+
+exports[`class string baseline hstackStyle: reversed 1`] = `"flex-row-reverse"`;
+
+exports[`class string baseline hstackStyle: spaces 1`] = `
+{
+  "2xl": "flex-row gap-6",
+  "3xl": "flex-row gap-7",
+  "4xl": "flex-row gap-8",
+  "lg": "flex-row gap-4",
+  "md": "flex-row gap-3",
+  "sm": "flex-row gap-2",
+  "xl": "flex-row gap-5",
+  "xs": "flex-row gap-1",
+}
+`;
+
+exports[`class string baseline scrollViewStyle: base 1`] = `"w-full flex-1"`;
+
+exports[`class string baseline scrollViewStyle: space md 1`] = `"w-full flex-1 gap-3"`;
+
+exports[`class string baseline textStyle across every variant: bold + caller weight 1`] = `"font-body font-normal"`;
+
+exports[`class string baseline textStyle across every variant: modifiers 1`] = `
+{
+  "bold": "font-body font-bold",
+  "highlight": "font-body bg-yellow-500",
+  "isTruncated": "font-body web:truncate",
+  "italic": "font-body italic",
+  "strikeThrough": "font-body line-through",
+  "sub": "font-body text-xs",
+  "underline": "font-body underline",
+}
+`;
+
+exports[`class string baseline textStyle across every variant: size + caller color 1`] = `"font-body text-xl text-white"`;
+
+exports[`class string baseline textStyle across every variant: sizes 1`] = `
+{
+  "2xl": "font-body text-2xl",
+  "2xs": "font-body text-2xs",
+  "3xl": "font-body text-3xl",
+  "4xl": "font-body text-4xl",
+  "5xl": "font-body text-5xl",
+  "6xl": "font-body text-6xl",
+  "lg": "font-body text-lg",
+  "md": "font-body text-base",
+  "sm": "font-body text-sm",
+  "xl": "font-body text-xl",
+  "xs": "font-body text-xs",
+}
+`;
+
+exports[`class string baseline textStyle across every variant: sm + caller color 1`] = `"font-body text-sm text-red"`;
+
+exports[`class string baseline vstackStyle: reversed 1`] = `"flex-col-reverse"`;
+
+exports[`class string baseline vstackStyle: spaces 1`] = `
+{
+  "2xl": "flex-col gap-6",
+  "3xl": "flex-col gap-7",
+  "4xl": "flex-col gap-8",
+  "lg": "flex-col gap-4",
+  "md": "flex-col gap-3",
+  "sm": "flex-col gap-2",
+  "xl": "flex-col gap-5",
+  "xs": "flex-col gap-1",
+}
+`;

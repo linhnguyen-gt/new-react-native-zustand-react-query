@@ -7,6 +7,7 @@ export enum ErrorCode {
     // Network errors
     NETWORK_ERROR = 'NETWORK_ERROR',
     TIMEOUT_ERROR = 'TIMEOUT_ERROR',
+    REQUEST_CANCELLED = 'REQUEST_CANCELLED',
     CONNECTION_REFUSED = 'CONNECTION_REFUSED',
 
     // HTTP errors
@@ -125,6 +126,7 @@ export class AppError extends Error {
         const messages: Record<ErrorCode, string> = {
             [ErrorCode.NETWORK_ERROR]: 'Network connection failed. Please check your internet connection.',
             [ErrorCode.TIMEOUT_ERROR]: 'Request timed out. Please try again.',
+            [ErrorCode.REQUEST_CANCELLED]: 'Request cancelled.',
             [ErrorCode.CONNECTION_REFUSED]: 'Unable to connect to server. Please try again later.',
             [ErrorCode.BAD_REQUEST]: 'Invalid request. Please check your input.',
             [ErrorCode.UNAUTHORIZED]: 'Unauthorized. Please log in again.',
@@ -163,6 +165,36 @@ export class NetworkError extends AppError {
         });
         this.name = 'NetworkError';
         Object.setPrototypeOf(this, NetworkError.prototype);
+    }
+}
+
+/**
+ * A request the app itself cancelled — not a failure.
+ *
+ * React Query aborts in-flight queries when a screen unmounts, so this fires on the
+ * most ordinary interaction there is: opening a list and navigating back before it
+ * settles. axios reports it as a `CanceledError`, which is an `AxiosError` with no
+ * `.response`, so without this it landed on the generic network branch and became a
+ * `NetworkError` — HIGH severity, `shouldRetry: true`, `shouldShowAlert: true`, routed
+ * to `Logger.error` and the `onNetworkError` hook.
+ *
+ * Nothing consumes that hook today, so the damage is currently invisible. But it is the
+ * exact place an offline banner would go, and `shouldShowAlert` is the flag such a
+ * consumer reads — so wiring one would make every navigate-away raise a network alert.
+ * Enabling the Sentry placeholder would likewise make cancellations the top error by
+ * volume.
+ *
+ * LOW severity, no retry, no alert: retrying something deliberately abandoned is the
+ * opposite of what the caller asked for.
+ */
+export class RequestCancelledError extends AppError {
+    constructor(message: string, context?: Partial<ErrorContext>) {
+        super(message, ErrorCode.REQUEST_CANCELLED, ErrorSeverity.LOW, context, {
+            shouldRetry: false,
+            shouldShowAlert: false,
+        });
+        this.name = 'RequestCancelledError';
+        Object.setPrototypeOf(this, RequestCancelledError.prototype);
     }
 }
 

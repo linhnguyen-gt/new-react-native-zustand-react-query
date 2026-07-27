@@ -1,17 +1,21 @@
 import { ApiMethod, HttpClient } from '../services/httpClient';
 
 export const responseApi = {
-    getResponseData: async (): Promise<BaseResponse<ResponseData[]>> => {
+    /**
+     * @param signal forwarded from React Query so navigating away actually aborts the
+     * request instead of leaving it running and discarding the response.
+     */
+    getResponseData: async (signal?: AbortSignal): Promise<BaseResponse<ResponseData[]>> => {
         const response = await HttpClient.request<ResponseData[]>({
             endpoint: 'posts',
             method: ApiMethod.GET,
+            signal,
         });
 
-        if (!response?.ok) {
-            return;
-        }
-
-        return { ok: response.ok, data: response.data };
+        // `ok: true` literally, not forwarded from the response: reaching this line
+        // means the request resolved. `HttpClient.request` throws on failure, so
+        // there is no falsy case to propagate.
+        return { ok: true, data: response.data };
     },
 
     getResponseDetail: async (id: string): Promise<BaseResponse<ResponseData>> => {
@@ -20,10 +24,9 @@ export const responseApi = {
             method: ApiMethod.GET,
         });
 
-        if (!response?.ok) {
-            return;
-        }
-
-        return { ok: response.ok, data: response.data };
+        // `ok: true` literally, not forwarded from the response: reaching this line
+        // means the request resolved. `HttpClient.request` throws on failure, so
+        // there is no falsy case to propagate.
+        return { ok: true, data: response.data };
     },
 };

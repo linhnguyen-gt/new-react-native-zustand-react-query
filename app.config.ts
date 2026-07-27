@@ -4,48 +4,25 @@ import { ConfigContext } from 'expo/config';
 import fs from 'fs';
 
 import { name } from './package.json';
+// Shared with run-native.cjs and sync-native-env.cjs so the three cannot drift.
+// Imported rather than `require`d: under `moduleResolution: bundler`, `require` is just
+// a function typed `any`, which would silently discard the exhaustiveness checking the
+// local `Record<AppVariant, …>` annotation used to provide. An import resolves the
+// sibling `.d.cts`, so adding a fourth variant or dropping a field stays a compile error.
+// See that module for why `development` carries an inert `scheme`.
+import {
+    BASE_BUNDLE_IDENTIFIER,
+    BASE_PACKAGE_NAME,
+    DEFAULT_VARIANT,
+    VARIANT_ENV_FILES,
+    VARIANTS as VARIANT_CONFIG,
+} from './scripts/lib/variant-config.cjs';
 
 type AppVariant = 'development' | 'staging' | 'production';
 
-const DEFAULT_VARIANT: AppVariant = 'development';
-const BASE_BUNDLE_IDENTIFIER = 'com.newreactnativezustandrnq';
-const BASE_PACKAGE_NAME = 'com.newreactnativezustandrnq';
 const APP_ICON_PATH = './assets/branding/icon.png';
 const SPLASH_IMAGE_PATH = './assets/branding/splash-logo.png';
 const SPLASH_BACKGROUND_COLOR = '#FFFFFF';
-const VARIANT_ENV_FILES: Record<AppVariant, string> = {
-    development: '.env',
-    staging: '.env.staging',
-    production: '.env.production',
-};
-const VARIANT_CONFIG: Record<
-    AppVariant,
-    {
-        bundleIdentifier: string;
-        packageName: string;
-        scheme: string;
-        updateChannel: string;
-    }
-> = {
-    development: {
-        bundleIdentifier: 'com.newreactnativezustandrnq.dev',
-        packageName: 'com.newreactnativezustandrnq.dev',
-        scheme: 'Development',
-        updateChannel: 'development',
-    },
-    staging: {
-        bundleIdentifier: 'com.newreactnativezustandrnq.stg',
-        packageName: 'com.newreactnativezustandrnq.stg',
-        scheme: 'Staging',
-        updateChannel: 'staging',
-    },
-    production: {
-        bundleIdentifier: BASE_BUNDLE_IDENTIFIER,
-        packageName: BASE_PACKAGE_NAME,
-        scheme: 'Production',
-        updateChannel: 'production',
-    },
-};
 
 const normalizeVariant = (value?: string): AppVariant => {
     if (value === 'development' || value === 'staging' || value === 'production') {

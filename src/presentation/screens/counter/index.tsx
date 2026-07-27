@@ -10,8 +10,14 @@ const CounterButton = React.memo<{
     onPress: () => void;
     children: React.ReactNode;
     testId?: string;
-}>(({ onPress, children, testId }) => (
-    <MyTouchable className="h-11 w-20 items-center rounded-lg border-2 bg-white" onPress={onPress} testID={testId}>
+    /** Spoken label. The visible "+"/"-" glyphs do not describe the action. */
+    accessibilityLabel: string;
+}>(({ onPress, children, testId, accessibilityLabel }) => (
+    <MyTouchable
+        className="h-11 w-20 items-center rounded-lg border-2 bg-white"
+        onPress={onPress}
+        testID={testId}
+        accessibilityLabel={accessibilityLabel}>
         <Text className="text-2xl font-bold">{children}</Text>
     </MyTouchable>
 ));
@@ -50,11 +56,17 @@ const Counter = () => {
                 </Box>
 
                 <HStack space="md">
-                    <CounterButton onPress={handleDecrement} testId="decrement-button">
+                    <CounterButton
+                        onPress={handleDecrement}
+                        testId="decrement-button"
+                        accessibilityLabel="Decrease count">
                         -
                     </CounterButton>
 
-                    <CounterButton onPress={handleIncrement} testId="increment-button">
+                    <CounterButton
+                        onPress={handleIncrement}
+                        testId="increment-button"
+                        accessibilityLabel="Increase count">
                         +
                     </CounterButton>
 

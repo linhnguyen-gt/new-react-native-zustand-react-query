@@ -66,6 +66,7 @@ describe('Storage Helper', () => {
         it('should return token when valid and not expired', async () => {
             const mockToken = 'valid-refresh-token-123';
             const mockTokenData = {
+                v: 2,
                 refreshToken: mockToken,
                 createdAt: Date.now(),
                 expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 1 day from now
@@ -118,10 +119,25 @@ describe('Storage Helper', () => {
             expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith('REFRESH_TOKEN');
         });
 
-        it('should return undefined and clear token when SecureStorageService fails', async () => {
+        it('propagates a keystore failure instead of deleting the credential', async () => {
             mockSecureStorageService.getItem.mockRejectedValue(new Error('Storage failed'));
             mockSecureStorageService.removeItem.mockResolvedValue();
 
+            // The token is stored WHEN_UNLOCKED_THIS_DEVICE_ONLY, so a read attempted
+            // while the device is locked — a background wake, say — fails transiently.
+            // Treating "unreadable" as "junk" would destroy a valid credential, which is
+            // the same class of mistake the refresh layer avoids by clearing only on an
+            // explicit 401/403.
+            await expect(storage.getToken()).rejects.toThrow('Storage failed');
+            expect(mockSecureStorageService.removeItem).not.toHaveBeenCalled();
+        });
+
+        it('clears a payload it could read but could not parse', async () => {
+            mockSecureStorageService.getItem.mockResolvedValue('not json at all');
+            mockSecureStorageService.removeItem.mockResolvedValue();
+
+            // Distinct from the case above: this value came back fine and is genuinely
+            // junk, so removing it is right.
             const result = await storage.getToken();
 
             expect(result).toBeUndefined();
@@ -151,6 +167,7 @@ describe('Storage Helper', () => {
         it('should return true when valid token exists', async () => {
             const mockToken = 'valid-refresh-token-123';
             const mockTokenData = {
+                v: 2,
                 refreshToken: mockToken,
                 createdAt: Date.now(),
                 expiresAt: Date.now() + 24 * 60 * 60 * 1000,
@@ -190,6 +207,7 @@ describe('Storage Helper', () => {
     describe('getTokenMetadata', () => {
         it('should return metadata when token exists', async () => {
             const mockTokenData = {
+                v: 2,
                 refreshToken: 'valid-token',
                 createdAt: 1234567890,
                 expiresAt: 1234567890 + 24 * 60 * 60 * 1000,
@@ -222,82 +240,65 @@ describe('Storage Helper', () => {
         });
     });
 
-    describe('secureStore', () => {
-        it('should store data successfully', async () => {
-            const key = 'test-key';
-            const value = 'test-value';
+    describe('payload format version', () => {
+        const futureExpiry = () => Date.now() + 60_000;
 
+        it('tags what it writes, so a later build can tell the format apart', async () => {
             mockSecureStorageService.setItem.mockResolvedValue();
 
-            await expect(storage.secureStore(key, value)).resolves.not.toThrow();
+            await storage.setToken({ refreshToken: 'valid-refresh-token-123' });
 
-            expect(mockSecureStorageService.setItem).toHaveBeenCalledWith(key, value);
+            const [, written] = mockSecureStorageService.setItem.mock.calls[0];
+            expect(JSON.parse(written).v).toBe(2);
         });
 
-        it('should throw error when SecureStorageService fails', async () => {
-            const key = 'test-key';
-            const value = 'test-value';
+        it('clears an untagged payload rather than parsing it', async () => {
+            // What a pre-versioning build left behind. Without the tag check, the fields
+            // would be read as if they were the current shape.
+            mockSecureStorageService.getItem.mockResolvedValue(
+                JSON.stringify({
+                    refreshToken: 'valid-refresh-token-123',
+                    expiresAt: futureExpiry(),
+                })
+            );
 
-            mockSecureStorageService.setItem.mockRejectedValue(new Error('Storage failed'));
-
-            await expect(storage.secureStore(key, value)).rejects.toThrow('Failed to store data securely');
-        });
-    });
-
-    describe('secureRetrieve', () => {
-        it('should retrieve data successfully', async () => {
-            const key = 'test-key';
-            const value = 'test-value';
-
-            mockSecureStorageService.getItem.mockResolvedValue(value);
-
-            const result = await storage.secureRetrieve(key);
-
-            expect(result).toBe(value);
-            expect(mockSecureStorageService.getItem).toHaveBeenCalledWith(key);
+            await expect(storage.getToken()).resolves.toBeUndefined();
+            expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith('REFRESH_TOKEN');
         });
 
-        it('should return null when SecureStorageService fails', async () => {
-            const key = 'test-key';
+        it('clears a payload tagged with an unknown version', async () => {
+            // The downgrade case: expo-updates makes an OTA rollback a supported
+            // operation, so an older build can meet a payload from a newer one.
+            mockSecureStorageService.getItem.mockResolvedValue(
+                JSON.stringify({
+                    v: 99,
+                    refreshToken: 'valid-refresh-token-123',
+                    expiresAt: futureExpiry(),
+                })
+            );
 
-            mockSecureStorageService.getItem.mockRejectedValue(new Error('Storage failed'));
-
-            const result = await storage.secureRetrieve(key);
-
-            expect(result).toBeNull();
-        });
-    });
-
-    describe('secureRemove', () => {
-        it('should remove data successfully', async () => {
-            const key = 'test-key';
-
-            mockSecureStorageService.removeItem.mockResolvedValue();
-
-            await expect(storage.secureRemove(key)).resolves.not.toThrow();
-
-            expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith(key);
+            await expect(storage.getToken()).resolves.toBeUndefined();
+            expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith('REFRESH_TOKEN');
         });
 
-        it('should handle SecureStorageService failure gracefully', async () => {
-            const key = 'test-key';
+        it('returns a correctly tagged token', async () => {
+            mockSecureStorageService.getItem.mockResolvedValue(
+                JSON.stringify({
+                    v: 2,
+                    refreshToken: 'valid-refresh-token-123',
+                    expiresAt: futureExpiry(),
+                })
+            );
 
-            mockSecureStorageService.removeItem.mockRejectedValue(new Error('Storage failed'));
-
-            await expect(storage.secureRemove(key)).resolves.not.toThrow();
-
-            expect(mockSecureStorageService.removeItem).toHaveBeenCalledWith(key);
+            await expect(storage.getToken()).resolves.toBe('valid-refresh-token-123');
         });
-    });
 
-    describe('isSecureStorageAvailable', () => {
-        it('should return boolean from SecureStorageService', async () => {
-            mockSecureStorageService.isSecureStoreAvailable.mockResolvedValue(true);
+        it('withholds metadata from an untagged payload', async () => {
+            mockSecureStorageService.getItem.mockResolvedValue(
+                JSON.stringify({ createdAt: 1, expiresAt: futureExpiry() })
+            );
 
-            const result = await storage.isSecureStorageAvailable();
-
-            expect(result).toBe(true);
-            expect(mockSecureStorageService.isSecureStoreAvailable).toHaveBeenCalled();
+            await expect(storage.getTokenMetadata()).resolves.toBeNull();
         });
     });
 });

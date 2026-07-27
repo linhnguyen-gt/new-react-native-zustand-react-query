@@ -1,16 +1,10 @@
-import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
-
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
-
-export const touchableStyle = tva({});
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 
 export type TouchableComponentProps = Omit<TouchableOpacityProps, keyof StyleProps> &
-    StyleProps &
-    VariantProps<typeof touchableStyle> & {
+    StyleProps & {
         className?: string;
     };
 
@@ -27,7 +21,12 @@ const TouchableComponent = React.forwardRef<React.ComponentRef<typeof TouchableO
             <TouchableOpacity
                 activeOpacity={0.5}
                 disabled={props.disabled || !props.onPress}
-                className={touchableStyle({ class: className })}
+                // Default to the button role so screen readers announce these as
+                // actionable. Without it TalkBack and VoiceOver read them as plain
+                // text and give no affordance that they can be pressed. Spread after
+                // this so a call site can override with link/tab/etc.
+                accessibilityRole="button"
+                className={className}
                 style={[styleProps, style]}
                 {...props}
                 ref={ref}

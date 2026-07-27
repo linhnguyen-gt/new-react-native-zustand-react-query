@@ -6,7 +6,13 @@ import IoniconsIcon from '@react-native-vector-icons/ionicons';
 import MaterialIconsIcon from '@react-native-vector-icons/material-icons';
 import React from 'react';
 
-import { getColor } from '@/presentation/hooks';
+// Straight from the module, not the `@/presentation/hooks` barrel. That barrel also
+// exports useResponse, which reaches queries → api → httpClient, and the http client is
+// constructed at import time. Going through it meant importing an *icon* built the HTTP
+// client and therefore required a configured API_URL — coupling every
+// design-system-only entry point (a Storybook, a button snapshot test) to network
+// configuration it will never use.
+import { getColor } from '@/presentation/hooks/useThemeColor';
 
 import { MyTouchable } from '../../touchable';
 

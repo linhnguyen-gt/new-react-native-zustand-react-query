@@ -1,11 +1,20 @@
+import { queryClient } from '@/app/providers/queryClient';
+
 import { plugins } from './plugins';
 import { ReactotronCore } from './reactotron.core';
 
+/**
+ * Importing this module connects to Reactotron. Only ever require it from inside an
+ * `if (__DEV__)` block — Metro performs no cross-module dead-code elimination, so a
+ * static import ships the whole graph into release bundles regardless of any runtime
+ * guard, and ReactotronCore's constructor opens a socket and installs an XHR
+ * interceptor that forwards Authorization headers.
+ */
 const core = ReactotronCore.getInstance();
 
 export const reactotron = {
     zustand: plugins.zustand(core),
-    query: plugins.query(core),
+    query: plugins.query(core, queryClient),
     api: plugins.api(core),
 
     log: (name: string, value: any, preview?: string) =>

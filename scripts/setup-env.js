@@ -31,13 +31,64 @@ const runCommand = (command) => {
     try {
         execSync(command, { stdio: 'inherit' });
         return true;
-    } catch (error) {
+    } catch {
         console.error(`Failed to execute ${command}`);
         return false;
     }
 };
 
 const question = (query) => new Promise((resolve) => readline.question(query, resolve));
+
+const VAULT_BACKUP_PATH = '.env.vault.bak';
+
+/** Restores the pre-replacement .env.vault if a backup is present. */
+const restoreVaultBackup = () => {
+    if (!fs.existsSync(VAULT_BACKUP_PATH)) return;
+
+    try {
+        fs.copyFileSync(VAULT_BACKUP_PATH, '.env.vault');
+        fs.rmSync(VAULT_BACKUP_PATH, { force: true });
+    } catch (error) {
+        console.error(`Failed to restore .env.vault from ${VAULT_BACKUP_PATH}:`, error.message);
+        console.error(`Your previous vault key is still at ${VAULT_BACKUP_PATH} — restore it manually.`);
+    }
+};
+
+/**
+ * Parses a dotenv file into a plain object.
+ *
+ * Splits on the FIRST '=' only. Splitting on every '=' truncates any value that
+ * contains one — base64 keys, JWTs and connection strings routinely do — and the
+ * truncated value then gets written back over the vault copy.
+ *
+ * Blank lines and '#' comments are skipped so a commented-out entry is not read
+ * back as a variable literally named '# NAME'.
+ */
+const parseEnvFile = (filePath) => {
+    const parsed = {};
+
+    try {
+        const envContent = fs.readFileSync(filePath, 'utf8');
+
+        envContent.split('\n').forEach((line) => {
+            const trimmed = line.trim();
+            if (!trimmed || trimmed.startsWith('#')) return;
+
+            const separatorIndex = trimmed.indexOf('=');
+            if (separatorIndex <= 0) return;
+
+            const key = trimmed.slice(0, separatorIndex).trim();
+            const value = trimmed.slice(separatorIndex + 1).trim();
+            if (key && value) {
+                parsed[key] = value;
+            }
+        });
+    } catch (error) {
+        console.error(`Failed to read ${filePath}:`, error.message);
+    }
+
+    return parsed;
+};
 
 const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {}) => {
     let envVars = { ...envVarsFromVault };
@@ -56,7 +107,7 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
                     return envVars;
                 }
             }
-        } catch (error) {}
+        } catch {}
     }
 
     console.log(`\n📝 Setting up ${envDisplayName} environment in ${envFileName}...`);
@@ -123,11 +174,13 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
         envVars.EXPO_UPDATE_CHANNEL = channel || defaultChannel;
     }
 
+    // Key names only. Printing values leaks every secret pulled from the vault into
+    // whatever captures stdout -- CI logs, tmux scrollback, a screen share.
     console.log('\nCurrent environment variables:');
-    Object.entries(envVars)
-        .filter(([key]) => key !== 'DOTENV_VAULT')
-        .forEach(([key, value]) => {
-            console.log(`${key}=${value}`);
+    Object.keys(envVars)
+        .filter((key) => key !== 'DOTENV_VAULT')
+        .forEach((key) => {
+            console.log(`  ${key}`);
         });
 
     let addMore = true;
@@ -140,7 +193,7 @@ const createEnvFiles = async (environment, vaultKey = null, envVarsFromVault = {
             if (newVar && !(newVar in envVars)) {
                 const value = await question(`Enter value for ${newVar}: `);
                 envVars[newVar] = value;
-                console.log(`✅ Added ${newVar}=${value}`);
+                console.log(`✅ Added ${newVar}`);
             }
         } else {
             addMore = false;
@@ -260,6 +313,20 @@ const main = async () => {
     console.log('- It allows you to share encrypted environment variables with your team');
     console.log('- Learn more at: https://www.dotenv.org/vault');
 
+    // Recover from an interrupted vault replacement before anything else. If the
+    // previous run was killed between removing .env.vault and creating its
+    // replacement (the `dotenv-vault new` prompt is interactive, so Ctrl-C there is
+    // common), the only surviving copy of the key is the backup. Without this,
+    // the existsSync check below is false, the whole switch is skipped, and the
+    // script cheerfully creates a fresh vault while the team's key sits orphaned.
+    if (fs.existsSync(VAULT_BACKUP_PATH) && !fs.existsSync('.env.vault')) {
+        console.log(`\n⚠️ Found ${VAULT_BACKUP_PATH} from an interrupted run and no .env.vault.`);
+        restoreVaultBackup();
+        if (fs.existsSync('.env.vault')) {
+            console.log('✅ Restored .env.vault from the backup.');
+        }
+    }
+
     if (fs.existsSync('.env.vault')) {
         const vaultOptions = await question(
             '\n⚠️ Found existing .env.vault file. What would you like to do?\n' +
@@ -293,17 +360,7 @@ const main = async () => {
                             useVault = false;
                         } else {
                             if (fs.existsSync('.env')) {
-                                try {
-                                    const envContent = fs.readFileSync('.env', 'utf8');
-                                    envContent.split('\n').forEach((line) => {
-                                        const [key, value] = line.split('=');
-                                        if (key && value) {
-                                            envVarsFromVault[key.trim()] = value.trim();
-                                        }
-                                    });
-                                } catch (error) {
-                                    console.error('Failed to read .env file:', error);
-                                }
+                                Object.assign(envVarsFromVault, parseEnvFile('.env'));
                             }
                         }
                     }
@@ -314,21 +371,35 @@ const main = async () => {
                 break;
 
             case '2':
+                // .env.vault is the only committed link to every stored environment.
+                // Back it up before removing it and restore on any failure — the
+                // previous flow deleted it first and continued past a failed
+                // replacement with only a warning, losing the key permanently.
+                fs.copyFileSync('.env.vault', VAULT_BACKUP_PATH);
                 fs.unlinkSync('.env.vault');
-                console.log('✅ Removed existing .env.vault file');
+                console.log('✅ Removed existing .env.vault file (backup retained)');
 
                 try {
                     console.log('\n📦 Creating new dotenv-vault...');
-                    if (!runCommand('npx dotenv-vault@latest new')) {
-                        console.log('\n⚠️ Failed to create new vault. Continuing with manual setup.');
-                        useVault = false;
-                    } else {
-                        isNewVault = true;
-                        useVault = true;
+                    const created =
+                        runCommand('npx dotenv-vault@latest new') &&
+                        fs.existsSync('.env.vault') &&
+                        fs.readFileSync('.env.vault', 'utf8').trim().length > 0;
+
+                    if (!created) {
+                        restoreVaultBackup();
+                        console.error('\n❌ Failed to create a new vault. The previous .env.vault has been restored.');
+                        process.exit(1);
                     }
+
+                    fs.rmSync(VAULT_BACKUP_PATH, { force: true });
+                    isNewVault = true;
+                    useVault = true;
                 } catch (error) {
-                    console.error('Failed to create new vault:', error);
-                    useVault = false;
+                    restoreVaultBackup();
+                    console.error('Failed to create new vault:', error.message);
+                    console.error('The previous .env.vault has been restored.');
+                    process.exit(1);
                 }
                 break;
 
@@ -353,17 +424,7 @@ const main = async () => {
                         useVault = false;
                     } else {
                         if (fs.existsSync('.env')) {
-                            try {
-                                const envContent = fs.readFileSync('.env', 'utf8');
-                                envContent.split('\n').forEach((line) => {
-                                    const [key, value] = line.split('=');
-                                    if (key && value) {
-                                        envVarsFromVault[key.trim()] = value.trim();
-                                    }
-                                });
-                            } catch (error) {
-                                console.error('Failed to read .env file:', error);
-                            }
+                            Object.assign(envVarsFromVault, parseEnvFile('.env'));
                         }
                     }
                 } else {
@@ -399,24 +460,8 @@ const main = async () => {
             } else {
                 console.log('✅ Successfully pulled environment variables from vault');
                 if (fs.existsSync('.env')) {
-                    try {
-                        const envContent = fs.readFileSync('.env', 'utf8');
-                        envContent.split('\n').forEach((line) => {
-                            if (line && !line.startsWith('#')) {
-                                const parts = line.split('=');
-                                if (parts.length >= 2) {
-                                    const key = parts[0].trim();
-                                    const value = parts.slice(1).join('=').trim();
-                                    if (key && value) {
-                                        envVarsFromVault[key] = value;
-                                    }
-                                }
-                            }
-                        });
-                        console.log(`✅ Loaded ${Object.keys(envVarsFromVault).length} variables from vault`);
-                    } catch (error) {
-                        console.error('Failed to read .env file:', error);
-                    }
+                    Object.assign(envVarsFromVault, parseEnvFile('.env'));
+                    console.log(`✅ Loaded ${Object.keys(envVarsFromVault).length} variables from vault`);
                 }
 
                 if (!fs.existsSync('.env.staging')) {

@@ -14,9 +14,31 @@ type ExpoExtraConfig = {
 
 const DEFAULT_VARIANT: AppVariant = 'development';
 
+/**
+ * Maps a configured variant onto the three the app knows about.
+ *
+ * An unrecognised value falls back to `development` rather than throwing, because
+ * `appConfig` is read by presentation code (the sign-in badge, the posts header) that
+ * has no business crashing over a build-configuration typo.
+ *
+ * That fallback is not free, and it is worth knowing what it costs: `development` is
+ * the one variant permitted to use cleartext, so `APP_VARIANT=prod` yields a build that
+ * accepts `http://` while a user would call it production. `scripts/check-env.js`
+ * rejects unrecognised variants outright, so this only bites where that gate is
+ * skipped — which is why the build workflows now run it. The warning below is the
+ * last line of defence.
+ */
 const normalizeVariant = (value?: string): AppVariant => {
     if (value === 'development' || value === 'staging' || value === 'production') {
         return value;
+    }
+
+    if (value) {
+        console.warn(
+            `[appConfig] Unrecognised APP_VARIANT "${value}"; falling back to "${DEFAULT_VARIANT}". ` +
+                'Cleartext API_URL is permitted for development, so this may weaken the transport floor. ' +
+                'Use one of: development, staging, production.'
+        );
     }
 
     return DEFAULT_VARIANT;
@@ -37,4 +59,17 @@ export const appConfig = {
     versionName: extra.versionName || Constants.expoConfig?.version || '1.0.0',
 } as const;
 
-export type RuntimeAppConfig = typeof appConfig;
+/**
+ * Network tuning, gathered here rather than buried as literals in the client.
+ *
+ * These were `timeout: 30000`, `maxRequests = 100` and `windowMs = 60000` sitting
+ * inline in `httpClient.ts`, which meant changing any of them for one environment
+ * meant editing the client itself. The values are unchanged; only their home is.
+ */
+export const networkConfig = {
+    /** Default per-request deadline. Overridable per request via `HttpRequestConfig.timeout`. */
+    timeoutMs: 30_000,
+    /** Client-side rate limit: this many requests per endpoint per window. */
+    maxRequestsPerWindow: 100,
+    rateLimitWindowMs: 60_000,
+} as const;

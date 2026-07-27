@@ -8,37 +8,32 @@ export const SignUpStrings = {
     title: 'Create Account',
     subtitle: 'Sign up to get started',
 
-    // Form field labels and placeholders
+    // Form field placeholders and accessibility labels.
+    //
+    // Validation messages deliberately do NOT live here. `shared/constants/errors.ts`
+    // is the single source the zod schemas in `shared/validation/schemas.ts` read
+    // from, and the copies that used to sit alongside these fields were read by
+    // nothing — a second set of strings free to drift from the ones users actually
+    // saw. The `label` fields went the same way: unused, and byte-identical to the
+    // placeholder beside them.
     fullName: {
-        label: 'Full Name',
         placeholder: 'Full Name',
         accessibilityLabel: 'Full name input field',
-        errorRequired: 'Full name is required',
-        errorMinLength: 'Full name must be at least 2 characters',
     },
 
     email: {
-        label: 'Email',
         placeholder: 'Email',
         accessibilityLabel: 'Email input field',
-        errorRequired: 'Email is required',
-        errorInvalid: 'Please enter a valid email address',
     },
 
     password: {
-        label: 'Password',
         placeholder: 'Password',
         accessibilityLabel: 'Password input field',
-        errorRequired: 'Password is required',
-        errorMinLength: 'Password must be at least 6 characters',
     },
 
     confirmPassword: {
-        label: 'Confirm Password',
         placeholder: 'Confirm Password',
         accessibilityLabel: 'Confirm password input field',
-        errorRequired: 'Please confirm your password',
-        errorMismatch: 'Passwords do not match',
     },
 
     // Buttons

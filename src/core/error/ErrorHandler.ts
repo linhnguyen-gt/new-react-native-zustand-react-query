@@ -3,7 +3,7 @@
  * Handles error categorization, logging, recovery, and user feedback
  */
 
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import {
     AppError,
@@ -14,6 +14,7 @@ import {
     ErrorSeverity,
     HttpError,
     NetworkError,
+    RequestCancelledError,
     SchemaValidationError,
     StorageError,
     TimeoutError,
@@ -56,7 +57,20 @@ export class UnifiedErrorHandler {
     static getInstance(config?: ErrorHandlerConfig): UnifiedErrorHandler {
         if (!UnifiedErrorHandler.instance) {
             UnifiedErrorHandler.instance = new UnifiedErrorHandler(config);
+            return UnifiedErrorHandler.instance;
         }
+
+        // The module-level getInstance() call at the bottom of this file constructs the
+        // instance before any caller can configure it, so a later getInstance({...})
+        // used to drop its config without a word — onAuthError never wired, Sentry
+        // never enabled. Warn and point at the method that does work.
+        if (config) {
+            Logger.warn(
+                'ErrorHandler',
+                'getInstance() called with config after the instance already exists; config ignored. Use updateConfig() instead.'
+            );
+        }
+
         return UnifiedErrorHandler.instance;
     }
 
@@ -77,19 +91,16 @@ export class UnifiedErrorHandler {
     }
 
     /**
-     * Handle error and throw it
-     */
-    handleAndThrow(_error: unknown, context?: Partial<ErrorContext>): never {
-        const appError = this.handle(_error, context);
-        throw appError;
-    }
-
-    /**
      * Categorize error into specific AppError type
      */
     private categorizeError(error: unknown, context?: Partial<ErrorContext>): AppError {
-        // Already an AppError
+        // Already an AppError. Merge the caller's context instead of discarding it —
+        // httpClient passes { endpoint, method }, which would otherwise never reach an
+        // error the interceptor had already typed.
         if (error instanceof AppError) {
+            if (context) {
+                Object.assign(error.context, { ...context, ...error.context });
+            }
             return error;
         }
 
@@ -122,6 +133,14 @@ export class UnifiedErrorHandler {
             ...context,
         };
 
+        // Cancellation first: axios reports it as an AxiosError with no `.response` and
+        // code ERR_CANCELED, so the network branch below would otherwise claim it. A
+        // request the app deliberately abandoned is not a connectivity failure, and
+        // treating it as one makes every navigate-away a retryable HIGH-severity alert.
+        if (axios.isCancel(error) || error.code === 'ERR_CANCELED') {
+            return new RequestCancelledError(message, errorContext);
+        }
+
         // Network errors
         if (!error.response) {
             if (error.code === 'ECONNABORTED') {
@@ -142,27 +161,30 @@ export class UnifiedErrorHandler {
 
         // Detect error type from message or name
         if (error.name === 'ValidationError' || message.includes('validation')) {
-            return new ValidationError(message, {}, context);
+            return new ValidationError(message, {}, { ...context, originalError: error });
         }
 
         if (error.name === 'SchemaValidationError' || message.includes('schema')) {
-            return new SchemaValidationError(message, [], context);
+            return new SchemaValidationError(message, [], { ...context, originalError: error });
         }
 
         if (error.name === 'StorageError' || message.includes('storage')) {
-            return new StorageError(message, context);
+            return new StorageError(message, { ...context, originalError: error });
         }
 
         if (error.name === 'EncryptionError' || message.includes('encryption')) {
-            return new EncryptionError(message, context);
+            return new EncryptionError(message, { ...context, originalError: error });
+        }
+
+        // Specific before generic: 'auth token expired' contains both 'auth' and
+        // 'token expired'. With the generic test first it became an AuthError, which
+        // leaves shouldLogout unset, instead of a TokenExpiredError, which sets it.
+        if (error.name === 'TokenExpiredError' || message.includes('token expired')) {
+            return new TokenExpiredError(message, { ...context, originalError: error });
         }
 
         if (error.name === 'AuthError' || message.includes('auth')) {
-            return new AuthError(message, context);
-        }
-
-        if (error.name === 'TokenExpiredError' || message.includes('token expired')) {
-            return new TokenExpiredError(message, context);
+            return new AuthError(message, { ...context, originalError: error });
         }
 
         // Generic error
@@ -197,12 +219,8 @@ export class UnifiedErrorHandler {
         }
 
         // Call specific handlers
-        if (error instanceof AuthError || error instanceof TokenExpiredError) {
-            if (error instanceof TokenExpiredError && this.config.onAuthError) {
-                this.config.onAuthError(error);
-            } else if (error instanceof AuthError && this.config.onAuthError) {
-                this.config.onAuthError(error);
-            }
+        if ((error instanceof AuthError || error instanceof TokenExpiredError) && this.config.onAuthError) {
+            this.config.onAuthError(error);
         }
 
         if (error instanceof NetworkError || error instanceof TimeoutError) {
@@ -285,13 +303,45 @@ export class UnifiedErrorHandler {
     }
 
     /**
+     * Longest response body still plausibly written for a human to read. A real API error
+     * string ("Invalid credentials") is far below this; a rendered page or a stack trace is
+     * far above it.
+     */
+    private static readonly MAX_PRESENTABLE_MESSAGE_LENGTH = 200;
+
+    /**
+     * Whether a string response body can be shown to a user as-is.
+     *
+     * A failing request does not always come from the API. Gateways, proxies and load
+     * balancers answer with an HTML page, and returning that verbatim put the whole nginx
+     * error document on screen — including the server version and OS — with the app's own
+     * "Error Occurred" heading above it. Reproduced on device against a 502.
+     *
+     * So a string body is only trusted when it looks like prose rather than markup, and is
+     * short enough to have been written as a message rather than rendered as a document.
+     * Rejecting it falls back to `error.message` and then to a generic string, which are
+     * both safe to display.
+     */
+    private isPresentableMessage(value: string): boolean {
+        const trimmed = value.trim();
+
+        if (!trimmed || trimmed.length > UnifiedErrorHandler.MAX_PRESENTABLE_MESSAGE_LENGTH) {
+            return false;
+        }
+
+        // Markup or a document preamble: `<html>`, `<!DOCTYPE …>`, `<?xml …?>`. Checking the
+        // first character alone would miss a leading newline, which nginx and Apache both emit.
+        return !/^[<]/.test(trimmed) && !/<\/?[a-z!?]/i.test(trimmed);
+    }
+
+    /**
      * Extract error message from various sources
      */
     private extractErrorMessage(data: any): string | null {
         if (!data) return null;
 
         if (typeof data === 'string') {
-            return data;
+            return this.isPresentableMessage(data) ? data.trim() : null;
         }
 
         if (data instanceof Error) {

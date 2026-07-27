@@ -4,28 +4,13 @@ const { spawnSync } = require('child_process');
 
 const [, , platform, variantArg] = process.argv;
 
-const variants = {
-    development: {
-        androidAppId: 'com.newreactnativezustandrnq.dev',
-        androidVariant: 'developmentDebug',
-        iosConfiguration: 'Debug',
-        iosScheme: 'NewReactNativeZustandRNQ',
-    },
-    staging: {
-        androidAppId: 'com.newreactnativezustandrnq.stg',
-        androidVariant: 'stagingDebug',
-        iosConfiguration: 'Staging.Debug',
-        iosScheme: 'Staging',
-    },
-    production: {
-        androidAppId: 'com.newreactnativezustandrnq',
-        androidVariant: 'productionDebug',
-        iosConfiguration: 'Production.Debug',
-        iosScheme: 'Production',
-    },
-};
+// The variant table lives in one place now. `androidAppId` in particular used to be
+// restated here, so changing the package name in app.config.ts left this passing the
+// old id to `--app-id` — the build installs one package and the launcher asks for
+// another, failing with an error that points at the device rather than the config.
+const { VARIANTS: variants, getAndroidAppId, DEFAULT_VARIANT } = require('./lib/variant-config.cjs');
 
-const variant = variantArg || 'development';
+const variant = variantArg || DEFAULT_VARIANT;
 
 const run = (command, args, options = {}) => {
     const result = spawnSync(command, args, {
@@ -60,11 +45,47 @@ if (!variants[variant]) {
 
 const config = variants[variant];
 
+/**
+ * How to ask expo for a device.
+ *
+ * A bare `--device` means "prompt me". That works at a terminal and fails everywhere else:
+ * expo exits with `Input is required, but 'npx expo' is in non-interactive mode`, so this
+ * script could not run from CI, a hook, or an agent session.
+ *
+ * `DEVICE` names one explicitly. Note that expo wants the *AVD name* (`Pixel_10_Pro`), not
+ * the adb serial — passing `emulator-5554` fails with `Could not find device with name`.
+ * With no TTY and no `DEVICE`, omit the flag entirely and let expo pick the single attached
+ * device rather than aborting.
+ */
+const deviceArgs = () => {
+    const requested = process.env.DEVICE?.trim();
+
+    if (requested) {
+        return ['--device', requested];
+    }
+
+    return process.stdin.isTTY ? ['--device'] : [];
+};
+
 run(process.execPath, ['scripts/check-env.js']);
 run(process.execPath, ['scripts/sync-native-env.cjs']);
 
 if (platform === 'android') {
-    run('expo', ['run:android', '--variant', config.androidVariant, '--app-id', config.androidAppId, '--device']);
+    run('expo', [
+        'run:android',
+        '--variant',
+        config.androidVariant,
+        '--app-id',
+        getAndroidAppId(variant),
+        ...deviceArgs(),
+    ]);
 } else {
-    run('expo', ['run:ios', '--scheme', config.iosScheme, '--configuration', config.iosConfiguration, '--device']);
+    run('expo', [
+        'run:ios',
+        '--scheme',
+        config.iosScheme,
+        '--configuration',
+        config.iosConfiguration,
+        ...deviceArgs(),
+    ]);
 }

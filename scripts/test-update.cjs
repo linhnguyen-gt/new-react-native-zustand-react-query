@@ -20,10 +20,8 @@ console.log('══════════════════════�
 console.log('📋 Prerequisites Check:\n');
 
 // 1. Check if EAS CLI is installed
-let easInstalled = false;
 try {
     execSync('eas --version', { stdio: 'pipe' });
-    easInstalled = true;
     console.log('  ✅ EAS CLI installed');
 } catch {
     console.log('  ❌ EAS CLI not installed');

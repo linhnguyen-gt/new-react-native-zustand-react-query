@@ -8,7 +8,10 @@ const responseQueries = {
     useResponses: () => {
         return useQuery({
             queryKey: ['responses', 'list'],
-            queryFn: responseApi.getResponseData,
+            // Destructured rather than passing the function reference directly: React
+            // Query calls queryFn with a context object, so `responseApi.getResponseData`
+            // received that object as its first argument and the signal was never seen.
+            queryFn: ({ signal }) => responseApi.getResponseData(signal),
         });
     },
 

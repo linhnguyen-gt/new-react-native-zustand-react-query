@@ -8,117 +8,95 @@ import { RootNavigator } from '@/data/services';
 
 import { ControlledInput } from '@/presentation/components/input';
 import { MyTouchable } from '@/presentation/components/touchable';
-import { Box, ScrollView, Text, VStack } from '@/presentation/components/ui';
+import { Box, RNLogo, ScrollView, Text, VStack } from '@/presentation/components/ui';
 import { appConfig } from '@/shared/config/appConfig';
 import { Colors, RouteName } from '@/shared/constants';
 import { loginSchema } from '@/shared/validation/schemas';
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-const RNLogo = React.memo(() => (
-    <Box
-        width={120}
-        height={120}
-        backgroundColor={Colors.primaryColor}
-        borderRadius={30}
-        alignItems="center"
-        justifyContent="center"
-        shadowColor={Colors.primaryColor}
-        shadowOffset={{ width: 0, height: 8 }}
-        shadowOpacity={0.4}
-        shadowRadius={12}
-        elevation={10}
-        marginBottom={20}
-        overflow="visible">
-        <Box
-            width={100}
-            height={100}
-            borderRadius={25}
-            borderWidth={3}
-            borderColor="white"
-            alignItems="center"
-            justifyContent="center"
-            overflow="visible">
-            <Box height={50} alignItems="center" justifyContent="center" overflow="visible">
-                <Text
-                    color="white"
-                    fontWeight="bold"
-                    fontSize={42}
-                    style={{
-                        includeFontPadding: false,
-                        lineHeight: 50,
-                    }}>
-                    RN
-                </Text>
-            </Box>
-        </Box>
-    </Box>
-));
-
-RNLogo.displayName = 'RNLogo';
-
+/**
+ * Build diagnostics for the sign-in screen.
+ *
+ * Gated behind __DEV__: this screen is reachable without authenticating, and the
+ * variant/version/build triple tells an unauthenticated observer exactly which
+ * release they are looking at — useful for selecting a known-vulnerable build, and
+ * it also reveals when a staging or development build has shipped to users.
+ */
 const AppInfoBadge = React.memo(() => (
     <VStack space="xs" alignItems="center" marginTop={16}>
         <Text size="3xl" fontWeight="bold" color="#0f172a">
             Welcome Back
         </Text>
-        <Box
-            flexDirection="row"
-            alignItems="center"
-            paddingHorizontal={10}
-            paddingVertical={4}
-            backgroundColor="#e2e8f0"
-            borderRadius={999}>
-            <Text size="sm" color="#334155" fontWeight="bold">
-                Flavor:
-            </Text>
-            <Text size="sm" color="#0f172a" marginLeft={6}>
-                {appConfig.variant}
-            </Text>
-        </Box>
-        <VStack space="xs" marginTop={8}>
-            <Box flexDirection="row" justifyContent="center">
-                <Text size="sm" color="#64748b" marginRight={6}>
-                    App Name:
-                </Text>
-                <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {appConfig.appName}
-                </Text>
-            </Box>
-            <Box flexDirection="row" justifyContent="center">
-                <Text size="sm" color="#64748b" marginRight={6}>
-                    Version:
-                </Text>
-                <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {appConfig.versionName}
-                </Text>
-            </Box>
-            <Box flexDirection="row" justifyContent="center">
-                <Text size="sm" color="#64748b" marginRight={6}>
-                    Build:
-                </Text>
-                <Text size="sm" color="#0f172a" fontWeight="medium">
-                    {appConfig.versionCode}
-                </Text>
-            </Box>
-        </VStack>
+        {__DEV__ && (
+            <>
+                <Box
+                    flexDirection="row"
+                    alignItems="center"
+                    paddingHorizontal={10}
+                    paddingVertical={4}
+                    backgroundColor="#e2e8f0"
+                    borderRadius={999}>
+                    <Text size="sm" color="#334155" fontWeight="bold">
+                        Flavor:
+                    </Text>
+                    <Text size="sm" color="#0f172a" marginLeft={6}>
+                        {appConfig.variant}
+                    </Text>
+                </Box>
+                <VStack space="xs" marginTop={8}>
+                    <Box flexDirection="row" justifyContent="center">
+                        <Text size="sm" color="#64748b" marginRight={6}>
+                            App Name:
+                        </Text>
+                        <Text size="sm" color="#0f172a" fontWeight="medium">
+                            {appConfig.appName}
+                        </Text>
+                    </Box>
+                    <Box flexDirection="row" justifyContent="center">
+                        <Text size="sm" color="#64748b" marginRight={6}>
+                            Version:
+                        </Text>
+                        <Text size="sm" color="#0f172a" fontWeight="medium">
+                            {appConfig.versionName}
+                        </Text>
+                    </Box>
+                    <Box flexDirection="row" justifyContent="center">
+                        <Text size="sm" color="#64748b" marginRight={6}>
+                            Build:
+                        </Text>
+                        <Text size="sm" color="#0f172a" fontWeight="medium">
+                            {appConfig.versionCode}
+                        </Text>
+                    </Box>
+                </VStack>
+            </>
+        )}
     </VStack>
 ));
 
 AppInfoBadge.displayName = 'AppInfoBadge';
 
-const SignUpLink = React.memo(() => (
-    <Box flexDirection="row" justifyContent="center" marginTop={16}>
-        <Text color="#64748b" marginRight={4}>
-            Don&apos;t have an account?
-        </Text>
-        <MyTouchable onPress={() => RootNavigator.navigate(RouteName.SignUp)}>
-            <Text color={Colors.primaryColor} fontWeight="bold">
-                Sign Up
+const SignUpLink = React.memo(() => {
+    // Stable identity. An inline arrow here hands a new function to a memoised
+    // touchable on every render, defeating the memo.
+    const goToSignUp = React.useCallback(() => {
+        RootNavigator.navigate(RouteName.SignUp);
+    }, []);
+
+    return (
+        <Box flexDirection="row" justifyContent="center" marginTop={16}>
+            <Text color="#64748b" marginRight={4}>
+                Don&apos;t have an account?
             </Text>
-        </MyTouchable>
-    </Box>
-));
+            <MyTouchable onPress={goToSignUp}>
+                <Text color={Colors.primaryColor} fontWeight="bold">
+                    Sign Up
+                </Text>
+            </MyTouchable>
+        </Box>
+    );
+});
 
 SignUpLink.displayName = 'SignUpLink';
 
@@ -146,9 +124,11 @@ SignInButton.displayName = 'SignInButton';
 
 const Login = () => {
     const { control, handleSubmit } = useForm<LoginFormData>({
+        // Never prefill credentials. A literal here ships to production and puts a
+        // working-looking password into the field on every launch.
         defaultValues: {
-            email: 'test@test.com',
-            password: '123456',
+            email: '',
+            password: '',
         },
         resolver: zodResolver(loginSchema),
     });

@@ -131,3 +131,10 @@ plans/
 
 .shared/
 .opencode/
+
+# CodeGraph local index
+.codegraph/
+
+# Atomic-write temp files. `writeFileAtomic` cleans these up on error, but a signal
+# (Ctrl-C mid-build) bypasses that, and they sit next to tracked native files.
+.*.tmp

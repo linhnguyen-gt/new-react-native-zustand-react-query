@@ -24,11 +24,33 @@ export default [
             'android/**',
             'ios/**',
             '**/*.d.ts',
-            'scripts/**',
             '.opencode/**',
             '*.js',
             'tsconfig.json',
         ],
+    },
+    {
+        // Build tooling runs in Node, not in the RN runtime. Without this block these
+        // files lint against RN globals and every console/process use reports no-undef.
+        files: ['scripts/**/*.{js,cjs,mjs}', 'plugins/**/*.{js,cjs,mjs}'],
+        languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'commonjs',
+            globals: {
+                console: 'readonly',
+                process: 'readonly',
+                Buffer: 'readonly',
+                __dirname: 'readonly',
+                __filename: 'readonly',
+                global: 'readonly',
+                module: 'writable',
+                require: 'readonly',
+                exports: 'writable',
+                URL: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly',
+            },
+        },
     },
     {
         files: ['**/*.{ts,tsx}'],

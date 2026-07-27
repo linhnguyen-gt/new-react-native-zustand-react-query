@@ -5,7 +5,7 @@ import Touchable from '../touch';
 
 import { hstackStyle } from './styles';
 
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import type { VariantProps } from '@/shared/style';
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 
@@ -24,13 +24,25 @@ const createStyleFromProps = (props: StyleProps): ViewStyle => {
 const HStack = React.forwardRef<React.ComponentRef<typeof View>, IHStackProps>(
     ({ className, space, reversed, style, onPress, children, ...props }, ref) => {
         const styleProps = createStyleFromProps(props as StyleProps);
+        const resolvedClassName = hstackStyle({ space, reversed, class: className });
+
+        // Only wrap in a Touchable when there is something to press. Touchable defaults
+        // to accessibilityRole="button", so wrapping unconditionally announced every
+        // layout container to screen readers as a button.
+        // `props` is deliberately not spread onto either branch: the layout values it
+        // carries (flex, marginBottom, …) are style props, already folded into
+        // styleProps above, and spreading them would pass them to the element as
+        // invalid props. This matches what the Touchable-only version did.
+        if (!onPress) {
+            return (
+                <View className={resolvedClassName} style={[styleProps, style]} ref={ref}>
+                    {children}
+                </View>
+            );
+        }
 
         return (
-            <Touchable
-                onPress={onPress}
-                className={hstackStyle({ space, reversed, class: className })}
-                style={[styleProps, style]}
-                ref={ref}>
+            <Touchable onPress={onPress} className={resolvedClassName} style={[styleProps, style]} ref={ref}>
                 {children}
             </Touchable>
         );

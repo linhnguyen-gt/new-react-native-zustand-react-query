@@ -1,6 +1,8 @@
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 
 import { ReactotronCore } from '../reactotron.core';
+
+import { formatError } from './format-error';
 
 // Define a proper interface for our details object
 interface QueryDetails {
@@ -23,18 +25,13 @@ interface MutationDetails {
     timestamp: string;
 }
 
-export const queryPlugin = (core: ReactotronCore) => {
-    const client = new QueryClient({
-        defaultOptions: {
-            queries: {
-                staleTime: 5 * 60 * 1000, // 5 minutes
-                gcTime: 10 * 60 * 1000, // 10 minutes (garbage collection time)
-                retry: 2, // Number of retries
-                refetchOnWindowFocus: false, // Disable refetch on window focus
-            },
-        },
-    });
-
+/**
+ * Observes the application's QueryClient and mirrors cache activity into Reactotron.
+ *
+ * The client is passed in rather than created here: production query behaviour must
+ * not be owned by a debug tool. See app/providers/queryClient.ts.
+ */
+export const queryPlugin = (core: ReactotronCore, client: QueryClient) => {
     if (__DEV__) {
         client.getQueryCache().subscribe(({ type, query }) => {
             const queryName = Array.isArray(query.queryKey)
@@ -176,17 +173,3 @@ export const queryPlugin = (core: ReactotronCore) => {
 
     return { client };
 };
-
-function formatError(error: unknown): any {
-    if (!error) return 'Unknown error';
-
-    if (error instanceof Error) {
-        return {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
-        };
-    }
-
-    return error;
-}

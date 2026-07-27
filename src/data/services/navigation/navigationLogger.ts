@@ -1,13 +1,11 @@
+import { Logger } from '@/shared/helper';
+
 export class NavigationLogger {
     static logNavigation(route: string): void {
-        if (__DEV__) {
-            console.warn(`navigationRef ready, navigating to ${route}`);
-        }
+        Logger.debug('Navigation', `navigationRef ready, navigating to ${route}`);
     }
 
     static logReplace(route: string): void {
-        if (__DEV__) {
-            console.warn(`navigationRef ready, replaceName to ${route}`);
-        }
+        Logger.debug('Navigation', `navigationRef ready, replaceName to ${route}`);
     }
 }

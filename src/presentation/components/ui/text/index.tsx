@@ -3,7 +3,7 @@ import { Text as RNText, TextStyle } from 'react-native';
 
 import { textStyle } from './styles';
 
-import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import type { VariantProps } from '@/shared/style';
 
 type StyleProps = Omit<TextStyle, 'transform'>;
 
