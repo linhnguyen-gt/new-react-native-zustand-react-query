@@ -19,7 +19,7 @@
 
   <p>
     <img src="https://img.shields.io/badge/Expo-v57.0.8-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo" />
-    <img src="https://img.shields.io/badge/React_Navigation-v7.2.5-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
+    <img src="https://img.shields.io/badge/React_Navigation-v7.3.14-6B52AE?style=for-the-badge&logo=react&logoColor=white" alt="react-navigation" />
   </p>
 
 ### State Management & API
@@ -27,7 +27,7 @@
   <p>
     <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
     <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
-    <img src="https://img.shields.io/badge/Axios-v1.16.1-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
+    <img src="https://img.shields.io/badge/Axios-v1.18.1-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
 ### UI & Styling
@@ -41,7 +41,7 @@
 ### Form & Validation
 
   <p>
-    <img src="https://img.shields.io/badge/React_Hook_Form-v7.76.1-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
+    <img src="https://img.shields.io/badge/React_Hook_Form-v7.83.0-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white" alt="react-hook-form" />
     <img src="https://img.shields.io/badge/Zod-v4.4.3-3068B7?style=for-the-badge" alt="zod" />
   </p>
 
