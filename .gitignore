@@ -124,7 +124,6 @@ vulnerability-reports/
 .qodo
 .expo/
 ios/tmp.xcconfig
-docs/
 plans/
 
 # AIKit - AI Development Kits
