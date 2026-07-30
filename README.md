@@ -25,8 +25,8 @@
 ### State Management & API
 
   <p>
-    <img src="https://img.shields.io/badge/Zustand-v5.0.3-brown?style=for-the-badge" alt="zustand" />
-    <img src="https://img.shields.io/badge/React_Query-v5.64.1-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
+    <img src="https://img.shields.io/badge/Zustand-v5.0.14-brown?style=for-the-badge" alt="zustand" />
+    <img src="https://img.shields.io/badge/React_Query-v5.101.4-FF4154?style=for-the-badge&logo=react-query&logoColor=white" alt="react-query" />
     <img src="https://img.shields.io/badge/Axios-v1.18.1-5A29E4?style=for-the-badge&logo=axios&logoColor=white" alt="axios" />
   </p>
 
@@ -35,7 +35,7 @@
   <p>
     <img src="https://img.shields.io/badge/NativeWind-v4.2.4-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="nativewind" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-v3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwindcss" />
-    <img src="https://img.shields.io/badge/React_Native_Vector_Icons-v10.2.0-4B32C3?style=for-the-badge" alt="vector-icons" />
+    <img src="https://img.shields.io/badge/React_Native_Vector_Icons-v13.1.2-4B32C3?style=for-the-badge" alt="vector-icons" />
   </p>
 
 ### Form & Validation
