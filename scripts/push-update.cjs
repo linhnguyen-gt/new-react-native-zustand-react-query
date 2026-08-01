@@ -13,7 +13,7 @@ const readline = require('readline');
 const { parseEnvFile } = require('./lib/parse-env-file.cjs');
 // The shared variant table, so this cannot come to disagree with check-env.js or
 // app.config.ts about which file a channel reads.
-const { VARIANT_ENV_FILES: ENV_FILES } = require('./lib/variant-config.cjs');
+const { VARIANT_ENV_FILES: ENV_FILES, VARIANT_EAS_ENVIRONMENTS } = require('./lib/variant-config.cjs');
 
 const CHANNELS = {
     d: 'development',
@@ -116,13 +116,19 @@ async function main() {
     // Sanitize message to prevent shell injection
     const sanitizedMessage = message.replace(/["\\]/g, '');
 
+    // --channel is this repo's own name, baked into each binary by the config plugin, so
+    // `staging` is correct there. --environment names an EAS environment, and EAS ships
+    // only development / preview / production — passing `staging` addresses an environment
+    // that does not exist.
+    const environment = VARIANT_EAS_ENVIRONMENTS[channel];
+
     // Build EAS command arguments
     // --channel: Assign update to this channel
     // --environment: Required for SDK 55+ in non-interactive mode
     const args = [
         'update',
         `--channel=${channel}`,
-        `--environment=${channel}`,
+        `--environment=${environment}`,
         `--message=${sanitizedMessage}`,
         '--non-interactive',
     ];

@@ -1,0 +1,35 @@
+{
+    "cli": {
+        "version": ">= 21.4.0",
+        "appVersionSource": "local"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "environment": "development",
+            "channel": "development",
+            "env": { "APP_VARIANT": "development" },
+            "android": { "gradleCommand": ":app:assembleDevelopmentDebug" },
+            "ios": { "scheme": "NewReactNativeZustandRNQ", "buildConfiguration": "Debug" }
+        },
+        "staging": {
+            "distribution": "internal",
+            "environment": "preview",
+            "channel": "staging",
+            "env": { "APP_VARIANT": "staging" },
+            "android": { "gradleCommand": ":app:assembleStagingDebug" },
+            "ios": { "scheme": "Staging", "buildConfiguration": "Staging.Debug" }
+        },
+        "production": {
+            "environment": "production",
+            "channel": "production",
+            "env": { "APP_VARIANT": "production" },
+            "android": { "gradleCommand": ":app:assembleProductionDebug" },
+            "ios": { "scheme": "Production", "buildConfiguration": "Production.Debug" }
+        }
+    },
+    "submit": {
+        "production": {}
+    }
+}
