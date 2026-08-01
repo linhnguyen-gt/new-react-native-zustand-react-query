@@ -1,6 +1,6 @@
 import type { ExpoConfig } from '@expo/config-types';
 import dotenv from 'dotenv';
-import { ConfigContext } from 'expo/config';
+import { type ConfigContext } from 'expo/config';
 import fs from 'fs';
 
 import { name } from './package.json';
@@ -124,6 +124,26 @@ export default ({ config }: ConfigContext): ExpoConfig => {
             versionCode: parseInt(versionCode, 10),
         },
         userInterfaceStyle: 'automatic',
+        /**
+         * React Compiler, on.
+         *
+         * `babel-plugin-react-compiler@1.0.0` already ships as a dependency of
+         * `babel-preset-expo@57`; this flag is what makes the preset load it. The
+         * detection runs through the babel caller (`getReactCompiler`), which Metro
+         * populates from this config — which is why the switch lives here and not in
+         * `babel.config.cjs`.
+         *
+         * What it changes: memoisation becomes the compiler's job. The hand-written
+         * `useCallback`/`useMemo`/`React.memo` scattered through the screens stays correct
+         * but stops being load-bearing, and new code does not need to add more. Components
+         * that break the rules of hooks are skipped rather than miscompiled — run
+         * `pnpm lint` and fix what `react-hooks` reports before assuming a component is
+         * being optimised.
+         */
+        experiments: {
+            ...config.experiments,
+            reactCompiler: true,
+        },
         plugins,
         extra: {
             ...config.extra,
