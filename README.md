@@ -297,6 +297,22 @@ pnpm native:sync-env
 - Native build settings set `APP_VARIANT` and `ENVFILE`, so switching environment in the IDE does not require another prebuild.
 - If you change `APP_NAME` and build directly from Xcode or Android Studio, run `pnpm native:sync-env` first. The `pnpm ios*` and `pnpm android*` scripts already run it automatically.
 
+#### iOS Code Signing
+
+This template ships **no Apple Team ID**, by design — nobody inherits somebody else's signing identity. Supply your own:
+
+1. Open `ios/NewReactNativeZustandRNQ.xcworkspace` in Xcode.
+2. Select the `NewReactNativeZustandRNQ` target → **Signing & Capabilities**.
+3. Pick your team under **Team**.
+
+Three things follow from that:
+
+- **Only device builds need it.** Simulator builds sign ad-hoc, so nothing is required to run on a simulator. CI needs nothing either — `.github/workflows/ios-build.yml` builds for `generic/platform=iOS Simulator` and sets no signing identity. `CODE_SIGN_IDENTITY` in the generated project is scoped `[sdk=iphoneos*]`, so it only applies to device SDKs.
+- **`pnpm ios` may still ask for a device.** At an interactive terminal `scripts/run-native.cjs` passes a bare `--device`, which makes Expo prompt — and connected physical devices are listed first. `DEVICE=<name>` names one directly. Only a non-TTY run with no `DEVICE` is guaranteed to pick a simulator. Building to a device from Xcode with no team selected fails with `Signing for "NewReactNativeZustandRNQ" requires a development team`; step 3 above is the fix.
+- **`pnpm prebuild:clean` resets the selection.** An Xcode-set team lives only in the generated `ios/` project, so a clean regeneration clears it and you re-select it. That is the cost of keeping identity out of the template, not a bug. Plain `pnpm prebuild` leaves it alone.
+
+> **Do not commit your team ID.** When you build to a physical device through `pnpm ios`, Expo configures signing for you: it writes `DEVELOPMENT_TEAM` into `ios/…/project.pbxproj`, and if you have more than one signing identity it also writes `ios.appleTeamId` back into `app.json`. Both files are tracked. Check `git status` after your first device build and revert those two edits before committing, or you will publish your Apple Team ID to everyone who clones the template — which is exactly what this section exists to prevent.
+
 #### Runtime Access
 
 ```ts

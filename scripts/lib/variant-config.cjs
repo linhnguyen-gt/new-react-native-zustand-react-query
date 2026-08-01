@@ -17,14 +17,20 @@
  * `androidAppId` is now derived from `packageName` rather than restated, so that class
  * of drift is not expressible.
  *
- * Consumers: `app.config.ts`, `run-native.cjs`, `sync-native-env.cjs`, `check-env.js`,
- * `push-update.cjs`. Two tables deliberately remain outside:
+ * Importers: `app.config.ts`, `check-env.js`, `run-native.cjs`, `sync-native-env.cjs`,
+ * `push-update.cjs`, `env-exec.cjs`, `env-sync.cjs`, `setup-env.js`, and
+ * `plugins/with-environment-support.cjs`. Anything that needs a variant value reads it from
+ * here.
  *
- * - `plugins/with-environment-support.cjs` keeps its own `VARIANT_NAMES`. It runs inside
- *   `expo prebuild`, and coupling it to `scripts/` would tie native generation to a
- *   directory that need not be present in every build context.
- * - `setup-env.js` names env files literally while *creating* them, which is a different
- *   job from reading an existing one.
+ * One consumer cannot: `eas.json` is static JSON with no way to import anything, so each
+ * build profile restates `iosScheme`, `iosConfiguration` and the Gradle task name by hand.
+ * Rename a value here and those copies must be edited to match. The defence is
+ * `lib/__tests__/eas-profiles.test.js`, which fails when the two disagree — read its header
+ * for what each kind of drift costs. Keep that test passing and `eas.json` cannot rot
+ * silently; delete it and nothing else will notice.
+ *
+ * `plugins/with-environment-support.cjs` additionally keeps its own `VARIANT_NAMES` list
+ * (plugin line 30) alongside the `VARIANTS` it imports — see that file's header for why.
  */
 
 const IOS_PROJECT_NAME = 'NewReactNativeZustandRNQ';

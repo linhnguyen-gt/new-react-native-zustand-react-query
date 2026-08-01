@@ -9,28 +9,28 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		409125EE867128C652B51FB3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC871F36C9605940D02E3A11 /* ExpoModulesProvider.swift */; };
-		B3E55417CE9CD730FD7AECEE /* libPods-NewReactNativeZustandRNQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E96A17D6509218BA982E1734 /* libPods-NewReactNativeZustandRNQ.a */; };
+		676895E329F7E64D1FF87FFC /* libPods-NewReactNativeZustandRNQ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 491741E89086E7E12AA81566 /* libPods-NewReactNativeZustandRNQ.a */; };
+		A2C9B172339C3035F497E66E /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AE25B92D528C670991FC34 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		D831360A36F4804411086B96 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9B0D680B127D7EBFA0917901 /* PrivacyInfo.xcprivacy */; };
+		ED0567E0F2380D5FBFAF0298 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9F06B82AB19F3350CC0A5995 /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E99418DFF84BD0C92DE4E90 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.debug.xcconfig"; sourceTree = "<group>"; };
+		0D502DCAA1688A0FAD0D936B /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.production.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.production.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* NewReactNativeZustandRNQ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewReactNativeZustandRNQ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = NewReactNativeZustandRNQ/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NewReactNativeZustandRNQ/Info.plist; sourceTree = "<group>"; };
-		746BA0BD8ACDAEDE3F23D0B4 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.release.xcconfig"; sourceTree = "<group>"; };
-		9B0D680B127D7EBFA0917901 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = NewReactNativeZustandRNQ/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		9E6FEB22BB5BB6E5D8B55B83 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig"; sourceTree = "<group>"; };
+		1D3FBE0B141EF5951F24F1B7 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.release.xcconfig"; sourceTree = "<group>"; };
+		28F5D6BA6177462964007043 /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; sourceTree = "<group>"; };
+		491741E89086E7E12AA81566 /* libPods-NewReactNativeZustandRNQ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewReactNativeZustandRNQ.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53AE25B92D528C670991FC34 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		71A3E409D30BB302F04998E1 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.debug.xcconfig"; sourceTree = "<group>"; };
+		973C18F0E4614636393A3264 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig"; sourceTree = "<group>"; };
+		9F06B82AB19F3350CC0A5995 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = NewReactNativeZustandRNQ/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = NewReactNativeZustandRNQ/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AC871F36C9605940D02E3A11 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		B43931DE2F154D720B3505EC /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.production.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.production.release.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C3AA9B2C9172FC5E16B5196D /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.staging.release.xcconfig"; sourceTree = "<group>"; };
-		C98C32F9E0CE12A17F897204 /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.production.debug.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.production.debug.xcconfig"; sourceTree = "<group>"; };
-		E96A17D6509218BA982E1734 /* libPods-NewReactNativeZustandRNQ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NewReactNativeZustandRNQ.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4B271F11BF77008AA63342C /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewReactNativeZustandRNQ.production.release.xcconfig"; path = "Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ.production.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = NewReactNativeZustandRNQ/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* NewReactNativeZustandRNQ-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NewReactNativeZustandRNQ-Bridging-Header.h"; path = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -41,21 +41,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3E55417CE9CD730FD7AECEE /* libPods-NewReactNativeZustandRNQ.a in Frameworks */,
+				676895E329F7E64D1FF87FFC /* libPods-NewReactNativeZustandRNQ.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		068119756D3AA4B8E260CCCB /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				57F9FC6916269045B00EB06D /* NewReactNativeZustandRNQ */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* NewReactNativeZustandRNQ */ = {
 			isa = PBXGroup;
 			children = (
@@ -65,7 +57,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				9B0D680B127D7EBFA0917901 /* PrivacyInfo.xcprivacy */,
+				9F06B82AB19F3350CC0A5995 /* PrivacyInfo.xcprivacy */,
 			);
 			name = NewReactNativeZustandRNQ;
 			sourceTree = "<group>";
@@ -74,31 +66,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E96A17D6509218BA982E1734 /* libPods-NewReactNativeZustandRNQ.a */,
+				491741E89086E7E12AA81566 /* libPods-NewReactNativeZustandRNQ.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		57F9FC6916269045B00EB06D /* NewReactNativeZustandRNQ */ = {
-			isa = PBXGroup;
-			children = (
-				AC871F36C9605940D02E3A11 /* ExpoModulesProvider.swift */,
-			);
-			name = NewReactNativeZustandRNQ;
-			sourceTree = "<group>";
-		};
-		81193FAC23D710D4AEB77067 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0E99418DFF84BD0C92DE4E90 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */,
-				746BA0BD8ACDAEDE3F23D0B4 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */,
-				9E6FEB22BB5BB6E5D8B55B83 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */,
-				C3AA9B2C9172FC5E16B5196D /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */,
-				C98C32F9E0CE12A17F897204 /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */,
-				B43931DE2F154D720B3505EC /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -115,8 +85,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				81193FAC23D710D4AEB77067 /* Pods */,
-				068119756D3AA4B8E260CCCB /* ExpoModulesProviders */,
+				9A143CE557D1417E73BB5B0D /* Pods */,
+				CBE9CDB4495F7740E8A493E5 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -131,6 +101,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9A143CE557D1417E73BB5B0D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				71A3E409D30BB302F04998E1 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */,
+				1D3FBE0B141EF5951F24F1B7 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */,
+				973C18F0E4614636393A3264 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */,
+				28F5D6BA6177462964007043 /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */,
+				0D502DCAA1688A0FAD0D936B /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */,
+				C4B271F11BF77008AA63342C /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		AA93F518318FEB91D11041E4 /* NewReactNativeZustandRNQ */ = {
+			isa = PBXGroup;
+			children = (
+				53AE25B92D528C670991FC34 /* ExpoModulesProvider.swift */,
+			);
+			name = NewReactNativeZustandRNQ;
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +130,14 @@
 			);
 			name = Supporting;
 			path = NewReactNativeZustandRNQ/Supporting;
+			sourceTree = "<group>";
+		};
+		CBE9CDB4495F7740E8A493E5 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				AA93F518318FEB91D11041E4 /* NewReactNativeZustandRNQ */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,14 +148,14 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "NewReactNativeZustandRNQ" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				59FCC353188B260EA51F626A /* [Expo] Configure project */,
+				E34034E3FAC5F2B0C1CA8184 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				90149D21FFC54B29943A23DE /* [Expo Dev Launcher] Strip Local Network Keys for Release */,
-				45DF586AF9185AD7B4BE2B41 /* [CP] Embed Pods Frameworks */,
+				0B8D1EA59F484A1C93542631 /* [Expo Dev Launcher] Strip Local Network Keys for Release */,
+				25AB9DF49C8244EB6902950C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -205,7 +205,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				D831360A36F4804411086B96 /* PrivacyInfo.xcprivacy in Resources */,
+				ED0567E0F2380D5FBFAF0298 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +251,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		45DF586AF9185AD7B4BE2B41 /* [CP] Embed Pods Frameworks */ = {
+		0B8D1EA59F484A1C93542631 /* [Expo Dev Launcher] Strip Local Network Keys for Release */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo Dev Launcher] Strip Local Network Keys for Release";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Strip dev-launcher-specific local network permission keys from non-Debug builds\n# This only removes _expo._tcp Bonjour services and the dev-launcher usage description.\n# Other Bonjour services and custom descriptions are preserved for production use.\n\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n  PLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n  if [ -f \"$PLIST_PATH\" ]; then\n    # Check if NSBonjourServices exists\n    if /usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" >/dev/null 2>&1; then\n      # Get the count of services\n      COUNT=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null | grep \"^    \" | wc -l | tr -d ' ')\n\n      # Remove _expo._tcp\n      for ((i=COUNT-1; i>=0; i--)); do\n        SERVICE=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices:$i\" \"$PLIST_PATH\" 2>/dev/null || echo \"\")\n        if echo \"$SERVICE\" | grep -q \"_expo._tcp\"; then\n          /usr/libexec/PlistBuddy -c \"Delete :NSBonjourServices:$i\" \"$PLIST_PATH\" 2>/dev/null || true\n        fi\n      done\n\n      # If the array is now empty, remove it entirely\n      REMAINING=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null | grep \"^    \" | wc -l | tr -d ' ')\n      if [ \"$REMAINING\" -eq \"0\" ]; then\n        /usr/libexec/PlistBuddy -c \"Delete :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null || true\n      fi\n    fi\n\n    # Only delete the description if it matches the dev-launcher default text\n    DESC=$(/usr/libexec/PlistBuddy -c \"Print :NSLocalNetworkUsageDescription\" \"$PLIST_PATH\" 2>/dev/null || echo \"\")\n    if echo \"$DESC\" | grep -q \"Expo Dev Launcher\"; then\n      /usr/libexec/PlistBuddy -c \"Delete :NSLocalNetworkUsageDescription\" \"$PLIST_PATH\" 2>/dev/null || true\n    fi\n  fi\nfi\n";
+		};
+		25AB9DF49C8244EB6902950C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -282,30 +296,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		59FCC353188B260EA51F626A /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh",
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/ExpoModulesProvider.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh\"\n";
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -361,19 +351,29 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewReactNativeZustandRNQ/Pods-NewReactNativeZustandRNQ-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		90149D21FFC54B29943A23DE /* [Expo Dev Launcher] Strip Local Network Keys for Release */ = {
+		E34034E3FAC5F2B0C1CA8184 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "[Expo Dev Launcher] Strip Local Network Keys for Release";
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-NewReactNativeZustandRNQ/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Strip dev-launcher-specific local network permission keys from non-Debug builds\n# This only removes _expo._tcp Bonjour services and the dev-launcher usage description.\n# Other Bonjour services and custom descriptions are preserved for production use.\n\nif [ \"$CONFIGURATION\" != \"Debug\" ]; then\n  PLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\n  if [ -f \"$PLIST_PATH\" ]; then\n    # Check if NSBonjourServices exists\n    if /usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" >/dev/null 2>&1; then\n      # Get the count of services\n      COUNT=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null | grep \"^    \" | wc -l | tr -d ' ')\n\n      # Remove _expo._tcp\n      for ((i=COUNT-1; i>=0; i--)); do\n        SERVICE=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices:$i\" \"$PLIST_PATH\" 2>/dev/null || echo \"\")\n        if echo \"$SERVICE\" | grep -q \"_expo._tcp\"; then\n          /usr/libexec/PlistBuddy -c \"Delete :NSBonjourServices:$i\" \"$PLIST_PATH\" 2>/dev/null || true\n        fi\n      done\n\n      # If the array is now empty, remove it entirely\n      REMAINING=$(/usr/libexec/PlistBuddy -c \"Print :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null | grep \"^    \" | wc -l | tr -d ' ')\n      if [ \"$REMAINING\" -eq \"0\" ]; then\n        /usr/libexec/PlistBuddy -c \"Delete :NSBonjourServices\" \"$PLIST_PATH\" 2>/dev/null || true\n      fi\n    fi\n\n    # Only delete the description if it matches the dev-launcher default text\n    DESC=$(/usr/libexec/PlistBuddy -c \"Print :NSLocalNetworkUsageDescription\" \"$PLIST_PATH\" 2>/dev/null || echo \"\")\n    if echo \"$DESC\" | grep -q \"Expo Dev Launcher\"; then\n      /usr/libexec/PlistBuddy -c \"Delete :NSLocalNetworkUsageDescription\" \"$PLIST_PATH\" 2>/dev/null || true\n    fi\n  fi\nfi\n";
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-NewReactNativeZustandRNQ/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -383,94 +383,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				409125EE867128C652B51FB3 /* ExpoModulesProvider.swift in Sources */,
+				A2C9B172339C3035F497E66E /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1050972FED7748E98020E883 /* Staging.Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = NewStaging;
-				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
-				APP_VARIANT = staging;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				ENVFILE = .env.staging;
-				EXPO_UPDATE_CHANNEL = staging;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					/usr/lib/swift,
-					"$(inherited)",
-				);
-				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
-				MARKETING_VERSION = 1.0.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				PODFILE_DIR = "$(SRCROOT)";
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
-				SDKROOT = iphoneos;
-				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
-				USE_HERMES = true;
-			};
-			name = Staging.Debug;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E99418DFF84BD0C92DE4E90 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */;
+			baseConfigurationReference = 71A3E409D30BB302F04998E1 /* Pods-NewReactNativeZustandRNQ.debug.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = NewDev;
 				APP_URL_SCHEME = com.newreactnativezustandrnq.dev;
@@ -479,7 +401,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				ENABLE_BITCODE = NO;
 				ENVFILE = .env;
 				EXPO_UPDATE_CHANNEL = development;
@@ -514,7 +435,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 746BA0BD8ACDAEDE3F23D0B4 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */;
+			baseConfigurationReference = 1D3FBE0B141EF5951F24F1B7 /* Pods-NewReactNativeZustandRNQ.release.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = NewDev;
 				APP_URL_SCHEME = com.newreactnativezustandrnq.dev;
@@ -523,7 +444,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
 				ENVFILE = .env;
 				EXPO_UPDATE_CHANNEL = development;
 				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
@@ -550,9 +470,80 @@
 			};
 			name = Release;
 		};
-		1D246B57165B4B4F9B141464 /* Staging.Release */ = {
+		261907009ED04EE8A2F2668D /* Staging.Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C3AA9B2C9172FC5E16B5196D /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_DISPLAY_NAME = NewStaging;
+				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
+				APP_VARIANT = staging;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENVFILE = .env.staging;
+				EXPO_UPDATE_CHANNEL = staging;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				USE_HERMES = true;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Staging.Release;
+		};
+		3C510FEDD2F64F639FDDCA74 /* Staging.Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 973C18F0E4614636393A3264 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = NewStaging;
 				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
@@ -561,48 +552,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
+				ENABLE_BITCODE = NO;
 				ENVFILE = .env.staging;
 				EXPO_UPDATE_CHANNEL = staging;
-				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.4;
-				MARKETING_VERSION = 1.0.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq.stg;
-				PRODUCT_NAME = NewReactNativeZustandRNQ;
-				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Staging.Release;
-		};
-		3AD553766ADA49A8A5B5FE99 /* Production.Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C98C32F9E0CE12A17F897204 /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */;
-			buildSettings = {
-				APP_DISPLAY_NAME = NewProduct;
-				APP_URL_SCHEME = com.newreactnativezustandrnq;
-				APP_VARIANT = production;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
-				ENABLE_BITCODE = NO;
-				ENVFILE = .env.production;
-				EXPO_UPDATE_CHANNEL = production;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
@@ -622,7 +574,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq.stg;
 				PRODUCT_NAME = NewReactNativeZustandRNQ;
 				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -630,15 +582,15 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
-			name = Production.Debug;
+			name = Staging.Debug;
 		};
-		3E0E6478FA1049E3AD36FF9D /* Production.Debug */ = {
+		7F342ADE2E254F01A43E042F /* Staging.Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				APP_DISPLAY_NAME = NewProduct;
-				APP_URL_SCHEME = com.newreactnativezustandrnq;
-				APP_VARIANT = production;
+				APP_DISPLAY_NAME = NewStaging;
+				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
+				APP_VARIANT = staging;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -665,11 +617,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENVFILE = .env.production;
-				EXPO_UPDATE_CHANNEL = production;
+				ENVFILE = .env.staging;
+				EXPO_UPDATE_CHANNEL = staging;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -707,88 +659,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				USE_HERMES = true;
-			};
-			name = Production.Debug;
-		};
-		462138B78FAA4A1694E95A08 /* Production.Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B43931DE2F154D720B3505EC /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */;
-			buildSettings = {
-				APP_DISPLAY_NAME = NewProduct;
-				APP_URL_SCHEME = com.newreactnativezustandrnq;
-				APP_VARIANT = production;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
-				ENVFILE = .env.production;
-				EXPO_UPDATE_CHANNEL = production;
-				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.4;
-				MARKETING_VERSION = 1.0.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq;
-				PRODUCT_NAME = NewReactNativeZustandRNQ;
-				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Production.Release;
-		};
-		5174B14733D840EEB25DDDF5 /* Staging.Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E6FEB22BB5BB6E5D8B55B83 /* Pods-NewReactNativeZustandRNQ.staging.debug.xcconfig */;
-			buildSettings = {
-				APP_DISPLAY_NAME = NewStaging;
-				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
-				APP_VARIANT = staging;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZUAY5K8CWJ;
-				ENABLE_BITCODE = NO;
-				ENVFILE = .env.staging;
-				EXPO_UPDATE_CHANNEL = staging;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"FB_SONARKIT_ENABLED=1",
-				);
-				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.4;
-				MARKETING_VERSION = 1.0.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq.stg;
-				PRODUCT_NAME = NewReactNativeZustandRNQ;
-				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Staging.Debug;
 		};
@@ -942,7 +812,7 @@
 			};
 			name = Release;
 		};
-		8FFF796D06E243388AF2A788 /* Production.Release */ = {
+		8FCA3AB38B1242409D2DF1E7 /* Production.Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1013,13 +883,50 @@
 			};
 			name = Production.Release;
 		};
-		B1AFB7689448447BA937EFC3 /* Staging.Release */ = {
+		985C49341E684AB69B198153 /* Staging.Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28F5D6BA6177462964007043 /* Pods-NewReactNativeZustandRNQ.staging.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				APP_DISPLAY_NAME = NewStaging;
 				APP_URL_SCHEME = com.newreactnativezustandrnq.stg;
 				APP_VARIANT = staging;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENVFILE = .env.staging;
+				EXPO_UPDATE_CHANNEL = staging;
+				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq.stg;
+				PRODUCT_NAME = NewReactNativeZustandRNQ;
+				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Staging.Release;
+		};
+		B92C9E1C552E45B59B72915D /* Production.Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_DISPLAY_NAME = NewProduct;
+				APP_URL_SCHEME = com.newreactnativezustandrnq;
+				APP_VARIANT = production;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1045,14 +952,21 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_NS_ASSERTIONS = NO;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENVFILE = .env.staging;
-				EXPO_UPDATE_CHANNEL = staging;
+				ENABLE_TESTABILITY = YES;
+				ENVFILE = .env.production;
+				EXPO_UPDATE_CHANNEL = production;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1066,7 +980,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MARKETING_VERSION = 1.0.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DRCT_REMOVE_LEGACY_ARCH=1",
@@ -1080,9 +995,88 @@
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				USE_HERMES = true;
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Staging.Release;
+			name = Production.Debug;
+		};
+		C1B5DB810E9A41A3972AB24F /* Production.Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0D502DCAA1688A0FAD0D936B /* Pods-NewReactNativeZustandRNQ.production.debug.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = NewProduct;
+				APP_URL_SCHEME = com.newreactnativezustandrnq;
+				APP_VARIANT = production;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
+				CURRENT_PROJECT_VERSION = 2;
+				ENABLE_BITCODE = NO;
+				ENVFILE = .env.production;
+				EXPO_UPDATE_CHANNEL = production;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
+				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq;
+				PRODUCT_NAME = NewReactNativeZustandRNQ;
+				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Production.Debug;
+		};
+		F4EF38CC6AF1465E9D72F6A3 /* Production.Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4B271F11BF77008AA63342C /* Pods-NewReactNativeZustandRNQ.production.release.xcconfig */;
+			buildSettings = {
+				APP_DISPLAY_NAME = NewProduct;
+				APP_URL_SCHEME = com.newreactnativezustandrnq;
+				APP_VARIANT = production;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NewReactNativeZustandRNQ/NewReactNativeZustandRNQ.entitlements;
+				CURRENT_PROJECT_VERSION = 2;
+				ENVFILE = .env.production;
+				EXPO_UPDATE_CHANNEL = production;
+				INFOPLIST_FILE = NewReactNativeZustandRNQ/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(APP_DISPLAY_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.4;
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.newreactnativezustandrnq;
+				PRODUCT_NAME = NewReactNativeZustandRNQ;
+				SWIFT_OBJC_BRIDGING_HEADER = "NewReactNativeZustandRNQ/NewReactNativeZustandRNQ-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Production.Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1092,10 +1086,10 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
-				5174B14733D840EEB25DDDF5 /* Staging.Debug */,
-				1D246B57165B4B4F9B141464 /* Staging.Release */,
-				3AD553766ADA49A8A5B5FE99 /* Production.Debug */,
-				462138B78FAA4A1694E95A08 /* Production.Release */,
+				3C510FEDD2F64F639FDDCA74 /* Staging.Debug */,
+				985C49341E684AB69B198153 /* Staging.Release */,
+				C1B5DB810E9A41A3972AB24F /* Production.Debug */,
+				F4EF38CC6AF1465E9D72F6A3 /* Production.Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1105,10 +1099,10 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
-				1050972FED7748E98020E883 /* Staging.Debug */,
-				B1AFB7689448447BA937EFC3 /* Staging.Release */,
-				3E0E6478FA1049E3AD36FF9D /* Production.Debug */,
-				8FFF796D06E243388AF2A788 /* Production.Release */,
+				7F342ADE2E254F01A43E042F /* Staging.Debug */,
+				261907009ED04EE8A2F2668D /* Staging.Release */,
+				B92C9E1C552E45B59B72915D /* Production.Debug */,
+				8FCA3AB38B1242409D2DF1E7 /* Production.Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

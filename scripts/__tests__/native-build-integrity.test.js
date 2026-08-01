@@ -73,6 +73,37 @@ describe('the shared variant table', () => {
     });
 });
 
+describe('signing identity stays out of the template', () => {
+    /**
+     * This template ships no Apple Team ID, so every developer selects their own in Xcode.
+     * Nothing enforces that by itself, and the tooling actively works against it.
+     *
+     * The concrete failure: build to a physical device through `pnpm ios` with no team
+     * configured and Expo configures signing for you. It writes `DEVELOPMENT_TEAM` into
+     * `project.pbxproj`, and with more than one signing identity available it also writes
+     * `ios.appleTeamId` back into `app.json`. Both files are tracked, both edits look like
+     * incidental native churn in a diff, and committing either publishes one developer's
+     * Apple Team ID to everyone who clones the template. That is how it got in here the
+     * first time.
+     */
+    it('has no development team in the committed Xcode project', () => {
+        const pbxproj = path.join(PROJECT_ROOT, 'ios', `${IOS_PROJECT_NAME}.xcodeproj`, 'project.pbxproj');
+
+        expect(fs.existsSync(pbxproj)).toBe(true);
+
+        expect(fs.readFileSync(pbxproj, 'utf8')).not.toMatch(/DEVELOPMENT_TEAM/);
+    });
+
+    it('has no appleTeamId in app.json', () => {
+        // app.json is the other half: `withDevelopmentTeam` re-applies whatever it finds
+        // here on every prebuild, so a value that lands in this file survives even
+        // `prebuild:clean` and quietly reinstates itself in the native project.
+        const appJson = JSON.parse(fs.readFileSync(path.join(PROJECT_ROOT, 'app.json'), 'utf8'));
+
+        expect(appJson.ios?.appleTeamId).toBeUndefined();
+    });
+});
+
 describe('version drift detection', () => {
     /**
      * A synthetic build.gradle, deliberately not the repo's.
