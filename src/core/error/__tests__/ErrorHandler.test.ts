@@ -122,7 +122,7 @@ describe('UnifiedErrorHandler', () => {
 
             const breadcrumbs = handler.getBreadcrumbs();
             expect(breadcrumbs).toHaveLength(1);
-            expect(breadcrumbs[0].message).toBe('Test breadcrumb');
+            expect(breadcrumbs[0]?.message).toBe('Test breadcrumb');
         });
 
         it('should add breadcrumb on error', () => {

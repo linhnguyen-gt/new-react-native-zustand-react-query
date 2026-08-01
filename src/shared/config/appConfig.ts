@@ -62,14 +62,15 @@ export const appConfig = {
 /**
  * Network tuning, gathered here rather than buried as literals in the client.
  *
- * These were `timeout: 30000`, `maxRequests = 100` and `windowMs = 60000` sitting
- * inline in `httpClient.ts`, which meant changing any of them for one environment
- * meant editing the client itself. The values are unchanged; only their home is.
+ * This was `timeout: 30000` sitting inline in `httpClient.ts`, which meant changing it
+ * for one environment meant editing the client itself. The value is unchanged; only its
+ * home is.
+ *
+ * `maxRequestsPerWindow` and `rateLimitWindowMs` used to sit here too. They fed a
+ * client-side rate limiter that has since been removed — see the note at the top of
+ * `httpClient.ts` for why a client cannot rate-limit a server it does not own.
  */
 export const networkConfig = {
     /** Default per-request deadline. Overridable per request via `HttpRequestConfig.timeout`. */
     timeoutMs: 30_000,
-    /** Client-side rate limit: this many requests per endpoint per window. */
-    maxRequestsPerWindow: 100,
-    rateLimitWindowMs: 60_000,
 } as const;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { type View } from 'react-native';
 
 import ContainerBox from './ContainerBox';
 

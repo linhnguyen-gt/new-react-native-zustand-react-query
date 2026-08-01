@@ -2,6 +2,12 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 
 import { queryClient } from './queryClient';
+import { installReactQueryNativeBridge } from './reactQueryNativeBridge';
+
+// Module scope, not an effect: `onlineManager` and `focusManager` are process-wide
+// singletons, so subscribing per mount would attach a duplicate listener on every
+// remount of the tree. Importing this provider is what installs the bridge.
+installReactQueryNativeBridge();
 
 /**
  * Sources the client from app/providers, not from the Reactotron plugin.

@@ -1,6 +1,6 @@
-import { FlashList, FlashListProps, FlashListRef, ListRenderItem } from '@shopify/flash-list';
+import { FlashList, type FlashListProps, type FlashListRef, type ListRenderItem } from '@shopify/flash-list';
 import React from 'react';
-import { DimensionValue, RefreshControl } from 'react-native';
+import { type DimensionValue, RefreshControl } from 'react-native';
 
 import { useRefresh } from '../../hooks';
 import { LoadingFooter } from '../loading';
@@ -13,7 +13,11 @@ type ListViewProps<T> = FlashListProps<T> & {
     data: T[] | undefined;
     renderItem: ListRenderItem<T> | null | undefined;
     numColumns?: number;
-    onPullToRefresh?: (() => void) | undefined;
+    /**
+     * May return a promise — `useRefresh` awaits it, so passing React Query's `refetch`
+     * keeps the spinner up for the duration of the request rather than one tick.
+     */
+    onPullToRefresh?: (() => void | Promise<unknown>) | undefined;
     onPressLoadMore?: () => void;
     listHeaderComponent?: React.ComponentType | React.ReactElement | null | undefined;
     horizontal?: boolean;

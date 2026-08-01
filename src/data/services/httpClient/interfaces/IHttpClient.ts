@@ -1,4 +1,4 @@
-import ApiMethod from '../apiMethod';
+import type ApiMethod from '../apiMethod';
 
 export interface Session {
     accessToken?: string;
@@ -30,14 +30,17 @@ type BaseHttpRequestConfig = {
     signal?: AbortSignal;
 };
 
+// `typeof ApiMethod.POST` rather than `ApiMethod.POST`. `ApiMethod` is a const object
+// with a merged type of the same name, not an `enum`, so a member is a *value* — reaching
+// it in type position needs `typeof`. The resulting types are identical to the enum's.
 type PostHttpRequestConfig = BaseHttpRequestConfig & {
-    method: ApiMethod.POST | ApiMethod.DELETE;
+    method: typeof ApiMethod.POST | typeof ApiMethod.DELETE;
     body?: Record<string, any>;
     params?: never;
 };
 
 type NonPostHttpRequestConfig = BaseHttpRequestConfig & {
-    method: Exclude<ApiMethod, ApiMethod.POST>;
+    method: Exclude<ApiMethod, typeof ApiMethod.POST>;
     params?: Record<string, any>;
     body?: never;
 };

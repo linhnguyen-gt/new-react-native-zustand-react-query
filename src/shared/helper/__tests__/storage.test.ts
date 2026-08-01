@@ -248,8 +248,12 @@ describe('Storage Helper', () => {
 
             await storage.setToken({ refreshToken: 'valid-refresh-token-123' });
 
-            const [, written] = mockSecureStorageService.setItem.mock.calls[0];
-            expect(JSON.parse(written).v).toBe(2);
+            const firstCall = mockSecureStorageService.setItem.mock.calls[0];
+            // Asserted rather than destructured straight through: under
+            // `noUncheckedIndexedAccess` `calls[0]` is possibly undefined, and a test that
+            // silently read `undefined` here would report a missing write as a pass.
+            expect(firstCall).toBeDefined();
+            expect(JSON.parse(firstCall![1]).v).toBe(2);
         });
 
         it('clears an untagged payload rather than parsing it', async () => {

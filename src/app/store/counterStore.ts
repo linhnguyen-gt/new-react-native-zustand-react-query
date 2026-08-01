@@ -1,3 +1,5 @@
+import type { CounterStateData } from '@/shared/models';
+
 import { createStore } from './storeFactory';
 
 interface CounterState extends CounterStateData {

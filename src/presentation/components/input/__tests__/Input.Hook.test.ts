@@ -136,11 +136,11 @@ describe('useShakeView', () => {
             initialProps: { error: undefined },
         });
 
-        const firstAnimatedValue = result.current.transform[0].translateX;
+        const firstAnimatedValue = result.current.transform[0]?.translateX;
 
         rerender({ error: false });
 
-        const secondAnimatedValue = result.current.transform[0].translateX;
+        const secondAnimatedValue = result.current.transform[0]?.translateX;
 
         expect(firstAnimatedValue).toBe(secondAnimatedValue);
     });

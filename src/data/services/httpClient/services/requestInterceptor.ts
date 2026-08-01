@@ -1,8 +1,8 @@
-import { AxiosError, AxiosInstance, HttpStatusCode, InternalAxiosRequestConfig } from 'axios';
+import { type AxiosError, type AxiosInstance, HttpStatusCode, type InternalAxiosRequestConfig } from 'axios';
 
 import { AuthError, TokenExpiredError } from '@/shared/errors';
 
-import { ITokenService } from '../interfaces/IHttpClient';
+import { type ITokenService } from '../interfaces/IHttpClient';
 
 import { REFRESH_ENDPOINT } from './refresh-client';
 
@@ -26,15 +26,26 @@ interface RetryableRequestConfig extends InternalAxiosRequestConfig {
 const isRefreshEndpoint = (url?: string): boolean => {
     if (!url) return false;
 
-    const path = url.split('?')[0].replace(/\/+$/, '');
+    // `?? url` rather than a bare `[0]`: under `noUncheckedIndexedAccess` an index read is
+    // `string | undefined`, and `split` genuinely can return an empty array for some
+    // inputs. Falling back to the whole URL keeps the comparison below meaningful instead
+    // of matching an empty path against the endpoint name.
+    const path = (url.split('?')[0] ?? url).replace(/\/+$/, '');
     return path.split('/').pop() === REFRESH_ENDPOINT;
 };
 
 export class RequestInterceptor {
-    constructor(
-        private readonly axiosInstance: AxiosInstance,
-        private readonly tokenService: ITokenService
-    ) {}
+    // Declared and assigned rather than written as constructor parameter properties.
+    // Parameter properties emit an assignment a type-stripping transpiler cannot produce,
+    // which is what `erasableSyntaxOnly` forbids.
+    private readonly axiosInstance: AxiosInstance;
+
+    private readonly tokenService: ITokenService;
+
+    constructor(axiosInstance: AxiosInstance, tokenService: ITokenService) {
+        this.axiosInstance = axiosInstance;
+        this.tokenService = tokenService;
+    }
 
     setupInterceptors(): void {
         this.axiosInstance.interceptors.request.use(this.handleRequest.bind(this), this.handleRequestError.bind(this));

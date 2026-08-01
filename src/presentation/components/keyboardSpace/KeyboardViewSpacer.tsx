@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Animated, Keyboard, KeyboardEvent, Platform } from 'react-native';
+import { Animated, Keyboard, type KeyboardEvent, Platform } from 'react-native';
 
 type KeyboardViewSpacerProps = {
     children: Array<React.ReactNode> | React.ReactNode;

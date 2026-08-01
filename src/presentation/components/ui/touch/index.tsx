@@ -1,8 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, ViewStyle } from 'react-native';
+import { type TouchableOpacity, type ViewStyle } from 'react-native';
 
-import TouchableComponent, { TouchableComponentProps } from '../../touchable/TouchableComponent';
-import { StyleProps } from 'react-native-reanimated';
+import TouchableComponent, { type TouchableComponentProps } from '../../touchable/TouchableComponent';
+import { type StyleProps } from 'react-native-reanimated';
 
 const createStyleFromProps = (props: StyleProps): ViewStyle => {
     const styleKeys = Object.keys(props).filter((key) => props[key as keyof StyleProps] !== undefined);

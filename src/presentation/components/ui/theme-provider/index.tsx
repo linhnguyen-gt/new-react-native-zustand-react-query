@@ -1,6 +1,6 @@
 import { colorScheme as colorSchemeNW } from 'nativewind';
 import React from 'react';
-import { ColorSchemeName, useColorScheme, View, ViewProps } from 'react-native';
+import { type ColorSchemeName, useColorScheme, View, type ViewProps } from 'react-native';
 
 import { config } from './config';
 

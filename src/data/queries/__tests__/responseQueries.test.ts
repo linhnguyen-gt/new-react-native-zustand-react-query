@@ -2,6 +2,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import React from 'react';
 
+import type { ResponseData } from '@/shared/models';
+
+import { responseKeys } from '../responseKeys';
 import responseQueries from '../responseQueries';
 
 // Mock the API module
@@ -15,6 +18,21 @@ jest.mock('@/data/api', () => ({
 import { responseApi } from '@/data/api';
 
 const mockResponseApi = responseApi as jest.Mocked<typeof responseApi>;
+
+/**
+ * Fixtures now match `ResponseSchema` — the shape the API layer actually validates.
+ *
+ * They used to be census rows (`'ID State'`, `Population`, …) wrapped in a
+ * `{ ok, data }` envelope, matching neither the schema the app declares nor the payload
+ * the endpoint returns. The envelope is gone and the API parses with zod, so a fixture
+ * that lies about the shape is a test that proves nothing.
+ */
+const post: ResponseData = {
+    userId: 1,
+    id: 1,
+    title: 'A post',
+    body: 'Body text',
+};
 
 // Create a wrapper with QueryClientProvider
 const createWrapper = () => {
@@ -36,21 +54,7 @@ describe('responseQueries', () => {
 
     describe('useResponses', () => {
         it('should fetch responses successfully', async () => {
-            const mockData = {
-                ok: true,
-                data: [
-                    {
-                        'ID State': '1',
-                        'ID Year': 2024,
-                        Population: 1000,
-                        'Slug State': 'state1',
-                        State: 'State 1',
-                        Year: '2020',
-                    },
-                ],
-            };
-
-            mockResponseApi.getResponseData.mockResolvedValue(mockData as any);
+            mockResponseApi.getResponseData.mockResolvedValue([post]);
 
             const { result } = renderHook(() => responseQueries.useResponses(), {
                 wrapper: createWrapper(),
@@ -64,7 +68,8 @@ describe('responseQueries', () => {
                 });
             });
 
-            expect(result.current.data).toEqual(mockData);
+            // The array itself, not `{ ok, data }`.
+            expect(result.current.data).toEqual([post]);
             expect(result.current.error).toBeNull();
         });
 
@@ -85,15 +90,16 @@ describe('responseQueries', () => {
             expect(result.current.error).toBeDefined();
         });
 
-        it('should use correct query key', async () => {
-            mockResponseApi.getResponseData.mockResolvedValue({
-                ok: true,
-                data: [],
-            } as any);
+        it('registers under the key factory, not an inline literal', async () => {
+            mockResponseApi.getResponseData.mockResolvedValue([]);
 
-            const { result } = renderHook(() => responseQueries.useResponses(), {
-                wrapper: createWrapper(),
+            const queryClient = new QueryClient({
+                defaultOptions: { queries: { retry: false } },
             });
+            const wrapper = ({ children }: { children: React.ReactNode }) =>
+                React.createElement(QueryClientProvider, { client: queryClient }, children);
+
+            const { result } = renderHook(() => responseQueries.useResponses(), { wrapper });
 
             await act(async () => {
                 await waitFor(() => {
@@ -101,25 +107,17 @@ describe('responseQueries', () => {
                 });
             });
 
+            // The point of the factory: an invalidation written against `responseKeys`
+            // reaches the cache entry the hook created. Reading it back through the same
+            // key is the cheapest proof the two agree.
+            expect(queryClient.getQueryData(responseKeys.lists())).toEqual([]);
             expect(mockResponseApi.getResponseData).toHaveBeenCalled();
         });
     });
 
     describe('useResponseDetail', () => {
         it('should fetch response detail successfully', async () => {
-            const mockDetail = {
-                ok: true,
-                data: {
-                    'ID State': '1',
-                    'ID Year': 2024,
-                    Population: 1000,
-                    'Slug State': 'state1',
-                    State: 'State 1',
-                    Year: '2020',
-                },
-            };
-
-            mockResponseApi.getResponseDetail.mockResolvedValue(mockDetail as any);
+            mockResponseApi.getResponseDetail.mockResolvedValue(post);
 
             const { result } = renderHook(() => responseQueries.useResponseDetail(), {
                 wrapper: createWrapper(),
@@ -130,7 +128,7 @@ describe('responseQueries', () => {
                 detail = await result.current.getDetail('1');
             });
 
-            expect(detail).toEqual(mockDetail.data);
+            expect(detail).toEqual(post);
             expect(mockResponseApi.getResponseDetail).toHaveBeenCalled();
         });
 
@@ -149,22 +147,24 @@ describe('responseQueries', () => {
             ).rejects.toThrow('Failed to fetch detail');
         });
 
-        it('should return undefined when response is not ok', async () => {
-            mockResponseApi.getResponseDetail.mockResolvedValue({
-                ok: false,
-                data: null,
-            } as any);
+        // Replaces "should return undefined when response is not ok".
+        //
+        // That test asserted the behaviour of the `BaseResponse` envelope's falsy arm — a
+        // branch nothing could ever take, since `ok` was hardcoded `true` at both sites
+        // that produced it. It documented dead code as if it were a contract. A failure
+        // now arrives as a rejection, which is the only way it ever actually arrived.
+        it('rejects rather than resolving undefined when the fetch fails', async () => {
+            mockResponseApi.getResponseDetail.mockRejectedValue(new Error('not found'));
 
             const { result } = renderHook(() => responseQueries.useResponseDetail(), {
                 wrapper: createWrapper(),
             });
 
-            let detail;
-            await act(async () => {
-                detail = await result.current.getDetail('1');
-            });
-
-            expect(detail).toBeUndefined();
+            await expect(
+                act(async () => {
+                    await result.current.getDetail('1');
+                })
+            ).rejects.toThrow('not found');
         });
     });
 });

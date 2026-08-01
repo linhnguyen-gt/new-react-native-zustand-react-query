@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, type View } from 'react-native';
 
 import BaseBox, { type BaseBoxProps } from './BaseBox';
 

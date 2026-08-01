@@ -1,4 +1,4 @@
-import { CardStyleInterpolators, StackNavigationOptions } from '@react-navigation/stack';
+import { CardStyleInterpolators, type StackNavigationOptions } from '@react-navigation/stack';
 import { Easing, Platform } from 'react-native';
 
 export const defaultOptions: StackNavigationOptions = {

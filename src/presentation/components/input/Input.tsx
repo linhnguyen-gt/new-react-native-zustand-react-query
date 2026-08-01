@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, TextInput, TextInputProps } from 'react-native';
+import { Animated, TextInput, type TextInputProps } from 'react-native';
 
 import { getColor } from '../../hooks';
 import { MyTouchable } from '../touchable';

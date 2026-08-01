@@ -1,8 +1,8 @@
-import { StateCreator } from 'zustand';
+import { type StateCreator } from 'zustand';
 
 import { Logger } from '@/shared/helper';
 
-import { ReactotronCore } from '../reactotron.core';
+import { type ReactotronCore } from '../reactotron.core';
 
 export const zustandPlugin = (core: ReactotronCore) => ({
     enhancer: <T extends object>(storeName: string, config: StateCreator<T>): StateCreator<T> => {

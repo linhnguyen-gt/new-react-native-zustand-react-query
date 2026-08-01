@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, PressableProps, ViewStyle } from 'react-native';
+import { Pressable, type PressableProps, type ViewStyle } from 'react-native';
 
 import { tv, type VariantProps } from '@/shared/style';
 

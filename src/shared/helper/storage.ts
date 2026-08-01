@@ -5,9 +5,11 @@ import { isTokenExpired, validateToken } from '@/shared/validation';
 // file, so going through it would be a cycle.
 import Logger from './logger';
 
-enum TypeToken {
-    RefreshToken = 'REFRESH_TOKEN',
-}
+// `as const` rather than `enum` — see `apiMethod.ts` for why: an `enum` emits runtime
+// code that a type-stripping transpiler cannot erase.
+const TypeToken = {
+    RefreshToken: 'REFRESH_TOKEN',
+} as const;
 
 /**
  * Current stored-payload format.

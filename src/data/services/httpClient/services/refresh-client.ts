@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, HttpStatusCode, isAxiosError } from 'axios';
+import axios, { type AxiosInstance, HttpStatusCode, isAxiosError } from 'axios';
 
 /**
  * The refresh endpoint, relative to the client's baseURL.

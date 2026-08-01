@@ -1,6 +1,6 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { ReactotronCore } from '../reactotron.core';
+import { type ReactotronCore } from '../reactotron.core';
 
 import { formatError } from './format-error';
 

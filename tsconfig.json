@@ -6,7 +6,7 @@
         "target": "esnext",
         "module": "esnext",
         "lib": [
-            "es2021"
+            "es2023"
         ],
         "allowJs": true,
         "jsx": "react-native",
@@ -16,6 +16,9 @@
         "resolveJsonModule": true,
         "strict": true,
         "useUnknownInCatchVariables": true,
+        "noUncheckedIndexedAccess": true,
+        "verbatimModuleSyntax": true,
+        "erasableSyntaxOnly": true,
         "moduleResolution": "bundler",
         "moduleDetection": "force",
         "allowSyntheticDefaultImports": true,

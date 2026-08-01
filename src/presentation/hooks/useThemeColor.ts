@@ -1,7 +1,7 @@
 import resolveConfig from 'tailwindcss/resolveConfig';
 import type { Config } from 'tailwindcss';
 
-import tailwindConfig, { ColorPath } from '../../../tailwind.config';
+import tailwindConfig, { type ColorPath } from '../../../tailwind.config';
 
 let cachedConfig: ReturnType<typeof resolveConfig<Config>> | null = null;
 

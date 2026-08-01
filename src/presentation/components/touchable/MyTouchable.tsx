@@ -1,7 +1,7 @@
 import React from 'react';
-import { GestureResponderEvent } from 'react-native';
+import { type GestureResponderEvent } from 'react-native';
 
-import TouchableComponent, { TouchableComponentProps } from './TouchableComponent';
+import TouchableComponent, { type TouchableComponentProps } from './TouchableComponent';
 
 type MyTouchableProps = TouchableComponentProps & {
     throttleTime?: number;

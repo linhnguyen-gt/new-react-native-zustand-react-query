@@ -1,11 +1,12 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 
 import { appConfig, networkConfig } from '@/shared/config/appConfig';
 import { assertValidApiUrl } from '@/shared/config/api-url';
+import { Logger } from '@/shared/helper';
 
 import ApiMethod from './apiMethod';
-import { HttpRequestConfig, HttpResponse, IHttpClient } from './interfaces/IHttpClient';
-import { ErrorHandler } from './services/errorHandler';
+import { type HttpRequestConfig, type HttpResponse, type IHttpClient } from './interfaces/IHttpClient';
+import { rethrowAsAppError } from './services/errorHandler';
 import { RequestInterceptor } from './services/requestInterceptor';
 import { TokenService } from './services/tokenService';
 
@@ -22,49 +23,28 @@ const DEFAULT_API_CONFIG = {
     timeout: networkConfig.timeoutMs,
 } as const;
 
-class RateLimiter {
-    private requests: { [key: string]: number[] } = {};
-    private readonly maxRequests = networkConfig.maxRequestsPerWindow;
-    private readonly windowMs = networkConfig.rateLimitWindowMs;
-
-    canMakeRequest(endpoint: string): boolean {
-        const now = Date.now();
-        const windowStart = now - this.windowMs;
-
-        const recent = (this.requests[endpoint] ?? []).filter((time) => time > windowStart);
-
-        if (recent.length >= this.maxRequests) {
-            this.requests[endpoint] = recent;
-            return false;
-        }
-
-        recent.push(now);
-        this.requests[endpoint] = recent;
-
-        // Endpoints are templated — `posts/1`, `posts/2`, … — so this map is keyed by
-        // resolved URL and grows without bound as a user browses. Each key holds a
-        // timestamp array that empties once its window passes but is never removed, so
-        // a long session leaks one entry per distinct resource touched. Dropping keys
-        // whose window has fully drained bounds it to endpoints actually in use.
-        this.pruneExpired(windowStart);
-
-        return true;
-    }
-
-    private pruneExpired(windowStart: number): void {
-        for (const key of Object.keys(this.requests)) {
-            const timestamps = this.requests[key];
-            if (timestamps.length === 0 || timestamps[timestamps.length - 1] <= windowStart) {
-                delete this.requests[key];
-            }
-        }
-    }
-
-    /** Live key count, for the test that pins the bound. */
-    get trackedEndpointCount(): number {
-        return Object.keys(this.requests).length;
-    }
-}
+/**
+ * There is deliberately no client-side rate limiter here.
+ *
+ * One used to live in this file: 100 requests per 60-second window, keyed by endpoint.
+ * It was removed rather than tuned, because neither half of it worked.
+ *
+ * It could not protect the server. Each device counts only its own traffic, so the
+ * limit a server actually experiences is (devices × 100), which is not a limit. Rate
+ * limiting is enforced where the requests converge, and that is never the client.
+ *
+ * It also did not limit what it appeared to. The key was the *resolved* endpoint, so
+ * `posts/1` … `posts/100` were a hundred separate buckets of a hundred requests each.
+ * It could only ever trip on a hot loop hammering one identical URL — a bug the limiter
+ * would mask rather than surface.
+ *
+ * What remained was a map and a prune sweep on every request, plus a bare
+ * `Error('Rate limit exceeded')` that no `RateLimitError` class ever backed, so it
+ * reached the UI through the error handler's string heuristics.
+ *
+ * If a real budget is ever needed, it belongs in the server's 429 response and the
+ * retry strategy that already handles it (`core/error/ErrorHandler.ts`).
+ */
 
 export class HttpClient implements IHttpClient {
     private static _instance: HttpClient;
@@ -73,40 +53,90 @@ export class HttpClient implements IHttpClient {
 
     private readonly tokenService: TokenService;
 
-    private readonly errorHandler: ErrorHandler;
-
     private readonly requestInterceptor: RequestInterceptor;
 
-    private readonly rateLimiter: RateLimiter;
+    /**
+     * The base-URL rejection, deferred rather than thrown.
+     *
+     * `assertValidApiUrl` used to run inside this constructor, and the module's last
+     * line calls `getInstance()` — so validation happened during *module evaluation*.
+     * `data/services/index.ts` re-exports this client and `navigator/AppStack.tsx`
+     * imports `RootNavigator` from that same barrel, which put a misconfigured
+     * `API_URL` on the import path of the navigator itself. The throw landed before
+     * `ErrorBoundary` had mounted, so the diagnostic message the validator works so
+     * hard to write reached nobody: the user got a white screen.
+     *
+     * Holding the error and re-throwing it from `request()` keeps every guarantee the
+     * validator provides — no request is ever dispatched against an unusable base URL —
+     * while turning a crash-on-import into an ordinary rejected request that React
+     * Query surfaces as an error state, with the message intact.
+     */
+    private readonly baseUrlError: Error | null = null;
 
     private timeoutId: number | null = null;
 
-    private constructor(tokenService?: TokenService, errorHandler?: ErrorHandler) {
-        this.INSTANCE = axios.create({
+    private constructor(tokenService?: TokenService) {
+        let baseURL = '';
+
+        try {
             // Validated, not defaulted. This used to be a hardcoded
             // jsonplaceholder.typicode.com while `appConfig.apiUrl` — fully plumbed from
-            // API_URL through app.config.ts — had zero consumers. Throwing here means a
-            // misconfigured build fails at startup with a message naming the variable,
-            // rather than silently issuing relative requests to nowhere.
-            baseURL: assertValidApiUrl(appConfig.apiUrl, appConfig.variant),
+            // API_URL through app.config.ts — had zero consumers.
+            baseURL = assertValidApiUrl(appConfig.apiUrl, appConfig.variant);
+        } catch (error) {
+            this.baseUrlError = error as Error;
+            Logger.error('HttpClient', 'Invalid API_URL; every request will be rejected', error);
+        }
+
+        this.INSTANCE = axios.create({
+            baseURL,
             timeout: DEFAULT_API_CONFIG.timeout,
             // Note: withCredentials will be enabled when backend supports it
         });
-        this.errorHandler = errorHandler ?? new ErrorHandler();
         this.tokenService = tokenService ?? new TokenService(this);
         this.requestInterceptor = new RequestInterceptor(this.INSTANCE, this.tokenService);
-        this.rateLimiter = new RateLimiter();
         this.requestInterceptor.setupInterceptors();
     }
 
-    static getInstance(tokenService?: TokenService, errorHandler?: ErrorHandler): HttpClient {
+    /**
+     * @param tokenService honoured **only** on the call that constructs the instance. The
+     * module's final line calls this with no arguments, so in the running app that call is
+     * always the first one and the parameter is unreachable — it exists for tests, which
+     * must call `resetInstance()` first. Passing it to a later call warns rather than
+     * silently doing nothing, matching `UnifiedErrorHandler.getInstance`.
+     *
+     * The `errorHandler` parameter that sat beside this one is gone: error classification
+     * is now the module-level `rethrowAsAppError`, which holds no state worth swapping.
+     */
+    static getInstance(tokenService?: TokenService): HttpClient {
         if (!HttpClient._instance) {
-            HttpClient._instance = new HttpClient(tokenService, errorHandler);
+            HttpClient._instance = new HttpClient(tokenService);
+            return HttpClient._instance;
         }
+
+        if (tokenService) {
+            Logger.warn(
+                'HttpClient',
+                'getInstance() called with a tokenService after the instance already exists; it is ignored. Call resetInstance() first.'
+            );
+        }
+
         return HttpClient._instance;
     }
 
+    /** Drops the singleton so a test can construct one with its own dependencies. */
+    static resetInstance(): void {
+        HttpClient._instance = undefined as unknown as HttpClient;
+    }
+
     private validateRequest(config: HttpRequestConfig): void {
+        // First, before any other check: with no usable base URL every request resolves
+        // relative to nothing, and the transport error that follows names the endpoint
+        // rather than the misconfigured variable.
+        if (this.baseUrlError) {
+            throw this.baseUrlError;
+        }
+
         if (!config.endpoint || typeof config.endpoint !== 'string') {
             throw new Error('Invalid endpoint');
         }
@@ -121,10 +151,6 @@ export class HttpClient implements IHttpClient {
 
         if (!Object.values(ApiMethod).includes(config.method)) {
             throw new Error('Invalid HTTP method');
-        }
-
-        if (!this.rateLimiter.canMakeRequest(config.endpoint)) {
-            throw new Error('Rate limit exceeded');
         }
     }
 
@@ -154,15 +180,18 @@ export class HttpClient implements IHttpClient {
                 headers: response.headers,
             };
         } catch (e) {
-            // handleError classifies and throws (Promise<never>). Awaiting it
+            // rethrowAsAppError classifies and throws (Promise<never>). Awaiting it
             // propagates the typed AppError; dropping the promise here would both
             // swallow the error and leave an unhandled rejection.
-            return await this.errorHandler.handleError(e);
+            return await rethrowAsAppError(e);
         }
     }
 
     private shouldIncludeParams(method: ApiMethod): boolean {
-        return [ApiMethod.GET].includes(method);
+        // A direct comparison, not `[ApiMethod.GET].includes(method)`. With `ApiMethod` as
+        // a const object the array literal narrows to `'GET'[]`, and `includes` then
+        // refuses any other method — a type error that the old `enum` widened away.
+        return method === ApiMethod.GET;
     }
 
     private shouldIncludeBody(method: ApiMethod): boolean {
@@ -226,15 +255,7 @@ export class HttpClient implements IHttpClient {
 
 export default HttpClient.getInstance();
 
-declare global {
-    type HttpClientBaseConfig<M extends ApiMethod, P = Record<string, any>, B = Record<string, any>> = {
-        method: M;
-        params?: P;
-        body?: B;
-        headers?: Record<string, string>;
-    };
-
-    type ApiClientConfig<B, P, M extends ApiMethod> = M extends ApiMethod.GET | ApiMethod.DELETE
-        ? HttpClientBaseConfig<M, P>
-        : HttpClientBaseConfig<M, P, B>;
-}
+// `HttpClientBaseConfig` and `ApiClientConfig` used to be declared global here. Neither
+// had a single consumer anywhere in the repo — being ambient, nothing had to import them,
+// so nothing ever revealed them as dead. `HttpRequestConfig` in `interfaces/IHttpClient.ts`
+// is the type that actually describes a request, and it is imported like an ordinary type.

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, TextStyle } from 'react-native';
+import { Text as RNText, type TextStyle } from 'react-native';
 
 import { textStyle } from './styles';
 

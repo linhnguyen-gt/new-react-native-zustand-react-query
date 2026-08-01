@@ -1,6 +1,6 @@
 import { HttpStatusCode } from 'axios';
 
-import { ReactotronCore } from '../reactotron.core';
+import { type ReactotronCore } from '../reactotron.core';
 
 import { formatError } from './format-error';
 

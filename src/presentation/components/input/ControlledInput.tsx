@@ -1,7 +1,7 @@
 import React from 'react';
-import { Control, FieldValues, Path, useController } from 'react-hook-form';
+import { type Control, type FieldValues, type Path, useController } from 'react-hook-form';
 
-import Input, { InputProps } from './Input';
+import Input, { type InputProps } from './Input';
 
 interface ControlledInputProps<T extends FieldValues>
     extends Omit<InputProps, 'value' | 'onChangeValue' | 'fieldName'> {

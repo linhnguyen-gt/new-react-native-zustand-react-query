@@ -2,7 +2,7 @@
 
 import { cssInterop } from 'nativewind';
 import React from 'react';
-import { ImageStyle, Platform, Image as RNImage } from 'react-native';
+import { type ImageStyle, Platform, Image as RNImage } from 'react-native';
 
 import { tv, type VariantProps } from '@/shared/style';
 

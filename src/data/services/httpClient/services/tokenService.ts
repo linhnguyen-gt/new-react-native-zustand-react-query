@@ -1,13 +1,13 @@
-import { AxiosInstance } from 'axios';
+import { type AxiosInstance } from 'axios';
 
-import { HttpClient } from '../httpClient';
-import { ITokenService, Session } from '../interfaces/IHttpClient';
+import { type HttpClient } from '../httpClient';
+import { type ITokenService, type Session } from '../interfaces/IHttpClient';
 
 import {
     createRefreshClient,
     isCredentialRejected,
     MissingCredentialError,
-    RefreshResult,
+    type RefreshResult,
     requestRefresh,
 } from './refresh-client';
 

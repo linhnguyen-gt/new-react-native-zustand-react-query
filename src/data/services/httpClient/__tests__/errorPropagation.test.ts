@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosInstance } from 'axios';
+import axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { errorHandler } from '@/core/error';
 import { AppError, ErrorCode } from '@/shared/errors';
 
-import { ITokenService } from '../interfaces/IHttpClient';
-import { ErrorHandler } from '../services/errorHandler';
+import { type ITokenService } from '../interfaces/IHttpClient';
+import { rethrowAsAppError } from '../services/errorHandler';
 import { RequestInterceptor } from '../services/requestInterceptor';
 
 /**
@@ -112,14 +112,14 @@ describe('offline classification', () => {
 describe('HttpClient.request failure contract', () => {
     it('rejects instead of resolving undefined', async () => {
         const failing = makeFailingClient(500, { message: 'Server exploded' });
-        const errorHandlerStub = { handleError: new ErrorHandler().handleError.bind(new ErrorHandler()) };
-
         // Mirror HttpClient.request's catch: the error must propagate, not resolve.
+        // `rethrowAsAppError` is a plain function now; it used to be a stateless
+        // `ErrorHandler` class this test had to instantiate twice to bind a method off.
         const call = async () => {
             try {
                 return await failing.get('/posts');
             } catch (e) {
-                return await errorHandlerStub.handleError(e);
+                return await rethrowAsAppError(e);
             }
         };
 

@@ -3,48 +3,58 @@
  * Provides consistent error handling, context, and recovery strategies
  */
 
-export enum ErrorCode {
+/**
+ * `as const` objects rather than `enum`s — see `data/services/httpClient/apiMethod.ts`
+ * for the reasoning. Both keep their existing call syntax (`ErrorCode.NETWORK_ERROR`),
+ * and the merged type declarations keep `code: ErrorCode` valid as an annotation, so
+ * nothing downstream changes.
+ */
+export const ErrorCode = {
     // Network errors
-    NETWORK_ERROR = 'NETWORK_ERROR',
-    TIMEOUT_ERROR = 'TIMEOUT_ERROR',
-    REQUEST_CANCELLED = 'REQUEST_CANCELLED',
-    CONNECTION_REFUSED = 'CONNECTION_REFUSED',
+    NETWORK_ERROR: 'NETWORK_ERROR',
+    TIMEOUT_ERROR: 'TIMEOUT_ERROR',
+    REQUEST_CANCELLED: 'REQUEST_CANCELLED',
+    CONNECTION_REFUSED: 'CONNECTION_REFUSED',
 
     // HTTP errors
-    BAD_REQUEST = 'BAD_REQUEST',
-    UNAUTHORIZED = 'UNAUTHORIZED',
-    FORBIDDEN = 'FORBIDDEN',
-    NOT_FOUND = 'NOT_FOUND',
-    CONFLICT = 'CONFLICT',
-    RATE_LIMITED = 'RATE_LIMITED',
-    SERVER_ERROR = 'SERVER_ERROR',
-    SERVICE_UNAVAILABLE = 'SERVICE_UNAVAILABLE',
+    BAD_REQUEST: 'BAD_REQUEST',
+    UNAUTHORIZED: 'UNAUTHORIZED',
+    FORBIDDEN: 'FORBIDDEN',
+    NOT_FOUND: 'NOT_FOUND',
+    CONFLICT: 'CONFLICT',
+    RATE_LIMITED: 'RATE_LIMITED',
+    SERVER_ERROR: 'SERVER_ERROR',
+    SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
 
     // Validation errors
-    VALIDATION_ERROR = 'VALIDATION_ERROR',
-    INVALID_INPUT = 'INVALID_INPUT',
-    SCHEMA_VALIDATION_ERROR = 'SCHEMA_VALIDATION_ERROR',
+    VALIDATION_ERROR: 'VALIDATION_ERROR',
+    INVALID_INPUT: 'INVALID_INPUT',
+    SCHEMA_VALIDATION_ERROR: 'SCHEMA_VALIDATION_ERROR',
 
     // Auth errors
-    AUTH_ERROR = 'AUTH_ERROR',
-    TOKEN_EXPIRED = 'TOKEN_EXPIRED',
-    TOKEN_INVALID = 'TOKEN_INVALID',
-    UNAUTHORIZED_ACCESS = 'UNAUTHORIZED_ACCESS',
+    AUTH_ERROR: 'AUTH_ERROR',
+    TOKEN_EXPIRED: 'TOKEN_EXPIRED',
+    TOKEN_INVALID: 'TOKEN_INVALID',
+    UNAUTHORIZED_ACCESS: 'UNAUTHORIZED_ACCESS',
 
     // Storage errors
-    STORAGE_ERROR = 'STORAGE_ERROR',
-    ENCRYPTION_ERROR = 'ENCRYPTION_ERROR',
+    STORAGE_ERROR: 'STORAGE_ERROR',
+    ENCRYPTION_ERROR: 'ENCRYPTION_ERROR',
 
     // Unknown errors
-    UNKNOWN_ERROR = 'UNKNOWN_ERROR',
-}
+    UNKNOWN_ERROR: 'UNKNOWN_ERROR',
+} as const;
 
-export enum ErrorSeverity {
-    LOW = 'LOW',
-    MEDIUM = 'MEDIUM',
-    HIGH = 'HIGH',
-    CRITICAL = 'CRITICAL',
-}
+export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
+
+export const ErrorSeverity = {
+    LOW: 'LOW',
+    MEDIUM: 'MEDIUM',
+    HIGH: 'HIGH',
+    CRITICAL: 'CRITICAL',
+} as const;
+
+export type ErrorSeverity = (typeof ErrorSeverity)[keyof typeof ErrorSeverity];
 
 export interface ErrorContext {
     endpoint?: string;

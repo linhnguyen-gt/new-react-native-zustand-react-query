@@ -31,6 +31,10 @@ module.exports = {
     ],
     moduleNameMapper: {
         '^@/data/services$': '<rootDir>/__mocks__/@/data/services.js',
+        // Mapped rather than left to jest's automatic `__mocks__` resolution: the real
+        // module reaches for a native connectivity module that does not exist here, and
+        // the stub exposes `__emit`/`__reset` so a test can drive connectivity directly.
+        '^@react-native-community/netinfo$': '<rootDir>/__mocks__/@react-native-community/netinfo.js',
         '^@/(.*)$': '<rootDir>/src/$1',
         '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
             '<rootDir>/__mocks__/fileMock.js',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
+import { TouchableOpacity, type TouchableOpacityProps, type ViewStyle } from 'react-native';
 
 type StyleProps = Omit<ViewStyle, 'transform'>;
 

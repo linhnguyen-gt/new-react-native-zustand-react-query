@@ -1,9 +1,9 @@
-import AntDesignIcon from '@react-native-vector-icons/ant-design';
-import EntypoIcon from '@react-native-vector-icons/entypo';
-import EvilIconsIcon from '@react-native-vector-icons/evil-icons';
-import FeatherIcon from '@react-native-vector-icons/feather';
-import IoniconsIcon from '@react-native-vector-icons/ionicons';
-import MaterialIconsIcon from '@react-native-vector-icons/material-icons';
+import type AntDesignIcon from '@react-native-vector-icons/ant-design';
+import type EntypoIcon from '@react-native-vector-icons/entypo';
+import type EvilIconsIcon from '@react-native-vector-icons/evil-icons';
+import type FeatherIcon from '@react-native-vector-icons/feather';
+import type IoniconsIcon from '@react-native-vector-icons/ionicons';
+import type MaterialIconsIcon from '@react-native-vector-icons/material-icons';
 
 export type IconFont = 'entypo' | 'ant-design' | 'ionicons' | 'feather' | 'material-icons' | 'evil-icons';
 export type AntDesignIconName = Parameters<typeof AntDesignIcon>[0]['name'];

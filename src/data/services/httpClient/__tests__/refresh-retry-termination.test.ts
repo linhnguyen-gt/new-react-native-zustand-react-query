@@ -1,8 +1,8 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
 import { TokenExpiredError } from '@/shared/errors';
 
-import { ITokenService } from '../interfaces/IHttpClient';
+import { type ITokenService } from '../interfaces/IHttpClient';
 import { RequestInterceptor } from '../services/requestInterceptor';
 
 /**

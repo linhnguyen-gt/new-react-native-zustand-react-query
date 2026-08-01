@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard } from 'react-native';
-import { z } from 'zod';
+import { type z } from 'zod';
 
 import { RootNavigator } from '@/data/services';
 

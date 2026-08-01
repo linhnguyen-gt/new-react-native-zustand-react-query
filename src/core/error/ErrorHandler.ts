@@ -10,7 +10,7 @@ import {
     AuthError,
     EncryptionError,
     ErrorCode,
-    ErrorContext,
+    type ErrorContext,
     ErrorSeverity,
     HttpError,
     NetworkError,

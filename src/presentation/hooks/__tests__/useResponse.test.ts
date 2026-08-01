@@ -3,12 +3,26 @@ import { act, renderHook, waitFor } from '@testing-library/react-native';
 import React from 'react';
 
 import { responseApi } from '@/data/api/responseApi';
+import type { ResponseData } from '@/shared/models';
+
 import { useResponse } from '../useResponse';
 
 // Mock the API
 jest.mock('@/data/api/responseApi');
 
 const mockResponseApi = responseApi as jest.Mocked<typeof responseApi>;
+
+/**
+ * Fixtures match `ResponseSchema`.
+ *
+ * They were census rows wrapped in a `{ ok, data }` envelope — a shape neither the schema
+ * nor the endpoint ever produced. The envelope is gone and the API parses with zod, so
+ * the fixture has to be something that would survive parsing.
+ */
+const posts: ResponseData[] = [
+    { userId: 1, id: 1, title: 'First', body: 'First body' },
+    { userId: 1, id: 2, title: 'Second', body: 'Second body' },
+];
 
 // Create a wrapper with QueryClientProvider
 const createWrapper = () => {
@@ -29,10 +43,7 @@ describe('useResponse', () => {
     });
 
     it('should return empty response initially', () => {
-        mockResponseApi.getResponseData.mockResolvedValue({
-            ok: true,
-            data: [],
-        } as any);
+        mockResponseApi.getResponseData.mockResolvedValue([]);
 
         const { result } = renderHook(() => useResponse(), {
             wrapper: createWrapper(),
@@ -43,29 +54,7 @@ describe('useResponse', () => {
     });
 
     it('should return response data when loaded', async () => {
-        const mockData = [
-            {
-                'ID State': '1',
-                'ID Year': 2020,
-                Population: 1000,
-                'Slug State': 'state1',
-                State: 'State 1',
-                Year: '2020',
-            },
-            {
-                'ID State': '2',
-                'ID Year': 2020,
-                Population: 2000,
-                'Slug State': 'state2',
-                State: 'State 2',
-                Year: '2020',
-            },
-        ];
-
-        mockResponseApi.getResponseData.mockResolvedValue({
-            ok: true,
-            data: mockData,
-        } as any);
+        mockResponseApi.getResponseData.mockResolvedValue(posts);
 
         const { result } = renderHook(() => useResponse(), {
             wrapper: createWrapper(),
@@ -77,7 +66,7 @@ describe('useResponse', () => {
             });
         });
 
-        expect(result.current.response).toEqual(mockData);
+        expect(result.current.response).toEqual(posts);
         expect(result.current.error).toBeNull();
     });
 
@@ -99,41 +88,23 @@ describe('useResponse', () => {
         expect(result.current.response).toEqual([]);
     });
 
-    it('should return empty array when data is null', async () => {
-        mockResponseApi.getResponseData.mockResolvedValue({
-            ok: true,
-            data: null,
-        } as any);
+    it('returns the same empty array identity while there is no data', async () => {
+        mockResponseApi.getResponseData.mockRejectedValue(new Error('offline'));
 
-        const { result } = renderHook(() => useResponse(), {
+        const { result, rerender } = renderHook(() => useResponse(), {
             wrapper: createWrapper(),
         });
 
-        await act(async () => {
-            await waitFor(() => {
-                expect(result.current.isLoading).toBe(false);
-            });
-        });
+        const first = result.current.response;
+        rerender({});
 
-        expect(result.current.response).toEqual([]);
+        // Referential stability is the entire reason `EMPTY_RESPONSE` is hoisted: a fresh
+        // `[]` per render invalidates every downstream memo and effect dependency.
+        expect(result.current.response).toBe(first);
     });
 
-    it('should return full data object', async () => {
-        const mockFullData = {
-            ok: true,
-            data: [
-                {
-                    'ID State': '1',
-                    'ID Year': 2020,
-                    Population: 1000,
-                    'Slug State': 'state1',
-                    State: 'State 1',
-                    Year: '2020',
-                },
-            ],
-        };
-
-        mockResponseApi.getResponseData.mockResolvedValue(mockFullData as any);
+    it('exposes the raw query data unwrapped', async () => {
+        mockResponseApi.getResponseData.mockResolvedValue(posts);
 
         const { result } = renderHook(() => useResponse(), {
             wrapper: createWrapper(),
@@ -145,6 +116,28 @@ describe('useResponse', () => {
             });
         });
 
-        expect(result.current.data).toEqual(mockFullData);
+        // `data` is the array itself now — there is no `{ ok, data }` layer between the
+        // query and the caller.
+        expect(result.current.data).toEqual(posts);
+    });
+
+    it('exposes refetch so a list can drive pull-to-refresh', async () => {
+        mockResponseApi.getResponseData.mockResolvedValue(posts);
+
+        const { result } = renderHook(() => useResponse(), {
+            wrapper: createWrapper(),
+        });
+
+        await act(async () => {
+            await waitFor(() => {
+                expect(result.current.isLoading).toBe(false);
+            });
+        });
+
+        await act(async () => {
+            await result.current.refetch();
+        });
+
+        expect(mockResponseApi.getResponseData).toHaveBeenCalledTimes(2);
     });
 });

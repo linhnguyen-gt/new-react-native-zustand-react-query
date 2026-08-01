@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 
 import { useResponse } from '@/presentation/hooks';
+import type { ResponseData } from '@/shared/models';
 
 import { ListView } from '@/presentation/components/listView';
 import { Loading } from '@/presentation/components/loading';
@@ -31,7 +32,7 @@ const renderPost = ({ item }: { item: ResponseData }) => (
 );
 
 const MainPage = () => {
-    const { response, isLoading, error } = useResponse();
+    const { response, isLoading, error, refetch } = useResponse();
     const isDarkMode = useColorScheme() === 'dark';
 
     const listHeader = React.useMemo(() => <PostsHeader postCount={response.length} />, [response.length]);
@@ -74,6 +75,14 @@ const MainPage = () => {
                 listHeaderComponent={listHeader}
                 emptyComponent={EmptyPosts}
                 isLoading={isLoading}
+                /*
+                    `refetch` returns a promise and `useRefresh` awaits it, so the control
+                    stays spinning for the length of the request. The list had no
+                    pull-to-refresh at all before — wiring one earlier would have shown a
+                    spinner that vanished on the same tick it appeared, because the hook
+                    called its callback without awaiting.
+                */
+                onPullToRefresh={refetch}
                 /*
                     ListView defaults to 100px of bottom padding, which sits outside the
                     slate-backed rows and would end the sheet in a white band above the

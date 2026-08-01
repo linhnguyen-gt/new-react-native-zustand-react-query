@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 
 import { networkConfig } from '@/shared/config/appConfig';
 import { ErrorSeverity, RequestCancelledError } from '@/shared/errors';
@@ -44,7 +44,7 @@ describe('per-request options', () => {
 
         await client.request({ endpoint: 'posts', method: ApiMethod.GET, timeout: 1234 });
 
-        expect(captured[0].timeout).toBe(1234);
+        expect(captured[0]?.timeout).toBe(1234);
     });
 
     it('falls back to the client default when no timeout is given', async () => {
@@ -55,8 +55,8 @@ describe('per-request options', () => {
         // axios merges the instance default over an undefined per-request value, so the
         // request carries the configured default rather than "no timeout at all" — which
         // would mean waiting forever.
-        expect(captured[0].timeout).toBe(networkConfig.timeoutMs);
-        expect(captured[0].signal).toBeUndefined();
+        expect(captured[0]?.timeout).toBe(networkConfig.timeoutMs);
+        expect(captured[0]?.signal).toBeUndefined();
     });
 
     it('forwards an AbortSignal', async () => {
@@ -65,36 +65,22 @@ describe('per-request options', () => {
 
         await client.request({ endpoint: 'posts', method: ApiMethod.GET, signal: controller.signal });
 
-        expect(captured[0].signal).toBe(controller.signal);
+        expect(captured[0]?.signal).toBe(controller.signal);
     });
 
-    it('does not accumulate a rate-limiter key per distinct endpoint forever', async () => {
+    it('dispatches every request against a distinct endpoint without a client-side budget', async () => {
         const { client, captured } = withCapturedRequest();
-        const rateLimiter = (client as unknown as { rateLimiter: { trackedEndpointCount: number } }).rateLimiter;
 
-        // Endpoints are templated, so the map is keyed by resolved URL: browsing a list
-        // touches `posts/1`, `posts/2`, … and each key holds a timestamp array that
-        // empties once its window passes but was never removed. A long session leaked one
-        // entry per distinct resource ever touched.
+        // Replaces a test that pinned the pruning behaviour of a client-side rate
+        // limiter. The limiter is gone — it counted per resolved URL, so `posts/1` …
+        // `posts/199` were 200 separate budgets and it never limited anything, while
+        // costing a map and a prune sweep on every request. What matters now is the
+        // property that survives it: browsing a list does not throttle itself.
         for (let id = 0; id < 200; id += 1) {
             await client.request({ endpoint: `posts/${id}`, method: ApiMethod.GET });
         }
 
         expect(captured).toHaveLength(200);
-
-        // Within one window every key is legitimately live, so the bound to assert is
-        // that pruning is wired and reclaims — not a specific small number.
-        const during = rateLimiter.trackedEndpointCount;
-        expect(during).toBeGreaterThan(0);
-
-        jest.spyOn(Date, 'now').mockReturnValue(Date.now() + networkConfig.rateLimitWindowMs * 2);
-        await client.request({ endpoint: 'posts/fresh', method: ApiMethod.GET });
-        jest.spyOn(Date, 'now').mockRestore();
-
-        // Exactly one: every one of the 200 is drained after the jump, leaving only the
-        // request that just went out. `toBeLessThan(during)` would also pass for a prune
-        // that reclaimed a single key out of 200.
-        expect(rateLimiter.trackedEndpointCount).toBe(1);
     });
 
     it('classifies an aborted request as a cancellation, not a network failure', async () => {
@@ -134,7 +120,7 @@ describe('per-request options', () => {
         // X-Content-Type-Options, X-Frame-Options and X-XSS-Protection are instructions a
         // server gives a browser. Sent from a native client they instruct nobody and only
         // add bytes to every request, while reading like a security measure.
-        const headerNames = Object.keys(captured[0].headers ?? {}).map((name) => name.toLowerCase());
+        const headerNames = Object.keys(captured[0]?.headers ?? {}).map((name) => name.toLowerCase());
         expect(headerNames).not.toContain('x-frame-options');
         expect(headerNames).not.toContain('x-content-type-options');
         expect(headerNames).not.toContain('x-xss-protection');

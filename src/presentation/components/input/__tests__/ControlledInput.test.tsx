@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import React from 'react';
-import { Control, useForm } from 'react-hook-form';
+import { type Control, useForm } from 'react-hook-form';
 
 import { Box, Text } from '../../ui';
 import ControlledInput from '../ControlledInput';

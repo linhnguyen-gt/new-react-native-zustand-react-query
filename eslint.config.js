@@ -89,6 +89,13 @@ export default [
             ...typescript.configs['eslint-recommended'].rules,
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-shadow': 'error',
+            // Off, in both forms. The `const X = {...} as const` + `type X = ...` pair is
+            // how every former `enum` is written now (`erasableSyntaxOnly` rejects enums),
+            // and neither rule recognises it: `ignoreDeclarationMerge` covers
+            // interface/namespace/class merges, not a value and a type sharing a name.
+            // A genuine duplicate is still a compile error — TS2451 — so nothing is lost.
+            'no-redeclare': 'off',
+            '@typescript-eslint/no-redeclare': 'off',
             '@typescript-eslint/no-unused-vars': [
                 'error',
                 {
@@ -96,7 +103,115 @@ export default [
                     varsIgnorePattern: '^_',
                 },
             ],
-            '@typescript-eslint/prefer-enum-initializers': 'error',
+            // Was `prefer-enum-initializers`, a rule about how to write an `enum`. There
+            // are no enums left: `erasableSyntaxOnly` rejects them, since they emit runtime
+            // code a type-stripping transpiler cannot produce, and `docs/code-standards.md`
+            // already preferred `as const` objects. The rule now forbids the construct
+            // outright rather than styling it.
+            '@typescript-eslint/no-restricted-types': 'off',
+            'no-restricted-syntax': [
+                'error',
+                {
+                    selector: 'TSEnumDeclaration',
+                    message: 'Use an `as const` object with a merged type instead of an enum (erasableSyntaxOnly).',
+                },
+                {
+                    selector: 'TSParameterProperty',
+                    message: 'Declare and assign the field in the constructor body (erasableSyntaxOnly).',
+                },
+            ],
+            /**
+             * Layer boundaries, enforced.
+             *
+             * The architecture doc has described these arrows since the start and then
+             * admitted, in the same file, that "there is no `no-restricted-paths` rule
+             * configured, so a new violation will not fail `pnpm lint`". They were a
+             * convention held up by code review, which is the kind that decays quietly.
+             *
+             *     presentation  →  app, data, shared, core
+             *     app           →  data, shared, core
+             *     data          →  shared, core
+             *     shared, core  →  nothing above them
+             *
+             * Each zone below reads "nothing in `target` may import from `from`".
+             *
+             * The two `except` entries are the pre-existing inversions the doc already
+             * lists, kept as narrow single-file allowances rather than switching the rule
+             * off. Both are tracked as cleanup in `project-roadmap.md`; scoping them this
+             * tightly means resolving either one is a one-line deletion here, and means no
+             * *third* inversion can appear without failing lint.
+             */
+            'import/no-restricted-paths': [
+                'error',
+                {
+                    basePath: '.',
+                    zones: [
+                        {
+                            target: './src/shared',
+                            from: './src/data',
+                            // `shared/helper/storage.ts` is the only consumer of the
+                            // SecureStore service. Moving the helper into `data/` resolves
+                            // the inversion.
+                            except: ['./services/secureStorage.ts'],
+                            message: 'shared/ is foundation: it must not import from data/.',
+                        },
+                        {
+                            target: './src/shared',
+                            from: './src/app',
+                            message: 'shared/ is foundation: it must not import from app/.',
+                        },
+                        {
+                            target: './src/shared',
+                            from: './src/presentation',
+                            message: 'shared/ is foundation: it must not import from presentation/.',
+                        },
+                        {
+                            target: './src/core',
+                            from: './src/app',
+                            message: 'core/ is foundation: it must not import from app/.',
+                        },
+                        {
+                            target: './src/core',
+                            from: './src/data',
+                            message: 'core/ is foundation: it must not import from data/.',
+                        },
+                        {
+                            target: './src/core',
+                            from: './src/presentation',
+                            message: 'core/ is foundation: it must not import from presentation/.',
+                        },
+                        {
+                            target: './src/data',
+                            from: './src/app',
+                            // The Reactotron query plugin needs the live client to observe
+                            // its caches. The whole module is `require()`d inside
+                            // `if (__DEV__)` and is stripped from release bundles.
+                            except: ['./providers/queryClient.ts'],
+                            message: 'data/ must not import from app/.',
+                        },
+                        {
+                            target: './src/data',
+                            from: './src/presentation',
+                            message: 'data/ must not import from presentation/.',
+                        },
+                        {
+                            target: './src/app',
+                            from: './src/presentation',
+                            message: 'app/ must not import from presentation/.',
+                        },
+                    ],
+                },
+            ],
+            // Makes `verbatimModuleSyntax` enforceable and auto-fixable. The tsconfig flag
+            // rejects a type imported without `import type`; this rule is what rewrites it.
+            '@typescript-eslint/consistent-type-imports': [
+                'error',
+                {
+                    prefer: 'type-imports',
+                    fixStyle: 'inline-type-imports',
+                    disallowTypeAnnotations: false,
+                },
+            ],
             '@typescript-eslint/naming-convention': [
                 'error',
                 {
@@ -143,6 +258,14 @@ export default [
         settings: {
             react: {
                 version: 'detect',
+            },
+            // Teaches eslint-plugin-import to follow the `@/…` aliases from tsconfig.
+            // Without it every layer-boundary check below silently passes, because the
+            // plugin cannot resolve the import it is meant to be judging.
+            'import/resolver': {
+                typescript: {
+                    project: './tsconfig.json',
+                },
             },
         },
     },

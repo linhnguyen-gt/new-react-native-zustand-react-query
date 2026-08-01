@@ -49,7 +49,10 @@ export const tv = <const C extends TvConfig>(config: C) => {
             ? Object.keys(variants).map((key) => {
                   const value = selection[key];
                   if (value === undefined || value === null || value === false) return '';
-                  return variants[key][String(value)] ?? '';
+                  // `variants[key]?.` — the key comes from `Object.keys(variants)` so it is
+                  // present in practice, but under `noUncheckedIndexedAccess` the compiler
+                  // does not know that, and the optional chain costs nothing.
+                  return variants[key]?.[String(value)] ?? '';
               })
             : [];
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box, Text } from '@/presentation/components/ui';
+import type { ResponseData } from '@/shared/models';
 
 /**
  * A single post row.

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { type AxiosInstance, type AxiosRequestConfig } from 'axios';
 
 import { clearToken, getToken, setToken } from '@/shared/helper/storage';
 
@@ -126,7 +126,7 @@ describe('the refresh request itself', () => {
         // interceptor-free client does not have. Every refresh would have been a
         // guaranteed 401.
         expect(stub.captured).toHaveLength(1);
-        expect(stub.captured[0].body).toEqual({ refreshToken: 'a-stored-refresh-token' });
+        expect(stub.captured[0]?.body).toEqual({ refreshToken: 'a-stored-refresh-token' });
     });
 
     it('uses POST, not GET', async () => {
@@ -137,8 +137,8 @@ describe('the refresh request itself', () => {
 
         // A credential on a GET lands in access logs, proxy logs, and anything else
         // that records URLs.
-        expect(stub.captured[0].method).toBe('post');
-        expect(stub.captured[0].url).toContain('refresh-token');
+        expect(stub.captured[0]?.method).toBe('post');
+        expect(stub.captured[0]?.url).toContain('refresh-token');
     });
 });
 
