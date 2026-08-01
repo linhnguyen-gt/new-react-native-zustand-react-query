@@ -71,8 +71,16 @@ export const useSignUpForm = (): UseSignUpFormReturn => {
                 // TODO: Replace with actual API call.
                 // Do not log `_data` here — it carries password and confirmPassword.
 
-                // Simulate API call delay
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+                // Simulate API call delay.
+                //
+                // `() => resolve()` rather than passing `resolve` straight to setTimeout.
+                // The bare form only typechecked because Node's `setTimeout` — which
+                // accepts a callback taking arguments — was reaching this file through a
+                // transitive `@types/node` pulled in by `app.config.ts`'s `fs`/`dotenv`
+                // imports. Removing those left React Native's `setTimeout`, whose callback
+                // is `() => void`, and the mismatch surfaced here. React Native's is the
+                // correct signature for app code; this form satisfies both.
+                await new Promise<void>((resolve) => setTimeout(() => resolve(), 1000));
             } catch (error) {
                 Logger.error('SignUpForm', 'Sign up failed', error);
                 // TODO: Handle error (show toast, etc.)

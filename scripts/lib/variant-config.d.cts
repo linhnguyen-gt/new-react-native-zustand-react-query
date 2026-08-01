@@ -34,4 +34,9 @@ export declare const BASE_PACKAGE_NAME: string;
 export declare const DEFAULT_VARIANT: AppVariant;
 export declare const VARIANTS: Record<AppVariant, VariantConfig>;
 export declare const VARIANT_ENV_FILES: Record<AppVariant, string>;
+
+/** EAS ships only development/preview/production, so `staging` maps onto `preview`. */
+export type EasEnvironment = 'development' | 'preview' | 'production';
+
+export declare const VARIANT_EAS_ENVIRONMENTS: Record<AppVariant, EasEnvironment>;
 export declare function getAndroidAppId(variantName: AppVariant): string;

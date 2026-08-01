@@ -56,7 +56,7 @@
 ### Environment & Storage
 
   <p>
-    <img src="https://img.shields.io/badge/Dotenv-v17.2.3-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black" alt="dotenv" />
+    <img src="https://img.shields.io/badge/EAS_Environment_Variables-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="eas-environment-variables" />
     <img src="https://img.shields.io/badge/Expo_Config-AppVariant-1B1B1F?style=for-the-badge&logo=expo&logoColor=white" alt="expo-config" />
     <img src="https://img.shields.io/badge/Async_Storage-v2.2.0-3B82F6?style=for-the-badge" alt="async-storage" />
   </p>
@@ -174,7 +174,19 @@ pnpm install
 
 ### Setup Environment
 
-First, you need to run the environment setup script:
+Values live in [EAS environment variables](https://docs.expo.dev/eas/environment-variables/), one set per environment. The local `.env*` files are copies — for working offline, and for the build scripts that read files rather than `process.env` (`check-env.js`, `sync-native-env.cjs`, the config plugin).
+
+This repo's three variants map onto EAS's three environments:
+
+| Variant | Env file | EAS environment |
+| --- | --- | --- |
+| `development` | `.env` | `development` |
+| `staging` | `.env.staging` | `preview` |
+| `production` | `.env.production` | `production` |
+
+`staging → preview` because EAS ships exactly those three environment names; a custom fourth is a paid feature.
+
+`eas.json` declares one build profile per variant, each pinned to its environment, update channel, Gradle task and Xcode scheme — so `eas build --profile staging` and `eas update` pick the right pair without flags. Builds still run on GitHub Actions; the profiles keep the EAS-side commands honest and are ready if EAS Build is ever adopted. `scripts/lib/__tests__/eas-profiles.test.js` fails if `eas.json` and `scripts/lib/variant-config.cjs` drift apart.
 
 ```bash
 pnpm env:setup
@@ -182,12 +194,26 @@ pnpm env:setup
 
 This script will:
 
-1. Set up dotenv-vault (optional)
+1. Offer to pull the values from EAS (`eas login` required) — or let you fill the files in by hand
 2. Create environment files for all environments:
     - `.env` (Development environment)
     - `.env.staging` (Staging environment)
     - `.env.production` (Production environment)
-3. Configure necessary environment variables
+3. Configure necessary environment variables, and offer to push them back to EAS
+
+Day to day:
+
+```bash
+pnpm env:pull                          # refresh every env file from EAS
+pnpm env:pull staging                  # just one
+pnpm env:push production               # publish local values to EAS (prompts before overwriting)
+pnpm env:push production --force       # …skip that prompt
+pnpm env:exec staging -- pnpm ios:stg  # run a command against EAS values, no file written
+```
+
+`env:exec` is the route that keeps EAS authoritative: it populates `process.env` before the command starts, and `app.config.ts` fills in from the env file **without overwriting** anything already set — so EAS wins and a stale local file cannot silently override it.
+
+> **Nothing in `.env*` is secret.** Every variable `app.config.ts` reads is copied into the app manifest, which ships inside the binary. Keep real secrets in EAS at `secret` visibility (never read during config resolution) or behind a server.
 
 ### Environment Files Structure
 
@@ -244,6 +270,8 @@ This boilerplate uses Expo dynamic config as the source of truth for environment
 | `staging`     | `Staging`                  | `Staging.Debug` / `Staging.Release`       | `com.newreactnativezustandrnq.stg` | `stagingDebug` / `stagingRelease`         | `com.newreactnativezustandrnq.stg` |
 | `production`  | `Production`               | `Production.Debug` / `Production.Release` | `com.newreactnativezustandrnq`     | `productionDebug` / `productionRelease`   | `com.newreactnativezustandrnq`     |
 
+Each variant's deep-link scheme is its bundle identifier / package name, so two variants installed side by side never contend for the same link. Only one Info.plist and one AndroidManifest exist for all three, so they hold `$(APP_URL_SCHEME)` and `${appScheme}` and the real value is substituted per Xcode configuration and per Gradle flavor.
+
 #### Commands
 
 ```bash
@@ -283,7 +311,8 @@ appConfig.apiUrl;
 
 #### Notes
 
-- Keep `.env`, `.env.staging`, `.env.production` as the local variable sources.
+- EAS is the source of truth; `.env`, `.env.staging`, `.env.production` are local copies (`pnpm env:pull`).
+- The shell wins over the env file — `app.config.ts` never overwrites a variable that is already set, which is what makes `pnpm env:exec` and CI injection work.
 - Run `pnpm native:sync-env` after changing `APP_NAME`.
 - Run `pnpm prebuild:clean` after changing native-facing values such as `VERSION_CODE`, `VERSION_NAME`, bundle IDs, package IDs, icons, splash assets, or plugin config.
 - `APP_FLAVOR` is still tolerated as a legacy alias during migration, but new scripts use `APP_VARIANT`.
@@ -367,7 +396,7 @@ sed -E 's/[0-9A-F]{24}/<ID>/g' <file> | sed -E 's/^[[:space:]]+//' | sort
 
 Several of these declare ranges that already admit a patched version and would clear on a resolution refresh alone. That is a standalone hygiene task — folding it into a dependency upgrade makes the real diff unreviewable.
 
-Measure `form-data` with `pnpm why form-data`, not `pnpm audit`: the advisory database reports the `axios` path only, so a fix scoped to `axios` reads audit-clean while the `dotenv-vault` path stays open.
+The `form-data@<4.0.6` override in `pnpm-workspace.yaml` is now redundant — `dotenv-vault` was the second path to it and is gone, leaving only `axios`, which already resolves a patched version. It stays as a floor so a future dependency cannot reintroduce the vulnerable range unnoticed. Verify with `pnpm why form-data`.
 
 ## Project Structure
 

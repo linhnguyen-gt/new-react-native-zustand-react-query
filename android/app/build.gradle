@@ -129,6 +129,7 @@ android {
             resValue 'string', 'app_name', 'NewDev'
             manifestPlaceholders = [
                 appVariant: 'development',
+                appScheme: 'com.newreactnativezustandrnq.dev',
                 updateChannel: 'development'
             ]
         }
@@ -141,6 +142,7 @@ android {
             resValue 'string', 'app_name', 'NewStaging'
             manifestPlaceholders = [
                 appVariant: 'staging',
+                appScheme: 'com.newreactnativezustandrnq.stg',
                 updateChannel: 'staging'
             ]
         }
@@ -153,6 +155,7 @@ android {
             resValue 'string', 'app_name', 'NewProduct'
             manifestPlaceholders = [
                 appVariant: 'production',
+                appScheme: 'com.newreactnativezustandrnq',
                 updateChannel: 'production'
             ]
         }

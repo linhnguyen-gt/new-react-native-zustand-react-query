@@ -1,9 +1,23 @@
 const fs = require('fs');
 const { writeFileAtomic } = require('../scripts/lib/write-file-atomic.cjs');
+// Read here rather than handed in from `app.config.ts`.
+//
+// The table used to travel through `config.extra.nativeVariants`, which publishes
+// build-time data into the runtime manifest of every shipped binary. Moving it to a plugin
+// prop was the obvious fix and is not one: `Constants.expoConfig` is typed as `ExpoConfig`,
+// which includes `plugins`, so props are not demonstrably private either. Reading the files
+// here is the only version that provably ships nothing.
+//
+// This does couple the plugin to `scripts/lib/`, which `variant-config.cjs` argues against.
+// That argument was already moot — this file has always required `write-file-atomic.cjs`
+// from the same directory.
+const { parseEnvFile } = require('../scripts/lib/parse-env-file.cjs');
+const { VARIANTS, VARIANT_ENV_FILES } = require('../scripts/lib/variant-config.cjs');
 const path = require('path');
 const xcode = require('xcode');
 const {
     AndroidConfig,
+    withAndroidManifest,
     withAppBuildGradle,
     withDangerousMod,
     withInfoPlist,
@@ -22,20 +36,40 @@ const BUILD_TYPES = [
 const GENERATED_BEGIN = '// @generated begin environment support';
 const GENERATED_END = '// @generated end environment support';
 
+/**
+ * Builds the per-variant table this plugin generates native config from.
+ *
+ * Identity of values with the previous `extra.nativeVariants` version is what matters here,
+ * since the generated Gradle flavors and Xcode schemes must not move: the static half comes
+ * from the same `VARIANTS` table `app.config.ts` used, and the dynamic half from the same
+ * env files it parsed, with the same precedence — the selected variant's process env first
+ * (so `eas env:exec` and the shell win), then that variant's file, then a default.
+ *
+ * The per-field fallbacks are load-bearing: `expo prebuild` can run with no env files
+ * present at all, and the output must still be complete.
+ */
 function getNativeVariants(config) {
-    const variants = config.extra?.nativeVariants || {};
+    const selectedVariant = process.env.APP_VARIANT || process.env.APP_FLAVOR || DEFAULT_VARIANT_NAME;
 
-    return VARIANT_NAMES.map((name) => ({
-        name,
-        scheme: variants[name]?.scheme || toSchemeName(name),
-        bundleIdentifier: variants[name]?.bundleIdentifier || config.ios?.bundleIdentifier,
-        packageName: variants[name]?.packageName || config.android?.package,
-        displayName: variants[name]?.displayName || config.extra?.appDisplayName || config.name,
-        envFile: variants[name]?.envFile || (name === 'development' ? '.env' : `.env.${name}`),
-        versionCode: variants[name]?.versionCode || config.android?.versionCode || 1,
-        versionName: variants[name]?.versionName || config.version || '1.0.0',
-        updateChannel: variants[name]?.updateChannel || name,
-    }));
+    return VARIANT_NAMES.map((name) => {
+        const staticConfig = VARIANTS[name] || {};
+        const envFile = VARIANT_ENV_FILES[name] || (name === DEFAULT_VARIANT_NAME ? '.env' : `.env.${name}`);
+        const fileEnv = parseEnvFile(path.join(config._internal?.projectRoot ?? process.cwd(), envFile));
+        const selectedEnv = name === selectedVariant ? process.env : {};
+        const value = (key, fallback) => selectedEnv[key] || fileEnv[key] || fallback;
+
+        return {
+            name,
+            scheme: staticConfig.scheme || toSchemeName(name),
+            bundleIdentifier: staticConfig.bundleIdentifier || config.ios?.bundleIdentifier,
+            packageName: staticConfig.packageName || config.android?.package,
+            displayName: value('APP_NAME', config.extra?.appDisplayName || config.name),
+            envFile,
+            versionCode: value('VERSION_CODE', config.android?.versionCode || 1),
+            versionName: value('VERSION_NAME', config.version || '1.0.0'),
+            updateChannel: value('EXPO_UPDATE_CHANNEL', staticConfig.updateChannel || name),
+        };
+    });
 }
 
 function toSchemeName(value) {
@@ -120,6 +154,67 @@ function withDisplayName(config) {
             ],
             config.modResults
         );
+        return config;
+    });
+
+    return config;
+}
+
+/**
+ * Makes the deep-link scheme per-variant in the generated native projects.
+ *
+ * `app.config.ts` sets one real scheme — the variant currently being built — because the
+ * Expo CLI opens that value after `expo run:*`. But prebuild writes a single Info.plist and
+ * a single AndroidManifest that all three variants share, so whatever literal lands there
+ * is wrong for the other two. Install dev and staging side by side and iOS stops being able
+ * to tell them apart: it shows an "Open in …?" chooser, and an OAuth callback resolves to
+ * whichever app the user taps.
+ *
+ * Both platforms already have a per-variant substitution mechanism, and this reuses them
+ * rather than inventing a third: `$(APP_URL_SCHEME)` is an Xcode build setting written per
+ * build configuration (the same trick as `$(APP_DISPLAY_NAME)`), and `${appScheme}` is a
+ * Gradle manifest placeholder written per product flavor.
+ *
+ * `exp+<slug>` is deliberately dropped. It is the fallback scheme prebuild emits when no
+ * `scheme` is configured, it is derived from the slug — which must stay identical across
+ * variants because it identifies the EAS project — and it was the specific string behind
+ * the chooser. With a real per-variant scheme configured, the dev client uses that instead.
+ */
+function withUrlScheme(config) {
+    config = withInfoPlist(config, (config) => {
+        config.modResults.CFBundleURLTypes = [{ CFBundleURLSchemes: ['$(APP_URL_SCHEME)'] }];
+        return config;
+    });
+
+    config = withAndroidManifest(config, (config) => {
+        const application = AndroidConfig.Manifest.getMainApplicationOrThrow(config.modResults);
+
+        for (const activity of application.activity ?? []) {
+            for (const filter of activity['intent-filter'] ?? []) {
+                if (!filter.data) continue;
+
+                const seen = new Set();
+
+                filter.data = filter.data.filter((data) => {
+                    const scheme = data.$?.['android:scheme'];
+
+                    // Leave http/https app links alone — those are real hosts, shared by
+                    // every variant. Only the app's own custom scheme is variant-specific.
+                    if (scheme && scheme !== 'http' && scheme !== 'https') {
+                        data.$['android:scheme'] = '${appScheme}';
+                    }
+
+                    // Both the configured scheme and the `exp+<slug>` fallback collapse onto
+                    // the same placeholder, so without this the filter ends up declaring the
+                    // identical `<data>` element twice.
+                    const key = JSON.stringify(data.$ ?? {});
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+            }
+        }
+
         return config;
     });
 
@@ -253,6 +348,7 @@ function ensureAndroidFlavors(contents, variants) {
             resValue 'string', 'app_name', '${escapeSingleQuotedGradle(variant.displayName)}'
             manifestPlaceholders = [
                 appVariant: '${escapeSingleQuotedGradle(variant.name)}',
+                appScheme: '${escapeSingleQuotedGradle(variant.packageName)}',
                 updateChannel: '${escapeSingleQuotedGradle(variant.updateChannel)}'
             ]
         }`
@@ -373,6 +469,9 @@ function applyIosVariantBuildSettings(configuration, variant, isTargetConfig) {
     configuration.buildSettings = {
         ...buildSettings,
         APP_DISPLAY_NAME: quoteXcodeValue(variant.displayName),
+        // Info.plist is shared by all three variants, so its CFBundleURLSchemes entry is
+        // `$(APP_URL_SCHEME)` and the real value arrives from here, per configuration.
+        APP_URL_SCHEME: variant.bundleIdentifier,
         APP_VARIANT: variant.name,
         ENVFILE: variant.envFile,
         EXPO_UPDATE_CHANNEL: variant.updateChannel,
@@ -568,6 +667,7 @@ function withEnvironmentSupport(config) {
     });
 
     config = withDisplayName(config);
+    config = withUrlScheme(config);
     config = withAndroidRootNodeEnvironment(config);
     config = withAndroidEnvironmentFlavors(config);
     config = withIosEnvironmentConfigurations(config);
@@ -587,4 +687,10 @@ module.exports.internal = {
     ensureAndroidNodeWrapper,
     ensureAndroidReactSettings,
     ensureAndroidFlavors,
+    // Exposed when this stopped being handed a ready-made table through
+    // `config.extra.nativeVariants` and started reading the env files itself. Every
+    // generated Gradle flavor and Xcode scheme is derived from its return value, and a
+    // wrong value here produces a build that succeeds while carrying another variant's
+    // configuration — the failure mode the anchored-mutation tests above exist for.
+    getNativeVariants,
 };

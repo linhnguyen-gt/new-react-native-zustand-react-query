@@ -81,6 +81,28 @@ const VARIANT_ENV_FILES = {
     production: '.env.production',
 };
 
+/**
+ * The EAS environment each variant's values live in.
+ *
+ * EAS ships exactly three environments — `development`, `preview`, `production` — and
+ * naming a fourth one `staging` is a paid feature (Production plan and above). So the
+ * repo's `staging` variant maps onto EAS's `preview`, and only here: the local file name,
+ * the Gradle flavor, the Xcode scheme and the update channel all keep saying "staging".
+ *
+ * Kept in this table rather than written into each script for the same reason everything
+ * else here is: a second copy is a second thing to forget. Pushing a variant's values to
+ * the wrong EAS environment is silent — the command succeeds and the next build reads
+ * someone else's API_URL.
+ *
+ *   eas env:pull preview --path .env.staging
+ *   eas env:push preview --path .env.staging
+ */
+const VARIANT_EAS_ENVIRONMENTS = {
+    development: 'development',
+    staging: 'preview',
+    production: 'production',
+};
+
 /** The Android application id used to launch the installed build. Never restated. */
 const getAndroidAppId = (variantName) => VARIANTS[variantName].packageName;
 
@@ -91,5 +113,6 @@ module.exports = {
     DEFAULT_VARIANT,
     VARIANTS,
     VARIANT_ENV_FILES,
+    VARIANT_EAS_ENVIRONMENTS,
     getAndroidAppId,
 };
