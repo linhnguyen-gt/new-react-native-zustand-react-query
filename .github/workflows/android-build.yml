@@ -55,6 +55,11 @@ jobs:
               # client — but the artifact threw "API_URL is not set" on first use, and
               # nothing caught it. The example file carries valid placeholder values, so
               # this makes the export representative and lets the gate below actually run.
+              #
+              # Placeholders, not the real values: EAS holds those now, and reaching them needs
+              # an EXPO_TOKEN secret this repository does not have. To switch, add the secret
+              # and replace this step with `pnpm env:exec <variant> -- <build command>`, which
+              # populates process.env directly and writes no file at all.
               run: cp .env.example .env
 
             - name: Validate environment

@@ -309,8 +309,8 @@ ErrorRecoveryStrategy
 app.config.ts
 ├─ Read APP_VARIANT from env (fallback development)
 ├─ normalizeVariant (development|staging|production only)
-├─ Load variant env file (.env, .env.staging, .env.production)
-├─ Build extra.nativeVariants[variant] for all three variants
+├─ loadVariantEnv: shell / eas env:exec > .env.<variant> > whatever @expo/env loaded
+├─ Set scheme = the variant's bundle identifier (deep links stay distinct per variant)
 ├─ Set runtimeVersion = VERSION_NAME (ties OTA to binary version)
 ├─ Set updates block (EXPO_UPDATE_URL, checkAutomatically ON_LOAD, fallbackToCacheTimeout 0)
 ├─ Load plugins:
@@ -324,9 +324,14 @@ expo prebuild --clean
 ├─ Run app.config.ts to generate ExpoConfig
 ├─ Prebuild generates ios/ + android/ from template
 └─ Config plugin mutates them:
+   ├─ The plugin reads the three .env files itself — no table is passed through extra,
+   │  which would publish build data into every shipped binary's manifest
    ├─ Android: Gradle productFlavors (dev/staging/prod), buildTypes, signing
+   ├─ Android: manifestPlaceholders appVariant / appScheme / updateChannel
    ├─ iOS: Xcode schemes (NewReactNativeZustandRNQ, Staging, Production)
    ├─ iOS: Build configurations (Debug, Staging.Debug, Production.Debug, etc.)
+   ├─ iOS: $(APP_DISPLAY_NAME) and $(APP_URL_SCHEME) per configuration — one Info.plist
+   │  is shared by all three variants, so it holds the variables, not the values
    ├─ iOS: Podfile environment setup
    └─ Uses applyAnchoredMutation (throws if anchor drifts — prevents silent failures)
 
@@ -339,9 +344,21 @@ pnpm ios:stg
 pnpm android:prod
 ├─ Set APP_VARIANT=production, run env check
 ├─ sync-native-env (version drift check)
-├─ expo run:android --variant productionRelease --app-id com.newreactnativezustandrnq
+├─ expo run:android --variant productionDebug --app-id com.newreactnativezustandrnq
 └─ Gradle builds with prod package ID, API_URL from .env.production
+
+pnpm env:exec production -- pnpm android:prod
+└─ Same, except EAS supplies the values and the .env file only fills in what EAS omits
 ```
+
+**Environment sources.** EAS holds the real values, one set per environment
+(`development` / `preview` / `production` — `staging → preview` because EAS ships exactly
+three names). The `.env*` files are local copies for working offline and for the scripts
+that read files rather than `process.env`. `eas.json` pins each build profile to its
+environment, update channel, Gradle task and Xcode scheme.
+
+Nothing in `.env*` is secret: every variable `app.config.ts` reads ends up in the app
+manifest, which ships inside the binary.
 
 **Variant Mapping:**
 

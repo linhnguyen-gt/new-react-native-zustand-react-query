@@ -46,7 +46,7 @@ Intentional scope boundaries:
 
 - Missing or invalid `API_URL`, `APP_VARIANT`, `VERSION_NAME`, or `VERSION_CODE` causes app startup to fail loudly with a clear error.
 - **Rationale:** Misconfigurations should not silently fall back to development defaults; a production build hitting a dev API is worse than a crash.
-- **Trade-off:** CI, local dev, and IDE builds all require `.env` files; the `pnpm env:setup` wizard makes this transparent.
+- **Trade-off:** local dev and IDE builds need the values present. EAS holds them (`pnpm env:pull`, `pnpm env:exec`); `.env` files are the offline copy, seeded by `pnpm env:setup`. CI copies `.env.example`.
 
 ### 4. Dev-Only Reactotron via Inline Require
 

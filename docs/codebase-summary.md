@@ -92,19 +92,26 @@ plugins/
 ├── with-environment-support.cjs     # Generates Android flavors, iOS schemes, Gradle/Podfile mutations
 └── (Expo CLI plugins — applied in app.config.ts)
 
+eas.json                             # One build profile per variant: environment, update channel,
+                                     # Gradle task, Xcode scheme. Kept in step with variant-config.cjs
+                                     # by scripts/lib/__tests__/eas-profiles.test.js
+
 scripts/
 ├── lib/
-│   ├── variant-config.cjs           # Single source of truth: VARIANTS, VARIANT_ENV_FILES
-│   ├── parse-env-file.cjs           # Dotenv parser (handles trailing comments)
+│   ├── variant-config.cjs           # Single source of truth: VARIANTS, VARIANT_ENV_FILES, VARIANT_EAS_ENVIRONMENTS
+│   ├── parse-env-file.cjs           # Env parser (handles trailing comments)
+│   ├── load-variant-env.cjs         # Env precedence: shell / eas env:exec > .env.<variant> > @expo/env
 │   ├── write-file-atomic.cjs        # Atomic file writes (temp + rename)
 │   └── … (other helpers)
+├── env-sync.cjs                     # pnpm env:pull / env:push — maps variant → EAS environment
+├── env-exec.cjs                     # pnpm env:exec <variant> -- <cmd> — run against EAS values, no file
 ├── run-native.cjs                   # pnpm android/ios[:stg|:prod] — validates, syncs env, runs expo run
 ├── check-env.js                     # Validates APP_NAME, VERSION_*, API_URL (throw-not-degrade)
-├── setup-env.js                     # Interactive wizard (creates .env files, dotenv-vault optional)
+├── setup-env.js                     # Interactive wizard (pulls from EAS or creates .env files by hand)
 ├── sync-native-env.cjs              # Syncs APP_NAME into native; detects version drift, exits 1 before write
 ├── push-update.cjs                  # pnpm update:push — interactive EAS update with channel selection
 ├── update-readme-versions.js        # Postinstall hook (updates README badge versions from package.json)
-└── … (push-update, test-update diagnostic)
+└── … (test-update diagnostic)
 
 tests/
 └── __tests__/ (co-located in src/)

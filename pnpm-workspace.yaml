@@ -5,14 +5,13 @@ allowBuilds:
 nodeLinker: hoisted
 
 # form-data <4.0.6 is vulnerable to CRLF injection (GHSA-hmw2-7cc7-3qxx, high).
-# Two packages reach it: axios directly, and dotenv-vault, whose latest published
-# version (1.27.0) still depends on axios ^1.6.7 with no upstream fix available.
-# Bumping axios alone leaves the dotenv-vault path open, and that is the tool that
-# handles every secret in this repo via env:push / env:pull. An unscoped override
-# is what covers both roots.
+# It was reached through two roots -- axios directly, and dotenv-vault, which pinned
+# an old axios with no upstream fix -- so the override had to be unscoped to cover
+# both. dotenv-vault has since been removed in favour of EAS environment variables,
+# leaving only axios, which already resolves a patched form-data on its own.
 #
-# Verify with `pnpm why form-data`, not `pnpm audit`: the advisory database reports
-# the axios path only, so an axios-scoped fix reads audit-clean while the second
-# path stays vulnerable.
+# The override stays as a floor: it costs nothing and stops a future dependency from
+# quietly reintroducing the vulnerable range. Verify the tree with
+# `pnpm why form-data`, not `pnpm audit`.
 overrides:
   form-data@<4.0.6: '>=4.0.6'
