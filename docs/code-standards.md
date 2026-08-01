@@ -10,7 +10,15 @@
 
 ## Type Naming
 
-- **Global/Ambient types:** Declared in `src/shared/models/` (e.g., `CounterStateData`)
+- **Ambient/global types:** none. Domain types are exported normally — `src/shared/models/`
+  exports `ResponseData` and `CounterStateData`, and consumers import them. The codebase
+  previously declared these (plus `BaseResponse`, `RootStackParamList` and two dead HTTP
+  config types) inside `declare global`, which put them in scope everywhere with no import
+  and therefore outside the import graph: rename and find-references stopped at the
+  boundary, dead ambient types were invisible, and one file needed a comment explaining it
+  had no importers *on purpose*. The single remaining `declare global` is
+  `presentation/navigator/routes.ts`, which fills React Navigation's own `RootParamList`
+  registry — a library extension point, not a home-grown global.
 - **Types:** `PascalCase` (e.g., `User`, `ApiResponse`, `CounterState`)
 - **Type imports:** Use `import type {...}` (enforced by `verbatimModuleSyntax`)
 - **Props interfaces:**
@@ -400,7 +408,11 @@ const { data, isLoading, error } = useResponses();
 **Enabled:**
 - `strict: true` (strictNullChecks, noImplicitAny, strictPropertyInitialization, etc.)
 - `noUncheckedIndexedAccess` (indexing returns T | undefined)
-- `verbatimModuleSyntax` (enforces `import type` syntax)
+- `verbatimModuleSyntax` (enforces `import type` syntax; auto-fixed by
+  `@typescript-eslint/consistent-type-imports`)
+- `erasableSyntaxOnly` (no `enum`, no constructor parameter properties — both emit runtime
+  code a single-file type stripper cannot produce; `no-restricted-syntax` reports them at
+  lint time too)
 - `isolatedModules` (single-file transpilers can handle each file independently)
 
 **Excluded from `pnpm lint:tsc`:**

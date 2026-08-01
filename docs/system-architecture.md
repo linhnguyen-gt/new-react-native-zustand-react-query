@@ -36,14 +36,16 @@ The project follows a 4-layer architecture with unidirectional dependencies (upw
 - Data imports from shared, core — never from app or presentation
 - Shared and core are foundation; imports only from each other or standard library
 
-**Two exceptions exist in the codebase today.** Neither is enforced by a lint rule, so both are conventions maintained by review:
+**Enforced by `import/no-restricted-paths`** in `eslint.config.js`. A new violation fails `pnpm lint`.
+
+**Two exceptions exist in the codebase today.** Both are encoded as single-file `except` entries in that rule rather than as review conventions, so resolving either is a one-line deletion and no *third* inversion can appear silently:
 
 | Violation | Location | Why it is tolerated |
 | --- | --- | --- |
 | data → app | `src/data/services/reactotron/index.ts:1` imports `@/app/providers/queryClient` | Dev-only wiring: the Reactotron query plugin needs the live client to subscribe to its caches. The whole module is `require()`d inside `if (__DEV__)` and is stripped from release bundles. |
 | shared → data | `src/shared/helper/storage.ts:1` imports `@/data/services/secureStorage` | The refresh-token helper is the sole consumer of the SecureStore service. Moving it into `data/` would resolve the inversion; it is listed as a cleanup item in `project-roadmap.md`. |
 
-There is no `eslint-plugin-import` `no-restricted-paths` / boundaries rule configured, so a new violation will not fail `pnpm lint`.
+
 
 ## State Boundaries
 
@@ -78,7 +80,13 @@ There is no `eslint-plugin-import` `no-restricted-paths` / boundaries rule confi
 - Automatic deduplication (queryKey-based)
 - Background refetching (staleTime 5 min, gcTime 10 min)
 - Automatic cancellation via `signal` on component unmount
-- Single QueryClient instance, no retry/refetch on window focus
+- Single QueryClient instance
+- Connectivity and foreground state come from `app/providers/reactQueryNativeBridge.ts`:
+  `onlineManager` ← NetInfo, `focusManager` ← `AppState`. React Query's defaults for both
+  are browser APIs that do not exist under Hermes, so without this bridge
+  `refetchOnReconnect` and `refetchOnWindowFocus` were settings that could never fire.
+  `refetchOnWindowFocus` is now `true` (it was explicitly `false`, carried over from the
+  Reactotron plugin that originally owned the client).
 
 **Anti-patterns:**
 - Don't mix UI state (filters) with server state in queries
@@ -115,7 +123,7 @@ HttpClient.getInstance().request<T>()
     ├─ Pre-flight validation
     │  ├─ Endpoint type check
     │  └─ Path traversal blocklist (../, /etc/, /proc/)
-    ├─ Rate limiter (100 req / 60s, keyed by endpoint)
+    ├─ Deferred base-URL rejection (invalid API_URL throws here, not at import)
     ├─ Axios config (baseURL, timeout 30s, params/body)
     └─ Request interceptor (none — empty)
     ↓
@@ -140,7 +148,11 @@ React Query error state
     └─ Component reads `.error.getUserMessage()` for UI text
 ```
 
-**Rate Limiter:** Tracks requests per endpoint in a 60-second window. On 100 req/window, rejects with `RateLimitError` and continues tracking for potential backoff.
+**No client-side rate limiter.** One existed (100 req / 60s per endpoint) and was removed rather than tuned. It could not protect the server — each device counted only its own traffic — and it was keyed by *resolved* URL, so `posts/1` … `posts/100` were a hundred separate budgets and it never limited anything. It also threw a bare `Error('Rate limit exceeded')`; the `RateLimitError` class this document used to name never existed. Rate limiting belongs in the server's 429 response, which the retry strategy below already handles.
+
+**Response validation.** `data/api/parseResponse.ts` parses every payload against its zod schema at the API boundary and raises `SchemaValidationError` on a mismatch. Before this, `ResponseSchema` existed only to feed `z.infer` — the shape was asserted at compile time and checked at runtime nowhere, so a renamed field or an HTML error page typechecked as `ResponseData[]` and failed later inside a render.
+
+**Base URL validation is deferred, not eager.** `assertValidApiUrl` used to run in `HttpClient`'s constructor, which the module's own last line invokes — so a bad `API_URL` threw during module evaluation, on the import path of the navigator, before `ErrorBoundary` mounted. The error is now held and rethrown from `request()`, so the same guarantee holds (no request is dispatched against an unusable base URL) but the user sees an error state instead of a white screen.
 
 **Token Refresh Single-Flight Dedupe:**
 1. On first 401, check if `_retry` already set (previous attempt)
@@ -285,9 +297,10 @@ ErrorRecoveryStrategy
    ├─ Ignores staleTime, fetches fresh
    └─ Update cache on success
 
-5. No invalidateQueries today
-   ├─ Mutations don't invalidate; post-mutation data replaces via direct setState
-   ├─ Consider adding invalidateQueries when refetch-on-success pattern scales
+5. Query keys come from a factory (`data/queries/responseKeys.ts`)
+   ├─ `all` → every response query; `lists()` → lists only; `detail(id)` → one entry
+   ├─ Prefix-shaped, so an invalidation targets a level instead of restating a literal
+   ├─ `responseListQuery()` returns `queryOptions`, shared by useQuery/prefetch/setQueryData
 ```
 
 ## Native Build Pipeline
@@ -357,4 +370,4 @@ See [`docs/EXPO_UPDATES.md`](./EXPO_UPDATES.md) for detailed OTA workflow.
 
 ---
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-08-01
